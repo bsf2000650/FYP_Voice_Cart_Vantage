@@ -60,10 +60,15 @@ import axios from "axios";
 import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { useSelector } from "react-redux";
+import ProductCard from "./components/Route/ProductCard/ProductCard.jsx";
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
   console.log(stripeApikey)
+  const { allProducts } = useSelector((state) => state.products);
+
+  
 
   async function getStripeApikey() {
     const { data } = await axios.get(`${server}/payment/stripeapikey`);
@@ -106,6 +111,10 @@ const App = () => {
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
         />
+        {/* <Route
+          path={`allProduct[1]`}
+          element={<ProductCard />}
+        /> */}
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/best-selling" element={<BestSellingPage />} />

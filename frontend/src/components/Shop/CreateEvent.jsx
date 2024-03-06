@@ -5,10 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { categoriesData } from "../../static/data";
 import { toast } from "react-toastify";
 import { createevent } from "../../redux/actions/event";
+import Name from '../../components/Shop/CreateEventVoiceComps/Name';
+import Description from '../../components/Shop/CreateEventVoiceComps/Description';
+import Tag from '../../components/Shop/CreateEventVoiceComps/Tag';
+
 
 const CreateEvent = () => {
   const { seller } = useSelector((state) => state.seller);
-  const { success, error } = useSelector((state) => state.events);
+  const { success } = useSelector((state) => state.events);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,6 +26,8 @@ const CreateEvent = () => {
   const [stock, setStock] = useState();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+
 
   const handleStartDateChange = (e) => {
     const startDate = new Date(e.target.value);
@@ -48,15 +54,15 @@ const CreateEvent = () => {
     : "";
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
+    // if (error) {
+    //   toast.error(error);
+    // }
     if (success) {
       toast.success("Event created successfully!");
       navigate("/dashboard-events");
       window.location.reload();
     }
-  }, [dispatch, error, success]);
+  }, [dispatch, navigate,success]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -109,31 +115,14 @@ const CreateEvent = () => {
           <label className="pb-2">
             Name <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your event product name..."
-          />
+          <Name name={name} setName={setName} />
         </div>
         <br />
         <div>
           <label className="pb-2">
             Description <span className="text-red-500">*</span>
           </label>
-          <textarea
-            cols="30"
-            required
-            rows="8"
-            type="text"
-            name="description"
-            value={description}
-            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter your event product description..."
-          ></textarea>
+          <Description description={description} setDescription={setDescription}/>
         </div>
         <br />
         <div>
@@ -157,14 +146,7 @@ const CreateEvent = () => {
         <br />
         <div>
           <label className="pb-2">Tags</label>
-          <input
-            type="text"
-            name="tags"
-            value={tags}
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setTags(e.target.value)}
-            placeholder="Enter your event product tags..."
-          />
+          <Tag tags={tags} setTags={setTags} />
         </div>
         <br />
         <div>

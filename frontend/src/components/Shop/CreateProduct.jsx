@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophoneSlash } from "react-icons/fa6";
+import { GrPowerReset } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../redux/actions/product";
 import { categoriesData } from "../../static/data";
 import { toast } from "react-toastify";
+import "./createProduct.css";
+import useSpeechToText from "../../hooks/useSpeechToText/useSpeechToText";
+import ProductName from "./CreateProductComponents/ProductName";
+import Description from '../../components/Shop/CreateProductComponents/Description'
+import Tag from '../../components/Shop/CreateProductComponents/Tag'
 
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller);
-  const { success, error } = useSelector((state) => state.products);
+  const { success } = useSelector((state) => state.products);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,16 +30,39 @@ const CreateProduct = () => {
   const [discountPrice, setDiscountPrice] = useState();
   const [stock, setStock] = useState();
 
+  const {
+    isListening,
+    transcript,
+    startListening,
+    stopListening,
+  } = useSpeechToText({continuous:true});
+  
+
+  // Description Speech to Text Recognition
+
+  const startStopListening = () => {
+    isListening ? stopVoiceInput() : startListening()
+  }
+
+  const stopVoiceInput = () => {
+    setDescription(prevVal => prevVal + (transcript.length ? (prevVal.length ? ' ' : '') + transcript : ''));
+    stopListening();
+  }
+
+
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
+    // if (error) {
+    //   toast.error(error);
+    // }
+
     if (success) {
       toast.success("Product created successfully!");
       navigate("/dashboard");
-      window.location.reload();
+      // window.location.reload();
     }
-  }, [dispatch, error, success]);
+  }, [dispatch,navigate, success]);
+
+  // console.log(description);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -90,31 +122,15 @@ const CreateProduct = () => {
           <label className="pb-2">
             Name <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your product name..."
-          />
+          <ProductName productName={name} setProductName={setName} />
         </div>
         <br />
         <div>
           <label className="pb-2">
             Description <span className="text-red-500">*</span>
           </label>
-          <textarea
-            cols="30"
-            required
-            rows="8"
-            type="text"
-            name="description"
-            value={description}
-            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter your product description..."
-          ></textarea>
+          <Description description={description} setDescription={setDescription} />
+          
         </div>
         <br />
         <div>
@@ -138,14 +154,7 @@ const CreateProduct = () => {
         <br />
         <div>
           <label className="pb-2">Tags</label>
-          <input
-            type="text"
-            name="tags"
-            value={tags}
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setTags(e.target.value)}
-            placeholder="Enter your product tags..."
-          />
+            <Tag tag={tags} setTag={setTags} />
         </div>
         <br />
         <div>

@@ -1,0 +1,18 @@
+
+.voiceBtns{
+    padding: 10px;
+    width: 10%;
+    background: aquamarine;
+    border-radius: 57%;
+    margin: 10px;
+    font-size: 25px;
+    text-align: center;
+}
+.voiceSearchBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.stop{
+    background-color: rgb(217, 142, 142);
+}

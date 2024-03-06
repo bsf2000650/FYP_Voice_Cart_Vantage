@@ -7,6 +7,10 @@ import {
   AiOutlineSearch,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophoneSlash } from "react-icons/fa6";
+import { GrPowerReset } from "react-icons/gr";
+import { IoSearch } from "react-icons/io5";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
@@ -16,6 +20,8 @@ import { useSelector } from "react-redux";
 import Cart from "../cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
+import './Header.css';
+import useSpeechToText from "../../hooks/useSpeechToText/useSpeechToText";
 
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -30,17 +36,43 @@ const Header = ({ activeHeading }) => {
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
+  const [term,setTerm] = useState('');
 
-  const handleSearchChange = (e) => {
-    const term = e.target.value;
-    setSearchTerm(term);
+
+  const {
+    isListening,
+    transcript,
+    startListening,
+    stopListening,
+  } = useSpeechToText({continuous:true});
+
+  const startStopListening = () => {
+    isListening ? stopVoiceInput() : startListening()
+  }
+
+  const stopVoiceInput = () => {
+    setSearchTerm(prevVal => prevVal + (transcript.length ? (prevVal.length ? ' ' : '') + transcript : ''));
+    stopListening();
+  }
+
+
+  
+  const handleSearchChange = () => {
+
+    console.log("Search Terms -> ",searchTerm);
+    console.log('Transcript -> ',  searchTerm.toLowerCase());
+
+    setSearchTerm(searchTerm.toLowerCase());
+    console.log('Term -> ',searchTerm.toLowerCase());
 
     const filteredProducts =
       allProducts &&
       allProducts.filter((product) =>
-        product.name.toLowerCase().includes(term.toLowerCase())
+      product.name.toLowerCase().includes(searchTerm.toLowerCase().replace('.', ''))
       );
     setSearchData(filteredProducts);
+    console.log(filteredProducts._id);
+
   };
 
   window.addEventListener("scroll", () => {
@@ -65,23 +97,32 @@ const Header = ({ activeHeading }) => {
           </div>
           {/* search box */}
           <div className="w-[50%] relative">
-            <input
-              type="text"
-              placeholder="Search Product..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
-            />
-            <AiOutlineSearch
-              size={30}
-              className="absolute right-2 top-1.5 cursor-pointer"
-            />
+
+     <div className="voiceSearchBtn">
+     <textarea
+            cols="30"
+            required
+            rows="2"
+            type="text"
+            name="productName"
+            value={isListening ? searchTerm + (transcript.length ? (searchTerm.length ? ' ' : '') + transcript : searchTerm) : searchTerm}
+            disabled={isListening}
+            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Enter your product description..."
+          >
+          {searchTerm}
+          </textarea>
+          <button  className="voiceBtns stop" onClick={startStopListening}> {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}</button>
+              <button  className="voiceBtnsSearch stop" onClick={handleSearchChange}><IoSearch /></button>
+          </div>
+
             {searchData && searchData.length !== 0 ? (
               <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
                 {searchData &&
                   searchData.map((i, index) => {
                     return (
-                      <Link to={`/product/${i._id}`}>
+                      <a href={`/product/${i._id}`}>
                         <div className="w-full flex items-start-py-3">
                           <img
                             src={`${i.images[0]?.url}`}
@@ -90,7 +131,7 @@ const Header = ({ activeHeading }) => {
                           />
                           <h1>{i.name}</h1>
                         </div>
-                      </Link>
+                      </a>
                     );
                   })}
               </div>
