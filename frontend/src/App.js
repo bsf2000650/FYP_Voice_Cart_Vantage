@@ -83,6 +83,7 @@ const App = () => {
     getStripeApikey();
   }, []);
 
+
   return (
     <BrowserRouter>
       {stripeApikey && (

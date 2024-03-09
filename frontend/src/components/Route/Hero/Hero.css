@@ -162,3 +162,10 @@
     /* margin-right: 12px; */
     margin-left: 14px;
 }
+
+@media screen and (max-width:400px) {
+    .testimonials .slick-carousel-testimonials .slick-next:before {
+        margin-left: -41px;
+    }  
+}
+

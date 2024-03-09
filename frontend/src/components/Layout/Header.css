@@ -35,6 +35,11 @@
     margin-left: 42px;
 }
 
+/* .logoDiv img{
+    width: 23%;
+    margin: auto;
+} */
+
 .pages-navbar {
     border-radius: 45px;
     background-color: rgb(100, 96, 96);
@@ -55,5 +60,13 @@
     height: 55px;
     margin-top: 6px;
     font-family: 'Madimi One';
+}
+
+@media screen and (max-width:400px) {
+    .mbViewLogo{
+        width: 23%;
+        margin: auto;
+    }
+    
 }
 

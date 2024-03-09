@@ -87,7 +87,7 @@ const Header = ({ activeHeading }) => {
   return (
     <>
       <div className={`${styles.section}`}>
-        <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
+        <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between ">
           <div className="logoDiv">
             <Link to="/">
               <img
@@ -259,9 +259,9 @@ const Header = ({ activeHeading }) => {
           <div>
             <Link to="/">
               <img
-                src="https://shopo.quomodothemes.website/assets/images/logo.svg"
+                src={ShoppingBagLogo}
                 alt=""
-                className="mt-3 cursor-pointer"
+                className="mt-3 cursor-pointer w-11/12 mx-auto sm:w-23 mbViewLogo"
               />
             </Link>
           </div>
@@ -288,7 +288,7 @@ const Header = ({ activeHeading }) => {
           <div
             className={`fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0`}
           >
-            <div className="fixed w-[70%] bg-[#fff] h-screen top-0 left-0 z-10 overflow-y-scroll">
+            <div className="fixed w-[90%] bg-[#fff] h-screen top-0 left-0 z-10 overflow-y-scroll">
               <div className="w-full justify-between flex pr-3">
                 <div>
                   <div
@@ -309,32 +309,41 @@ const Header = ({ activeHeading }) => {
               </div>
 
               <div className="my-8 w-[92%] m-auto h-[40px relative]">
-                <input
-                  type="search"
-                  placeholder="Search Product..."
-                  className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
+              <div className="voiceSearchBtn">
+     <textarea
+            cols="30"
+            required
+            rows="2"
+            type="text"
+            name="productName"
+            value={isListening ? searchTerm + (transcript.length ? (searchTerm.length ? ' ' : '') + transcript : searchTerm) : searchTerm}
+            disabled={isListening}
+            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Enter your product name..."
+          >
+          {searchTerm}
+          </textarea>
+          <button  className="voiceBtns stop" onClick={startStopListening}> {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}</button>
+              <button  className="voiceBtnsSearch stop" onClick={handleSearchChange}><IoSearch /></button>
+          </div>
                 {searchData && (
                   <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
-                    {searchData.map((i) => {
-                      const d = i.name;
-
-                      const Product_name = d.replace(/\s+/g, "-");
-                      return (
-                        <Link to={`/product/${Product_name}`}>
-                          <div className="flex items-center">
-                            <img
-                              src={i.image_Url[0]?.url}
-                              alt=""
-                              className="w-[50px] mr-2"
-                            />
-                            <h5>{i.name}</h5>
-                          </div>
-                        </Link>
-                      );
-                    })}
+                    {searchData &&
+                  searchData.map((i, index) => {
+                    return (
+                      <a href={`/product/${i._id}`}>
+                        <div className="w-full flex items-start-py-3">
+                          <img
+                            src={`${i.images[0]?.url}`}
+                            alt=""
+                            className="w-[40px] h-[40px] mr-[10px]"
+                          />
+                          <h1>{i.name}</h1>
+                        </div>
+                      </a>
+                    );
+                  })}
                   </div>
                 )}
               </div>
