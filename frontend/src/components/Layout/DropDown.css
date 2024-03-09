@@ -1,0 +1,16 @@
+.drop-down{
+    margin-top: 17px;
+    border-radius: 13px;
+    background-color: #cccccc;
+    margin-left: 100px;
+
+}
+.drop-down :first-child{
+    border-bottom: 1px solid white;
+    margin: 0 4px;
+}
+.drop-down img{
+    margin: 10px;
+    width: 16%;
+    border-radius: 20px;
+}

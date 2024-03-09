@@ -9,7 +9,7 @@ const Categories = () => {
     <>
       <div className={`${styles.section} hidden sm:block`}>
         <div
-          className={`branding my-12 flex justify-between w-full shadow-sm bg-white p-5 rounded-md`}
+          className={`branding my-12 flex justify-between w-full shadow-sm bg-[#ff7f29] p-5 rounded-md border-b border-gray-300 brandingData`}
         >
           {brandingData &&
             brandingData.map((i, index) => (
@@ -36,7 +36,7 @@ const Categories = () => {
               };
               return (
                 <div
-                  className="w-full h-[100px] flex items-center justify-between cursor-pointer overflow-hidden"
+                  className="w-full h-[100px] flex items-center justify-between cursor-pointer overflow-hidden border-b border-solid border-gray-300"
                   key={i.id}
                   onClick={() => handleSubmit(i)}
                 >

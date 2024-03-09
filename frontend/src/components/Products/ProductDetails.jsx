@@ -18,6 +18,7 @@ import { addTocart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 import Ratings from "./Ratings";
 import axios from "axios";
+import './ProductDetails.css';
 
 const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -118,7 +119,7 @@ const ProductDetails = ({ data }) => {
         <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
           <div className="w-full py-5">
             <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%]">
+              <div className="w-full 800px:w-[50%] bg-orange-#ff7f29-500 p-7 mx-10 rounded-2xl h-80vh productCardDetails">
                 <img
                   src={`${data && data.images[select]?.url}`}
                   alt=""
@@ -147,31 +148,31 @@ const ProductDetails = ({ data }) => {
                   ></div>
                 </div>
               </div>
-              <div className="w-full 800px:w-[50%] pt-5">
-                <h1 className={`${styles.productTitle}`}>{data.name}</h1>
-                <p>{data.description}</p>
-                <div className="flex pt-3">
-                  <h4 className={`${styles.productDiscountPrice}`}>
+              <div className="w-full 800px:w-[50%] pt-5 bg-[#646060] text-white rounded-lg productCardDetails1">
+                <h1 className={`${styles.productTitle} font-madimi pl-4 text-white`}>{data.name}</h1>
+                <p className="text-justify pl-4 pr-4">{data.description}</p>
+                <div className="flex pt-3 pl-4">
+                  <h4 className={`${styles.productDiscountPrice} pl-4`}>
                     {data.discountPrice}$
                   </h4>
-                  <h3 className={`${styles.price}`}>
+                  <h3 className={`${styles.price} pl-4`}>
                     {data.originalPrice ? data.originalPrice + "$" : null}
                   </h3>
                 </div>
 
-                <div className="flex items-center mt-12 justify-between pr-3">
+                <div className="flex items-center mt-12 justify-between pr-3 pl-4">
                   <div>
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out pl-4"
                       onClick={decrementCount}
                     >
                       -
                     </button>
-                    <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
+                    <span className="pl-4 bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
                       {count}
                     </span>
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                      className="pl-4 bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
                       onClick={incrementCount}
                     >
                       +
@@ -198,14 +199,14 @@ const ProductDetails = ({ data }) => {
                   </div>
                 </div>
                 <div
-                  className={`${styles.button} !mt-6 !rounded !h-11 flex items-center`}
+                  className={`${styles.button} mx-4 pl-4 mt-2 !rounded !h-11 flex items-center`}
                   onClick={() => addToCartHandler(data._id)}
                 >
-                  <span className="text-white flex items-center">
+                  <span className="mx-4 text-white flex items-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />
                   </span>
                 </div>
-                <div className="flex items-center pt-8">
+                <div className="pl-4 flex items-center pt-4">
                   <Link to={`/shop/preview/${data?.shop._id}`}>
                     <img
                       src={`${data?.shop?.avatar?.url}`}
@@ -258,12 +259,12 @@ const ProductDetailsInfo = ({
   const [active, setActive] = useState(1);
 
   return (
-    <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded">
-      <div className="w-full flex justify-between border-b pt-10 pb-2">
+    <div className="bg-[#646060] px-3 800px:px-10 py-2 rounded text-white">
+      <div className="w-full flex justify-between border-b pt-10 pb-2 rounded-2xl">
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-[#fff] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
             }
             onClick={() => setActive(1)}
           >
@@ -276,7 +277,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-[#fff] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
             }
             onClick={() => setActive(2)}
           >
@@ -289,7 +290,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-[#fff] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
             }
             onClick={() => setActive(3)}
           >

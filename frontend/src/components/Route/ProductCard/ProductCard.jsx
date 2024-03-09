@@ -1,4 +1,11 @@
 import React, { useState } from "react";
+import Slider from "react-slick";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { testimonials } from "../Hero/HomeData.js";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import '../ProductCard/ProductCard.css';
 import {
   AiFillHeart,
   AiFillStar,
@@ -60,9 +67,10 @@ const ProductCard = ({ data,isEvent }) => {
     }
   };
 
+
   return (
     <>
-      <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer">
+      <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer productCard">
         <div className="flex justify-end"></div>
         <Link to={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
           <img
@@ -72,30 +80,30 @@ const ProductCard = ({ data,isEvent }) => {
           />
         </Link>
         <Link to={`/shop/preview/${data?.shop._id}`}>
-          <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
+          <h5 className={`${styles.shop_name} text-white font-madimi p-0`}>{data.shop.name}</h5>
         </Link>
         <Link to={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
-          <h4 className="pb-3 font-[500]">
+          <h4 className="pb-3 font-[500] text-white font-madimi">
             {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
           </h4>
 
-          <div className="flex">
+          <div className="flex text-white">
           <Ratings rating={data?.ratings} />
           </div>
 
           <div className="py-2 flex items-center justify-between">
             <div className="flex">
-              <h5 className={`${styles.productDiscountPrice}`}>
+              <h5 className={`${styles.productDiscountPrice} text-white`}>
                 {data.originalPrice === 0
                   ? data.originalPrice
                   : data.discountPrice}
                 $
               </h5>
-              <h4 className={`${styles.price}`}>
+              <h4 className={`${styles.price} text-white`}>
                 {data.originalPrice ? data.originalPrice + " $" : null}
               </h4>
             </div>
-            <span className="font-[400] text-[17px] text-[#68d284]">
+            <span className="font-[400] text-[17px] text-white">
               {data?.sold_out} sold
             </span>
           </div>
@@ -106,34 +114,38 @@ const ProductCard = ({ data,isEvent }) => {
           {click ? (
             <AiFillHeart
               size={22}
-              className="cursor-pointer absolute right-2 top-5"
+              className="cursor-pointer absolute right-2 top-5 text-white"
               onClick={() => removeFromWishlistHandler(data)}
-              color={click ? "red" : "#333"}
+              color={click ? "red" : "white"}
               title="Remove from wishlist"
             />
           ) : (
-            <AiOutlineHeart
+              <AiOutlineHeart
               size={22}
-              className="cursor-pointer absolute right-2 top-5"
+              className="cursor-pointer absolute right-2 top-5 text-white"
               onClick={() => addToWishlistHandler(data)}
-              color={click ? "red" : "#333"}
+              color={click ? "red" : "white"}
               title="Add to wishlist"
             />
           )}
+          <div>
+
+          
           <AiOutlineEye
             size={22}
-            className="cursor-pointer absolute right-2 top-14"
+            className="cursor-pointer absolute right-2 top-14 text-white"
             onClick={() => setOpen(!open)}
-            color="#333"
+            color="white"
             title="Quick view"
           />
           <AiOutlineShoppingCart
             size={25}
-            className="cursor-pointer absolute right-2 top-24"
+            className="cursor-pointer absolute right-2 top-24 text-white"
             onClick={() => addToCartHandler(data._id)}
-            color="#444"
+            color="white"
             title="Add to cart"
           />
+          </div>
           {open ? <ProductDetailsCard setOpen={setOpen} data={data} /> : null}
         </div>
       </div>

@@ -12,7 +12,7 @@ import { FaMicrophoneSlash } from "react-icons/fa6";
 import { GrPowerReset } from "react-icons/gr";
 import { IoSearch } from "react-icons/io5";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import { BiMenuAltLeft } from "react-icons/bi";
+import { BiChat, BiMenuAltLeft } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import DropDown from "./DropDown";
 import Navbar from "./Navbar";
@@ -22,6 +22,7 @@ import Wishlist from "../Wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
 import './Header.css';
 import useSpeechToText from "../../hooks/useSpeechToText/useSpeechToText";
+import ShoppingBagLogo from "../../../src/images/shoppingBag.png"
 
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -87,10 +88,10 @@ const Header = ({ activeHeading }) => {
     <>
       <div className={`${styles.section}`}>
         <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
-          <div>
+          <div className="logoDiv">
             <Link to="/">
               <img
-                src="https://shopo.quomodothemes.website/assets/images/logo.svg"
+                src={ShoppingBagLogo}
                 alt=""
               />
             </Link>
@@ -107,15 +108,16 @@ const Header = ({ activeHeading }) => {
             name="productName"
             value={isListening ? searchTerm + (transcript.length ? (searchTerm.length ? ' ' : '') + transcript : searchTerm) : searchTerm}
             disabled={isListening}
-            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Enter your product description..."
+            placeholder="Enter your product name..."
           >
           {searchTerm}
           </textarea>
           <button  className="voiceBtns stop" onClick={startStopListening}> {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}</button>
               <button  className="voiceBtnsSearch stop" onClick={handleSearchChange}><IoSearch /></button>
           </div>
+
 
             {searchData && searchData.length !== 0 ? (
               <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
@@ -137,60 +139,14 @@ const Header = ({ activeHeading }) => {
               </div>
             ) : null}
           </div>
-
-          <div className={`${styles.button}`}>
-            <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
-              <h1 className="text-[#fff] flex items-center">
-                {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
-                <IoIosArrowForward className="ml-1" />
-              </h1>
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div
-        className={`${
-          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
-      >
-        <div
-          className={`${styles.section} relative ${styles.noramlFlex} justify-between`}
-        >
-          {/* categories */}
-          <div onClick={() => setDropDown(!dropDown)}>
-            <div className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block">
-              <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
-              <button
-                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md`}
-              >
-                All Categories
-              </button>
-              <IoIosArrowDown
-                size={20}
-                className="absolute right-2 top-4 cursor-pointer"
-                onClick={() => setDropDown(!dropDown)}
-              />
-              {dropDown ? (
-                <DropDown
-                  categoriesData={categoriesData}
-                  setDropDown={setDropDown}
-                />
-              ) : null}
-            </div>
-          </div>
-          {/* navitems */}
-          <div className={`${styles.noramlFlex}`}>
-            <Navbar active={activeHeading} />
-          </div>
-
           <div className="flex">
             <div className={`${styles.noramlFlex}`}>
               <div
                 className="relative cursor-pointer mr-[15px]"
                 onClick={() => setOpenWishlist(true)}
               >
-                <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                <AiOutlineHeart size={30} color="rgb(0 0 0 / 83%)" />
+                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-black font-mono text-[12px] leading-tight text-center">
                   {wishlist && wishlist.length}
                 </span>
               </div>
@@ -203,9 +159,9 @@ const Header = ({ activeHeading }) => {
               >
                 <AiOutlineShoppingCart
                   size={30}
-                  color="rgb(255 255 255 / 83%)"
+                  color="rgb(0 0 0 / 83%)"
                 />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-black font-mono text-[12px] leading-tight text-center">
                   {cart && cart.length}
                 </span>
               </div>
@@ -223,7 +179,7 @@ const Header = ({ activeHeading }) => {
                   </Link>
                 ) : (
                   <Link to="/login">
-                    <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+                    <CgProfile size={30} color="rgb(0 0 0/ 83%)" />
                   </Link>
                 )}
               </div>
@@ -237,6 +193,51 @@ const Header = ({ activeHeading }) => {
               <Wishlist setOpenWishlist={setOpenWishlist} />
             ) : null}
           </div>
+
+          <div className={`${styles.button}`}>
+            <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
+              <h1 className="text-[#fff] flex items-center">
+                {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
+                <IoIosArrowForward className="ml-1" />
+              </h1>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`${
+          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+        } transition hidden 800px:flex items-center justify-between w-full bg-[#ff7f29] h-[70px] pages-navbar`}
+      >
+        <div
+          className={`${styles.section} relative ${styles.noramlFlex} justify-between `}
+        >
+          {/* categories */}
+          <div onClick={() => setDropDown(!dropDown)}>
+            <div className="relative h-[60px] w-[270px] hidden 1000px:block">
+              <BiMenuAltLeft size={30} className="absolute top-3 left-2 ml-24" />
+              <button
+                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-madimione text-lg font-[500] select-none rounded-t-md all-categories ml-24`}
+                onClick={() => setDropDown(!dropDown)}
+              >
+                All Categories
+              </button>
+              {dropDown ? (
+                <DropDown
+                  categoriesData={categoriesData}
+                  setDropDown={setDropDown}
+                
+                />
+              ) : null}
+            </div>
+          </div>
+          
+          {/* navitems */}
+          <div className={`${styles.noramlFlex}`}>
+            <Navbar active={activeHeading} />
+          </div>
+
+
         </div>
       </div>
 

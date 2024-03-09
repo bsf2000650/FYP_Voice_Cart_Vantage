@@ -9,6 +9,7 @@ app.use(cors({
   origin: 'https://35-ecommerce-mern-project-uy5t.vercel.app',
   // origin: 'http://localhost:3000/',
   credentials: true
+
 }));
 
 app.use(express.json());
