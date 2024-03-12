@@ -39,7 +39,7 @@ const ShopSettings = () => {
             toast.success("Avatar updated successfully!");
           })
           .catch((error) => {
-            toast.error(error.response.data.message);
+            toast.error("Bad Error");
           });
       }
     };
@@ -67,7 +67,7 @@ const ShopSettings = () => {
         dispatch(loadSeller());
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        toast.error("Bad Error");
       });
   };
 

@@ -1,3 +1,12 @@
 .logo{
     width: 15%;
 }
+
+@media screen and (max-width:400px){
+    .logo{
+        width: 30%;
+    }
+    .shop-logo{
+        width: 50%;
+    }
+}

@@ -133,7 +133,7 @@ const ProductCard = ({ data,isEvent }) => {
           
           <AiOutlineEye
             size={22}
-            className="cursor-pointer absolute right-2 top-14 text-white"
+            className="cursor-pointer absolute right-2 top-14 text-white quick-view"
             onClick={() => setOpen(!open)}
             color="white"
             title="Quick view"

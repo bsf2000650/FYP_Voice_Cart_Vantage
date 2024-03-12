@@ -21,6 +21,8 @@
     transform: translateY(1.1); /* Move up by 5px on hover */
 }
 .voiceBtnsSearch {
+    display: flex;
+    flex-direction: row;
     padding: 10px;
     width: 8%;
     background: aquamarine;
@@ -30,6 +32,11 @@
     text-align: center;
 }
 
+.stop{
+    background-color: #646060;
+    color: white;
+    width: 10%;
+}
 .logoDiv {
     width: 7%;
     margin-left: 42px;
@@ -67,6 +74,22 @@
         width: 23%;
         margin: auto;
     }
+    .voiceSearchBtn{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .voiceBtns {
+        width: 17%;
+    }
+    .stop{
+        width: 17%;
+    }
+    .searchBar{
+        margin-left: 15px;
+    }
+    
     
 }
 

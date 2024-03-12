@@ -20,9 +20,9 @@ import { useSelector } from "react-redux";
 import Cart from "../cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
-import './Header.css';
+import "./Header.css";
 import useSpeechToText from "../../hooks/useSpeechToText/useSpeechToText";
-import ShoppingBagLogo from "../../../src/images/shoppingBag.png"
+import ShoppingBagLogo from "../../../src/images/shoppingBag.png";
 
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -37,43 +37,40 @@ const Header = ({ activeHeading }) => {
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
-  const [term,setTerm] = useState('');
+  const [term, setTerm] = useState("");
 
-
-  const {
-    isListening,
-    transcript,
-    startListening,
-    stopListening,
-  } = useSpeechToText({continuous:true});
+  const { isListening, transcript, startListening, stopListening } =
+    useSpeechToText({ continuous: true });
 
   const startStopListening = () => {
-    isListening ? stopVoiceInput() : startListening()
-  }
+    isListening ? stopVoiceInput() : startListening();
+  };
 
   const stopVoiceInput = () => {
-    setSearchTerm(prevVal => prevVal + (transcript.length ? (prevVal.length ? ' ' : '') + transcript : ''));
+    setSearchTerm(
+      (prevVal) =>
+        prevVal +
+        (transcript.length ? (prevVal.length ? " " : "") + transcript : "")
+    );
     stopListening();
-  }
+  };
 
-
-  
   const handleSearchChange = () => {
-
-    console.log("Search Terms -> ",searchTerm);
-    console.log('Transcript -> ',  searchTerm.toLowerCase());
+    console.log("Search Terms -> ", searchTerm);
+    console.log("Transcript -> ", searchTerm.toLowerCase());
 
     setSearchTerm(searchTerm.toLowerCase());
-    console.log('Term -> ',searchTerm.toLowerCase());
+    console.log("Term -> ", searchTerm.toLowerCase());
 
     const filteredProducts =
       allProducts &&
       allProducts.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase().replace('.', ''))
+        product.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase().replace(".", ""))
       );
     setSearchData(filteredProducts);
     console.log(filteredProducts._id);
-
   };
 
   window.addEventListener("scroll", () => {
@@ -90,34 +87,43 @@ const Header = ({ activeHeading }) => {
         <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between ">
           <div className="logoDiv">
             <Link to="/">
-              <img
-                src={ShoppingBagLogo}
-                alt=""
-              />
+              <img src={ShoppingBagLogo} alt="" />
             </Link>
           </div>
           {/* search box */}
           <div className="w-[50%] relative">
-
-     <div className="voiceSearchBtn">
-     <textarea
-            cols="30"
-            required
-            rows="2"
-            type="text"
-            name="productName"
-            value={isListening ? searchTerm + (transcript.length ? (searchTerm.length ? ' ' : '') + transcript : searchTerm) : searchTerm}
-            disabled={isListening}
-            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Enter your product name..."
-          >
-          {searchTerm}
-          </textarea>
-          <button  className="voiceBtns stop" onClick={startStopListening}> {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}</button>
-              <button  className="voiceBtnsSearch stop" onClick={handleSearchChange}><IoSearch /></button>
-          </div>
-
+            <div className="voiceSearchBtn">
+              <textarea
+                cols="30"
+                required
+                rows="2"
+                type="text"
+                name="productName"
+                value={
+                  isListening
+                    ? searchTerm +
+                      (transcript.length
+                        ? (searchTerm.length ? " " : "") + transcript
+                        : searchTerm)
+                    : searchTerm
+                }
+                disabled={isListening}
+                className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Enter your product name..."
+              >
+                {searchTerm}
+              </textarea>
+                <button className="voiceBtns stop" onClick={startStopListening}>
+                {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
+              </button>
+              <button
+                className="voiceBtnsSearch stop"
+                onClick={handleSearchChange}
+              >
+                <IoSearch />
+              </button>
+            </div>
 
             {searchData && searchData.length !== 0 ? (
               <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
@@ -157,10 +163,7 @@ const Header = ({ activeHeading }) => {
                 className="relative cursor-pointer mr-[15px]"
                 onClick={() => setOpenCart(true)}
               >
-                <AiOutlineShoppingCart
-                  size={30}
-                  color="rgb(0 0 0 / 83%)"
-                />
+                <AiOutlineShoppingCart size={30} color="rgb(0 0 0 / 83%)" />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-black font-mono text-[12px] leading-tight text-center">
                   {cart && cart.length}
                 </span>
@@ -173,7 +176,7 @@ const Header = ({ activeHeading }) => {
                   <Link to="/profile">
                     <img
                       src={`${user?.avatar?.url}`}
-                      className="w-[35px] h-[35px] rounded-full"
+                      className="w-[35px] h-[35px] rounded-full mb-24"
                       alt=""
                     />
                   </Link>
@@ -195,7 +198,7 @@ const Header = ({ activeHeading }) => {
           </div>
 
           <div className={`${styles.button}`}>
-            <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
+            <Link to={`${isSeller ? "/dashboard" : "/create-shop"}`}>
               <h1 className="text-[#fff] flex items-center">
                 {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
                 <IoIosArrowForward className="ml-1" />
@@ -215,9 +218,12 @@ const Header = ({ activeHeading }) => {
           {/* categories */}
           <div onClick={() => setDropDown(!dropDown)}>
             <div className="relative h-[60px] w-[270px] hidden 1000px:block">
-              <BiMenuAltLeft size={30} className="absolute top-3 left-2 ml-24" />
+              <BiMenuAltLeft
+                size={30}
+                className="absolute top-3 left-2 ml-24"
+              />
               <button
-                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-madimione text-lg font-[500] select-none rounded-t-md all-categories ml-24`}
+                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-madimione text-lg font-[500] select-none rounded-t-md all-categories ml-24 z-30`}
                 onClick={() => setDropDown(!dropDown)}
               >
                 All Categories
@@ -226,18 +232,15 @@ const Header = ({ activeHeading }) => {
                 <DropDown
                   categoriesData={categoriesData}
                   setDropDown={setDropDown}
-                
                 />
               ) : null}
             </div>
           </div>
-          
+
           {/* navitems */}
-          <div className={`${styles.noramlFlex}`}>
+          <div className={`${styles.noramlFlex} z-50`}>
             <Navbar active={activeHeading} />
           </div>
-
-
         </div>
       </div>
 
@@ -309,48 +312,66 @@ const Header = ({ activeHeading }) => {
               </div>
 
               <div className="my-8 w-[92%] m-auto h-[40px relative]">
-              <div className="voiceSearchBtn">
-     <textarea
-            cols="30"
-            required
-            rows="2"
-            type="text"
-            name="productName"
-            value={isListening ? searchTerm + (transcript.length ? (searchTerm.length ? ' ' : '') + transcript : searchTerm) : searchTerm}
-            disabled={isListening}
-            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Enter your product name..."
-          >
-          {searchTerm}
-          </textarea>
-          <button  className="voiceBtns stop" onClick={startStopListening}> {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}</button>
-              <button  className="voiceBtnsSearch stop" onClick={handleSearchChange}><IoSearch /></button>
-          </div>
+                <div className="voiceSearchBtn">
+                  <textarea
+                    cols="30"
+                    required
+                    rows="2"
+                    type="text"
+                    name="productName"
+                    value={
+                      isListening
+                        ? searchTerm +
+                          (transcript.length
+                            ? (searchTerm.length ? " " : "") + transcript
+                            : searchTerm)
+                        : searchTerm
+                    }
+                    disabled={isListening}
+                    className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Enter your product name..."
+                  >
+                    {searchTerm}
+                  </textarea>
+                  <button
+                    className="voiceBtns stop"
+                    onClick={startStopListening}
+                  >
+                    {" "}
+                    {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                  </button>
+                  <button
+                    className="voiceBtnsSearch stop"
+                    onClick={handleSearchChange}
+                  >
+                    <IoSearch />
+                  </button>
+                </div>
                 {searchData && (
                   <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
                     {searchData &&
-                  searchData.map((i, index) => {
-                    return (
-                      <a href={`/product/${i._id}`}>
-                        <div className="w-full flex items-start-py-3">
-                          <img
-                            src={`${i.images[0]?.url}`}
-                            alt=""
-                            className="w-[40px] h-[40px] mr-[10px]"
-                          />
-                          <h1>{i.name}</h1>
-                        </div>
-                      </a>
-                    );
-                  })}
+                      searchData.map((i, index) => {
+                        return (
+                          <a href={`/product/${i._id}`}>
+                            <div className="w-full flex items-start-py-3">
+                              <img
+                                src={`${i.images[0]?.url}`}
+                                alt=""
+                                className="w-[40px] h-[40px] mr-[10px]"
+                              />
+                              <h1>{i.name}</h1>
+                            </div>
+                          </a>
+                        );
+                      })}
                   </div>
                 )}
               </div>
 
               <Navbar active={activeHeading} />
               <div className={`${styles.button} ml-4 !rounded-[4px]`}>
-                <Link to="/shop-create">
+                <Link to="/create-shop">
                   <h1 className="text-[#fff] flex items-center">
                     Become Seller <IoIosArrowForward className="ml-1" />
                   </h1>

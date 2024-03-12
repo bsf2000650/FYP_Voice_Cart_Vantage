@@ -6,6 +6,7 @@ import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
+import './ShopInfo.css'
 
 const ShopInfo = ({ isOwner }) => {
   const [data,setData] = useState({});
@@ -50,7 +51,7 @@ const ShopInfo = ({ isOwner }) => {
     ) : (
       <div>
       <div className="w-full py-5">
-        <div className="w-full flex item-center justify-center">
+        <div className="w-full ml-72 flex item-center justify-center sm:w-1/2 img">
           <img
             src={`${data.avatar?.url}`}
             alt=""

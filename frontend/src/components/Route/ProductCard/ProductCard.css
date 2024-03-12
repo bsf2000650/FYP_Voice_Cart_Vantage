@@ -21,3 +21,15 @@
     width: 88%;
     height: 35vh;
 }
+
+@media screen and (max-width:400px){
+    .productCard{
+        transform: translateZ(9.5);
+    }
+    .productCard:hover{
+        transform: scale(1.03);
+    }
+    .quick-view{
+        display: none;
+    }
+}

@@ -15,6 +15,7 @@ import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
 import { RxCross1 } from "react-icons/rx";
+import '../Checkout/Checkout.css';
 
 const Payment = () => {
   const [orderData, setOrderData] = useState([]);
@@ -230,8 +231,8 @@ const PaymentInfo = ({
         {select === 1 ? (
           <div className="w-full flex border-b">
             <form className="w-full" onSubmit={paymentHandler}>
-              <div className="w-full flex pb-3">
-                <div className="w-[50%]">
+              <div className="w-full flex pb-3 checkout-form">
+                <div className="w-[50%] checkout-form-label">
                   <label className="block pb-2">Name On Card</label>
                   <input
                     required
@@ -240,7 +241,7 @@ const PaymentInfo = ({
                     value={user && user.name}
                   />
                 </div>
-                <div className="w-[50%]">
+                <div className="w-[50%] checkout-form-label">
                   <label className="block pb-2">Exp Date</label>
                   <CardExpiryElement
                     className={`${styles.input}`}
@@ -264,8 +265,8 @@ const PaymentInfo = ({
                 </div>
               </div>
 
-              <div className="w-full flex pb-3">
-                <div className="w-[50%]">
+              <div className="w-full flex pb-3 checkout-form">
+                <div className="w-[50%] checkout-form-label">
                   <label className="block pb-2">Card Number</label>
                   <CardNumberElement
                     className={`${styles.input} !h-[35px] !w-[95%]`}
@@ -287,7 +288,7 @@ const PaymentInfo = ({
                     }}
                   />
                 </div>
-                <div className="w-[50%]">
+                <div className="w-[50%] checkout-form-label">
                   <label className="block pb-2">CVV</label>
                   <CardCvcElement
                     className={`${styles.input} !h-[35px]`}

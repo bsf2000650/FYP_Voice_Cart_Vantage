@@ -22,3 +22,18 @@
     transform: scale(1.1); /* Increasing the depth on hover */
     background-color: #ff7f29;
 }
+
+@media screen and (max-width:400px){
+    .productCardDetails{
+        transform: translateZ(9.5);
+    }
+    .productCardDetails:hover{
+        transform: scale(1.03);
+    }
+    .productCardDetails1{
+        transform: translateZ(9.5);
+    }
+    .productCardDetails1:hover{
+        transform: scale(1.03);
+    }
+}

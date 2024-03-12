@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
+import './Checkout.css'
 
 const Checkout = () => {
   const { user } = useSelector((state) => state.user);
@@ -164,8 +165,8 @@ const ShippingInfo = ({
       <h5 className="text-[18px] font-[500]">Shipping Address</h5>
       <br />
       <form>
-        <div className="w-full flex pb-3">
-          <div className="w-[50%]">
+        <div className="w-full flex pb-3 checkout-form flex-col">
+          <div className="w-[100%] flex flex-col">
             <label className="block pb-2">Full Name</label>
             <input
               type="text"
@@ -174,7 +175,7 @@ const ShippingInfo = ({
               className={`${styles.input} !w-[95%]`}
             />
           </div>
-          <div className="w-[50%]">
+          <div className="w-[100%] flex flex-col">
             <label className="block pb-2">Email Address</label>
             <input
               type="email"
@@ -185,8 +186,8 @@ const ShippingInfo = ({
           </div>
         </div>
 
-        <div className="w-full flex pb-3">
-          <div className="w-[50%]">
+        <div className="w-full flex pb-3 flex-col">
+          <div className="w-[100%] flex flex-col">
             <label className="block pb-2">Phone Number</label>
             <input
               type="number"
@@ -207,8 +208,8 @@ const ShippingInfo = ({
           </div>
         </div>
 
-        <div className="w-full flex pb-3">
-          <div className="w-[50%]">
+        <div className="w-full flex pb-3 flex-col">
+          <div className="w-[100%] flex flex-col">
             <label className="block pb-2">Country</label>
             <select
               className="w-[95%] border h-[40px] rounded-[5px]"
@@ -226,7 +227,7 @@ const ShippingInfo = ({
                 ))}
             </select>
           </div>
-          <div className="w-[50%]">
+          <div className="w-[100%] flex flex-col">
             <label className="block pb-2">City</label>
             <select
               className="w-[95%] border h-[40px] rounded-[5px]"
@@ -246,8 +247,8 @@ const ShippingInfo = ({
           </div>
         </div>
 
-        <div className="w-full flex pb-3">
-          <div className="w-[50%]">
+        <div className="w-full flex pb-3 flex-col">
+          <div className="w-[100%]">
             <label className="block pb-2">Address1</label>
             <input
               type="address"
@@ -281,7 +282,7 @@ const ShippingInfo = ({
         <div>
           {user &&
             user.addresses.map((item, index) => (
-              <div className="w-full flex mt-1">
+              <div className="w-100% flex mt-1">
                 <input
                   type="checkbox"
                   className="mr-3"

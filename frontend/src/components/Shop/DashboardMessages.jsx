@@ -10,7 +10,7 @@ import { TfiGallery } from "react-icons/tfi";
 import socketIO from "socket.io-client";
 import { format } from "timeago.js";
 // const ENDPOINT = "https://e-shop1-socket.vercel.app/";
-const ENDPOINT = "http://localhost:8000/";
+const ENDPOINT = "http://localhost:4000/";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 const DashboardMessages = () => {

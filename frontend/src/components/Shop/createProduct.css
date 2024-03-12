@@ -17,3 +17,27 @@
     background-color: #646060;
     color: white;
 }
+
+@media screen and (max-width:400px) {
+    .mbViewLogo{
+        width: 23%;
+        margin: auto;
+    }
+    .voiceSearchBtn{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .voiceBtns {
+        width: 17%;
+    }
+    .stop{
+        width: 17%;
+    }
+    .searchBar{
+        margin-left: 15px;
+        border: 1px solid #646060;
+    }
+    
+}

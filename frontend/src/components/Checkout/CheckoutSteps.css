@@ -1,0 +1,17 @@
+@media screen and (max-width: 400px) {
+    .checkout{
+        display: none;
+    }
+    .ckecoutDiv{
+        display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 96%;
+    margin-left: 6px;
+    gap: 10px;
+    }
+    .steps{
+        width: 100%;
+    }
+}

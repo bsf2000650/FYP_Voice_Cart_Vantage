@@ -1,0 +1,12 @@
+@media screen and (max-width: 400px) {
+.checkout-form{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+.checkout-form-label{
+    width: 100%;
+}
+}

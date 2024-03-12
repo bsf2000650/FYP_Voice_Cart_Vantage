@@ -25,7 +25,7 @@ const ShopProfileData = ({ isOwner }) => {
 
   return (
     <div className="w-full">
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between flex-col">
         <div className="w-full flex">
           <div className="flex items-center" onClick={() => setActive(1)}>
             <h5
