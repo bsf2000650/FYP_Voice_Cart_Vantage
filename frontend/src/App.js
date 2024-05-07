@@ -62,6 +62,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 import ProductCard from "./components/Route/ProductCard/ProductCard.jsx";
+import Note from "./pages/Shop/Note.jsx";
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
@@ -101,6 +102,7 @@ const App = () => {
         </Elements>
       )}
       <Routes>
+        <Route path="/note" element={<Note />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
@@ -275,25 +277,25 @@ const App = () => {
         <Route
           path="/admin/dashboard"
           element={
-            <ProtectedAdminRoute>
+            // <ProtectedAdminRoute>
               <AdminDashboardPage />
-            </ProtectedAdminRoute>
+            // </ProtectedAdminRoute>
           }
         />
         <Route
           path="/admin-users"
           element={
-            <ProtectedAdminRoute>
+            // <ProtectedAdminRoute>
               <AdminDashboardUsers />
-            </ProtectedAdminRoute>
+            // </ProtectedAdminRoute>
           }
         />
         <Route
           path="/admin-sellers"
           element={
-            <ProtectedAdminRoute>
+            // <ProtectedAdminRoute>
               <AdminDashboardSellers />
-            </ProtectedAdminRoute>
+            // </ProtectedAdminRoute>
           }
         />
         <Route

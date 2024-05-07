@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import Header from "../components/Layout/Header";
 import Hero from "../components/Route/Hero/Hero";
 import Categories from "../components/Route/Categories/Categories";
@@ -15,6 +16,9 @@ const HomePage = () => {
   return (
     <div>
         <Header activeHeading={1} />
+        <Link to="/note">
+            <button>Note: How to access the website in case any product isn't showing.</button>
+        </Link>
         <Hero />
         <Categories />
         <BestDeals />

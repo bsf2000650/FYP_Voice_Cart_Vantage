@@ -1,25 +1,25 @@
 .productCardDetails {
     height: 130vh;
     background-color: rgb(100, 96, 96);
-    transition: transform 0.8s ease, box-shadow 0.8s ease; /* Adding transition for smooth effect */
-    transform: translateZ(10); /* Ensuring 3D transformations work smoothly */
-    box-shadow: 0 25px 10px rgba(0, 0, 0, 0.3); /* Initial shadow for a slight lift */
+    transition: transform 0.8s ease, box-shadow 0.8s ease; 
+    transform: translateZ(10); 
+    box-shadow: 0 25px 10px rgba(0, 0, 0, 0.3); 
 }
 .productCardDetails:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Increasing the depth on hover */
-    transform: scale(1.1); /* Increasing the depth on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    transform: scale(1.1); 
     background-color: #ff7f29;
 }
 
 .productCardDetails1 {
     background-color: rgb(100, 96, 96);
-    transition: transform 0.8s ease, box-shadow 0.8s ease; /* Adding transition for smooth effect */
-    transform: translateZ(10); /* Ensuring 3D transformations work smoothly */
-    box-shadow: 0 25px 10px rgba(0, 0, 0, 0.3); /* Initial shadow for a slight lift */
+    transition: transform 0.8s ease, box-shadow 0.8s ease; 
+    transform: translateZ(10); 
+    box-shadow: 0 25px 10px rgba(0, 0, 0, 0.3); 
 }
 .productCardDetails1:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Increasing the depth on hover */
-    transform: scale(1.1); /* Increasing the depth on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    transform: scale(1.1); 
     background-color: #ff7f29;
 }
 

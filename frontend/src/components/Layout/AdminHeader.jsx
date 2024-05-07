@@ -17,6 +17,7 @@ const AdminHeader = () => {
           <img
             src={ShoppingBagLogo}
             alt=""
+            className='w-[10%]'
           />
         </Link>
       </div>

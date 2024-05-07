@@ -72,14 +72,13 @@ const ProductCard = ({ data,isEvent }) => {
     <>
       <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer productCard">
         <div className="flex justify-end"></div>
-        <Link to={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
+        <a href={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
           <img
             src={`${data.images && data.images[0]?.url}`}
             alt=""
             className="w-full h-[170px] object-contain"
           />
-        </Link>
-        <Link to={`/shop/preview/${data?.shop._id}`}>
+        </a>       <Link to={`/shop/preview/${data?.shop._id}`}>
           <h5 className={`${styles.shop_name} text-white font-madimi p-0`}>{data.shop.name}</h5>
         </Link>
         <Link to={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
@@ -131,13 +130,13 @@ const ProductCard = ({ data,isEvent }) => {
           <div>
 
           
-          <AiOutlineEye
+          {/* <AiOutlineEye
             size={22}
             className="cursor-pointer absolute right-2 top-14 text-white quick-view"
             onClick={() => setOpen(!open)}
             color="white"
             title="Quick view"
-          />
+          /> */}
           <AiOutlineShoppingCart
             size={25}
             className="cursor-pointer absolute right-2 top-24 text-white"
