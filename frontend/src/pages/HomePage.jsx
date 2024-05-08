@@ -17,7 +17,7 @@ const HomePage = () => {
     <div>
         <Header activeHeading={1} />
         <Link to="/note">
-            <button>Note: How to access the website in case any product isn't showing.</button>
+            <button>Note: To view the products, follow the given procedure by clicking the given link.</button>
         </Link>
         <Hero />
         <Categories />
