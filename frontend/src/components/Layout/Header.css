@@ -69,6 +69,32 @@
     font-family: 'Madimi One';
 }
 
+@media screen and  (max-width: 768px) {
+    .mbViewLogo{
+        width: 11%;
+        margin-left: 37%;
+        margin-top: 0px;
+    }
+    .footer-div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .footer-div .ul1 {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .footer-logo{
+        margin-left: 0px;
+    }
+    .footer-logo1{
+        margin-left: 0px;
+    }
+}
+
 @media screen and (max-width:400px) {
     .mbViewLogo{
         width: 23%;

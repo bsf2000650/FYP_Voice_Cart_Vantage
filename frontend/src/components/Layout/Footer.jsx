@@ -12,6 +12,7 @@ import {
   footerSupportLinks,
 } from "../../static/data";
 import ShoppingBagLogo from "../../../src/images/shoppingBag.png"
+import './Header.css'
 
 const Footer = () => {
   return (
@@ -35,8 +36,8 @@ const Footer = () => {
           </button>
         </div>
       </div> */}
-      <div className="grid grid-cols-1 sm:gird-cols-3 lg:grid-cols-4 gap-6 sm:px-8 px-5 py-16 sm:text-center">
-        <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center">
+      <div className="grid grid-cols-1 sm:gird-cols-3 lg:grid-cols-4 gap-6 sm:px-8 px-5 py-16 sm:text-center footer-div">
+        <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center ul1">
           <img
             src={ShoppingBagLogo}
             alt=""
@@ -61,7 +62,7 @@ const Footer = () => {
           </div>
         </ul>
 
-        <ul className="text-center sm:text-start">
+        <ul className="text-center sm:text-start flex flex-col align-middle ml-8">
           <h1 className="mb-1 font-semibold">Company</h1>
           {footerProductLinks.map((link,index) => (
             <li key={index}>
@@ -76,7 +77,7 @@ const Footer = () => {
           ))}
         </ul>
 
-        <ul className="text-center sm:text-start">
+        <ul className="text-center sm:text-start flex flex-col align-middle ml-16">
           <h1 className="mb-1 font-semibold">Shop</h1>
           {footercompanyLinks.map((link,index) => (
             <li key={index}>
@@ -91,7 +92,7 @@ const Footer = () => {
           ))}
         </ul>
 
-        <ul className="text-center sm:text-start">
+        <ul className="text-center sm:text-start flex flex-col align-middle">
           <h1 className="mb-1 font-semibold">Support</h1>
           {footerSupportLinks.map((link,index) => (
             <li key={index}>
@@ -109,9 +110,9 @@ const Footer = () => {
 
       <div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10
-         text-center pt-2 text-gray-400 text-sm pb-8 ml-96 m-0 sm:m-auto"
+         text-center pt-2 text-gray-400 text-sm pb-8 ml-96 m-0 sm:m-auto footer-logo"
       >
-        <div className="sm:block flex items-center justify-center w-full">
+        <div className="sm:block flex items-center justify-center w-full ml-60 footer-logo">
           <img
             src="https://hamart-shop.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffooter-payment.a37c49ac.png&w=640&q=75"
             alt=""
