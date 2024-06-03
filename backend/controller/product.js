@@ -83,15 +83,19 @@ router.delete(
 
       if (!product) {
         return next(new ErrorHandler("Product is not found with this id", 404));
-      }    
+      } 
+      
+      console.log("Delete ---- 1");
 
       for (let i = 0; 1 < product.images.length; i++) {
         const result = await cloudinary.v2.uploader.destroy(
           product.images[i].public_id
         );
       }
+
+      console.log("Delete ----- 2");
     
-      await product.remove();
+      await product.deleteOne();
 
       res.status(201).json({
         success: true,
