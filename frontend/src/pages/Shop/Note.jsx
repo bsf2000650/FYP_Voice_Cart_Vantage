@@ -11,6 +11,7 @@ const Note = () => {
             Password : password<br></br>
         3. Else create your new account and view the products by signing in.<br></br>
         4. Because the react app is deployed on vercel free hosting so to access both frontend and backend, cors extension is used.
+        5. To view the product listings user edge browser. It supports even without logging in.
         <img src={Cors} alt='Cors' />
     </div>
   )
