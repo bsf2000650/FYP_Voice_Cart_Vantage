@@ -37,7 +37,7 @@ const Header = ({ activeHeading }) => {
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
-  const [term, setTerm] = useState("");
+  const [isDropDownVisible, setDropDownVisible] = useState(false);
 
   const { isListening, transcript, startListening, stopListening } =
     useSpeechToText({ continuous: true });
@@ -81,6 +81,10 @@ const Header = ({ activeHeading }) => {
     }
   });
 
+  const handleDropDown = () => {
+    setDropDownVisible(!isDropDownVisible);
+  };
+
   return (
     <>
       <div className={`${styles.section}`}>
@@ -110,17 +114,13 @@ const Header = ({ activeHeading }) => {
                 disabled={isListening}
                 className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Enter your product name..."
               >
                 {searchTerm}
               </textarea>
-                <button className="voiceBtns stop" onClick={startStopListening}>
+              <button className="voiceBtnsSearch" onClick={startStopListening}>
                 {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
               </button>
-              <button
-                className="voiceBtnsSearch stop"
-                onClick={handleSearchChange}
-              >
+              <button className="voiceBtnsSearch" onClick={handleSearchChange}>
                 <IoSearch />
               </button>
             </div>
@@ -197,7 +197,7 @@ const Header = ({ activeHeading }) => {
             ) : null}
           </div>
 
-          <div className={`${styles.button}`}>
+          <div className={`${styles.button} bg-[rgb(248 123 39)]`}>
             <Link to={`${isSeller ? "/dashboard" : "/create-shop"}`}>
               <h1 className="text-[#fff] flex items-center">
                 {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
@@ -209,8 +209,8 @@ const Header = ({ activeHeading }) => {
       </div>
       <div
         className={`${
-          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden 800px:flex items-center justify-between w-full bg-[#ff7f29] h-[70px] pages-navbar`}
+          active === true ? "shadow-sm top-0 left-0 z-10" : null
+        } transition hidden 800px:flex items-center justify-between w-full h-[70px] pages-navbar`}
       >
         <div
           className={`${styles.section} relative ${styles.noramlFlex} justify-between `}
@@ -219,19 +219,20 @@ const Header = ({ activeHeading }) => {
           <div onClick={() => setDropDown(!dropDown)}>
             <div className="relative h-[60px] w-[270px] hidden 1000px:block">
               <BiMenuAltLeft
-                size={30}
-                className="absolute top-3 left-2 ml-24"
+                size={35}
+                className="absolute top-3 left-2 cursor-pointer"
               />
               <button
-                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-madimione text-lg font-[500] select-none rounded-t-md all-categories ml-24 z-30`}
-                onClick={() => setDropDown(!dropDown)}
+                className={`h-[100%] w-full flex items-center pl-10 font-madimione text-lg font-[500] select-none rounded-t-md all-categories z-30 text-black`}
+                onClick={handleDropDown}
               >
                 All Categories
               </button>
               {dropDown ? (
                 <DropDown
                   categoriesData={categoriesData}
-                  setDropDown={setDropDown}
+                  setDropDown={setDropDownVisible}
+                  isVisible={isDropDownVisible}
                 />
               ) : null}
             </div>
@@ -330,7 +331,6 @@ const Header = ({ activeHeading }) => {
                     disabled={isListening}
                     className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Enter your product name..."
                   >
                     {searchTerm}
                   </textarea>
@@ -339,13 +339,17 @@ const Header = ({ activeHeading }) => {
                     onClick={startStopListening}
                   >
                     {" "}
-                    {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                    {isListening ? (
+                      <FaMicrophoneSlash className="btns" />
+                    ) : (
+                      <FaMicrophone className="btns" />
+                    )}
                   </button>
                   <button
                     className="voiceBtnsSearch stop"
                     onClick={handleSearchChange}
                   >
-                    <IoSearch />
+                    <IoSearch className="btns" />
                   </button>
                 </div>
                 {searchData && (
@@ -370,18 +374,17 @@ const Header = ({ activeHeading }) => {
               </div>
 
               <Navbar active={activeHeading} />
-              <div className={`${styles.button} ml-4 !rounded-[4px]`}>
+              <div
+                className={`${styles.button} ml-4 !rounded-[4px] bg-[#ff7f29]`}
+              >
                 <Link to="/create-shop">
-                  <h1 className="text-[#fff] flex items-center">
+                  <h1 className="flex items-center text-lg">
                     Become Seller <IoIosArrowForward className="ml-1" />
                   </h1>
                 </Link>
               </div>
-              <br />
-              <br />
-              <br />
 
-              <div className="flex w-full justify-center">
+              <div className="flex w-full justify-center mt-0">
                 {isAuthenticated ? (
                   <div>
                     <Link to="/profile">

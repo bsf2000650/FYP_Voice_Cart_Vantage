@@ -76,9 +76,9 @@ const Cart = ({ setOpenCart }) => {
               {/* checkout buttons */}
               <Link to="/checkout">
                 <div
-                  className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
+                  className={`h-[45px] flex items-center justify-center w-[100%] bg-[#ff7f29] rounded-[5px]`}
                 >
-                  <h1 className="text-[#fff] text-[18px] font-[600]">
+                  <h1 className="text-[#fff] text-[18px] font-[600] ">
                     Checkout Now (USD${totalPrice})
                   </h1>
                 </div>

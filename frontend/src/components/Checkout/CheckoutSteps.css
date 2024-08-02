@@ -1,17 +1,32 @@
 @media screen and (max-width: 400px) {
-    .checkout{
-        display: none;
-    }
-    .ckecoutDiv{
-        display: flex;
+  .checkout {
+    display: none;
+  }
+  .ckecoutDiv {
+    display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
     width: 96%;
     margin-left: 6px;
     gap: 10px;
-    }
-    .steps{
-        width: 100%;
-    }
+  }
+  .paymentDiv {
+    width: 100%;
+  }
+  .steps {
+    width: 100%;
+  }
 }
+
+/* @media screen and (max-width: 425px) {
+  .line {
+    width: 13px;
+  }
+}
+
+/* @media screen and (max-width: 768px) {
+  .line {
+    width: 50px;
+  }
+} */

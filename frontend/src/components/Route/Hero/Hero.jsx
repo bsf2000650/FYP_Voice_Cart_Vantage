@@ -28,7 +28,11 @@ const Testimonials = () => {
             return (
               <div className="reviews">
                 <h1>{data.item}</h1>
-                <img src={data.image} alt="Carousel" className="testimonial-imgs" />
+                <img
+                  src={data.image}
+                  alt="Carousel"
+                  className="testimonial-imgs"
+                />
                 <div className="stars">
                   <div className="stars">
                     <FontAwesomeIcon icon={faStar} />

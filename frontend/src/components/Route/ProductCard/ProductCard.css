@@ -1,35 +1,35 @@
 .aiFillHeart {
-    color: rgb(51, 51, 51);
-    background: orange;
+  color: rgb(51, 51, 51);
+  background: orange;
 }
 
-.productCard {
+/* .productCard {
     background-color: rgb(100, 96, 96);
     transition: transform 0.8s ease, box-shadow 0.8s ease; 
     transform: translateZ(10); 
     box-shadow: 0 25px 10px rgba(0, 0, 0, 0.3); 
-}
+} */
 
-
+/* 
 .productCard:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
     transform: scale(1.1);
     background-color: #ff7f29;
-}
+} */
 
 .productCard a img {
-    width: 88%;
-    height: 35vh;
+  width: 88%;
+  height: 35vh;
 }
 
-@media screen and (max-width:400px){
-    .productCard{
-        transform: translateZ(9.5);
-    }
-    .productCard:hover{
-        transform: scale(1.03);
-    }
-    .quick-view{
-        display: none;
-    }
+@media screen and (max-width: 400px) {
+  .productCard {
+    transform: translateZ(9.5);
+  }
+  .productCard:hover {
+    transform: scale(1.03);
+  }
+  .quick-view {
+    display: none;
+  }
 }

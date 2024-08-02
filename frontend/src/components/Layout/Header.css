@@ -1,121 +1,127 @@
-.search{
-    width: 65%;
-    margin-top: 19px;
-    margin-bottom: 18px;
+.search {
+  width: 65%;
+  margin-top: 19px;
+  margin-bottom: 18px;
+}
+
+.shopping_img {
+  width: 75%;
+  margin-left: -48px;
 }
 
 .searchBar {
-    border-radius: 35px;
-    vertical-align: middle;
-    border-style: none;
-    margin-top: 0px;
-    margin-right: 20px;
-    transition: box-shadow 1s ease-in-out, transform 0.3s ease-in-out; /* Add transition for smooth effect */
-    box-shadow: none; /* Initial shadow */
-    transform: translateY(0); /* Initial position */
+  border-radius: 35px;
+  vertical-align: middle;
+  border-style: none;
+  margin-top: 0px;
+  margin-right: 20px;
+  height: 37px;
 }
 
 /* Add shadow effect and transform on hover */
 .searchBar:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adjust values as needed */
-    transform: translateY(1.1); /* Move up by 5px on hover */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adjust values as needed */
+  transform: translateY(1.1); /* Move up by 5px on hover */
 }
 .voiceBtnsSearch {
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    width: 8%;
-    background: aquamarine;
-    border-radius: 57%;
-    margin: 10px;
-    font-size: 25px;
-    text-align: center;
+  padding: -0.5px;
+  width: 10%;
+  border-radius: 57%;
+  margin: 10px;
+  font-size: 27px;
+  text-align: center;
+  margin: 0px -6px;
+  color: white;
+}
+.become-seller {
+  background-color: #ff7f29;
+  color: white;
+  font-size: 10px;
 }
 
-.stop{
-    background-color: #646060;
-    color: white;
-    width: 10%;
+.all-categories {
+  margin-right: 10px;
+  font-size: 30px;
+  color: black;
 }
+
+.voiceSearchBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(248 123 39);
+  border-radius: 24px;
+  border: 1px solid #ff7f29;
+  height: 39px;
+}
+
+.support {
+  margin-left: -34px;
+}
+
+/* .stop {
+  color: black;
+  width: 10%;
+} */
 .logoDiv {
-    width: 7%;
-    margin-left: 42px;
+  width: 7%;
+  margin-left: 42px;
 }
 
 /* .logoDiv img{
-    width: 23%;
-    margin: auto;
+  width: 23%;
+  margin: auto;
 } */
 
-.pages-navbar {
-    border-radius: 45px;
-    background-color: rgb(100, 96, 96);
-    transition: transform 0.8s ease, box-shadow 0.8s ease; /* Adding transition for smooth effect */
-    transform: translateZ(10); /* Ensuring 3D transformations work smoothly */
-    box-shadow: 0 25px 10px rgba(0, 0, 0, 0.3); /* Initial shadow for a slight lift */
-    margin-bottom: 10px;
-}
-.pages-navbar:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Increasing the depth on hover */
-    transform: scale(1.1); /* Increasing the depth on hover */
-    background-color: #ff7f29;
-}
-
-.all-categories{
-    background-color: white;
-    border-radius: 45px;
-    height: 55px;
-    margin-top: 6px;
-    font-family: 'Madimi One';
-}
-
-@media screen and  (max-width: 768px) {
-    .mbViewLogo{
-        width: 11%;
-        margin-left: 37%;
-        margin-top: 0px;
-    }
-    .footer-div{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-    .footer-div .ul1 {
-        display: flex;
-    }
+@media screen and (max-width: 768px) {
+  .mbViewLogo {
+    width: 11%;
+    margin-left: 37%;
+    margin-top: 0px;
+  }
+  .footer-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .footer-div .ul1 {
+    display: flex;
+  }
 }
 
 @media screen and (max-width: 425px) {
-    .footer-logo{
-        margin-left: 0px;
-    }
-    .footer-logo1{
-        margin-left: 0px;
-    }
+  .searchBar {
+    margin-right: 20px;
+    width: 73%;
+    margin-left: -16px;
+  }
+  .footer-logo {
+    margin-left: 0px;
+  }
+  .footer-logo1 {
+    margin-left: 0px;
+  }
 }
 
-@media screen and (max-width:400px) {
-    .mbViewLogo{
-        width: 23%;
-        margin: auto;
-    }
-    .voiceSearchBtn{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .voiceBtns {
-        width: 17%;
-    }
-    .stop{
-        width: 17%;
-    }
-    .searchBar{
-        margin-left: 15px;
-    }
-    
-    
+@media screen and (max-width: 400px) {
+  .mbViewLogo {
+    width: 23%;
+    margin: auto;
+  }
+  .voiceSearchBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .voiceBtns {
+    width: 17%;
+  }
+  .stop {
+    width: 17%;
+  }
+  .searchBar {
+    margin-right: 0px;
+  }
 }
-

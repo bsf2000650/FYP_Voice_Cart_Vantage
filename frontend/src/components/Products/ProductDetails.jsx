@@ -18,7 +18,7 @@ import { addTocart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 import Ratings from "./Ratings";
 import axios from "axios";
-import './ProductDetails.css';
+import "./ProductDetails.css";
 
 const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -86,10 +86,9 @@ const ProductDetails = ({ data }) => {
       0
     );
 
-  const avg =  totalRatings / totalReviewsLength || 0;
+  const avg = totalRatings / totalReviewsLength || 0;
 
   const averageRating = avg.toFixed(2);
-
 
   const handleMessageSubmit = async () => {
     if (isAuthenticated) {
@@ -119,7 +118,7 @@ const ProductDetails = ({ data }) => {
         <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
           <div className="w-full py-5">
             <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%] bg-orange-#ff7f29-500 p-7 mb-2 rounded-2xl h-80vh productCardDetails">
+              <div className="w-full 800px:w-[50%] text-black p-7 mb-2 rounded-2xl h-80vh productCardDetails">
                 <img
                   src={`${data && data.images[select]?.url}`}
                   alt=""
@@ -148,8 +147,12 @@ const ProductDetails = ({ data }) => {
                   ></div>
                 </div>
               </div>
-              <div className="w-full 800px:w-[50%] pt-5 bg-[#646060] text-white rounded-lg productCardDetails1">
-                <h1 className={`${styles.productTitle} font-madimi pl-4 text-white`}>{data.name}</h1>
+              <div className="w-full 800px:w-[50%] pt-5  text-black rounded-lg productCardDetails1">
+                <h1
+                  className={`${styles.productTitle} font-madimi pl-4 text-black`}
+                >
+                  {data.name}
+                </h1>
                 <p className="text-justify pl-4 pr-4">{data.description}</p>
                 <div className="flex pt-3 pl-4">
                   <h4 className={`${styles.productDiscountPrice} pl-4`}>
@@ -259,12 +262,12 @@ const ProductDetailsInfo = ({
   const [active, setActive] = useState(1);
 
   return (
-    <div className="bg-[#646060] px-3 800px:px-10 py-2 rounded text-white">
+    <div className="px-3 800px:px-10 py-2 rounded text-black">
       <div className="w-full flex justify-between border-b pt-10 pb-2 rounded-2xl">
         <div className="relative">
           <h5
             className={
-              "text-[#fff] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-black text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
             }
             onClick={() => setActive(1)}
           >
@@ -277,7 +280,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#fff] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-black text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
             }
             onClick={() => setActive(2)}
           >
@@ -290,7 +293,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#fff] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-black text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
             }
             onClick={() => setActive(3)}
           >
