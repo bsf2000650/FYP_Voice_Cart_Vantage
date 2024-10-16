@@ -125,6 +125,8 @@ router.post(
       }
 
       sendToken(user, 201, res);
+
+      res.setHeader('Access-Control-Allow-Credentials', 'true').status(200);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
