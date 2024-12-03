@@ -6,8 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 app.use(cors({
- // origin: 'https://fyp-voice-cart-vantage.vercel.app/',
-  origin: '*',
+  origin: 'https://fyp-voice-cart-vantage.vercel.app/',
   credentials: true
 }));
 
