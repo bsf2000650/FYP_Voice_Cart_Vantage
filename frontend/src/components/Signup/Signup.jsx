@@ -163,7 +163,7 @@ const Singup = () => {
             <div>
               <button
                 type="submit"
-                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[[#ff7f29]] hover:bg-[[#ff7f29]]"
+                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[[#ff7f29]] hover:bg-[[#ff7f29]] bg-slate-700"
               >
                 Submit
               </button>

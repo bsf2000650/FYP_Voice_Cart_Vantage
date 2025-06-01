@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { server } from "../server";
 
 const ActivationPage = () => {
-  const { activation_token } = useParams();
+const { activation_token } = useParams();
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ActivationPage = () => {
       };
       sendRequest();
     }
-  }, []);
+  }, [activation_token]);
 
   return (
     <div
