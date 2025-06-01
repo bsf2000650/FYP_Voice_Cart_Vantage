@@ -5,10 +5,13 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-app.use(cors({
-  origin: 'https://fyp-voice-cart-vantage.vercel.app/',
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "https://fyp-voice-cart-vantage.vercel.app/",
+    // origin: "http://localhost:3000/",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());

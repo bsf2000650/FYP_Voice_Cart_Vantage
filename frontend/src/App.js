@@ -44,7 +44,7 @@ import {
   AdminDashboardOrders,
   AdminDashboardProducts,
   AdminDashboardEvents,
-  AdminDashboardWithdraw
+  AdminDashboardWithdraw,
 } from "./routes/AdminRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -66,14 +66,12 @@ import Note from "./pages/Shop/Note.jsx";
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
-  console.log(stripeApikey)
+  console.log(stripeApikey);
   const { allProducts } = useSelector((state) => state.products);
-
-  
 
   async function getStripeApikey() {
     const { data } = await axios.get(`${server}/payment/stripeapikey`);
-    console.log(data)
+    console.log(data);
     setStripeApiKey(data.stripeApikey);
   }
   useEffect(() => {
@@ -83,7 +81,6 @@ const App = () => {
     Store.dispatch(getAllEvents());
     getStripeApikey();
   }, []);
-
 
   return (
     <BrowserRouter>
@@ -106,7 +103,10 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
-        <Route path="/activation/:activation_token" element={<ActivationPage />} />
+        <Route
+          path="/activation/:activation_token"
+          element={<ActivationPage />}
+        />
 
         <Route
           path="/seller/activation/:activation_token"
@@ -276,7 +276,7 @@ const App = () => {
           path="/admin/dashboard"
           element={
             // <ProtectedAdminRoute>
-              <AdminDashboardPage />
+            <AdminDashboardPage />
             // </ProtectedAdminRoute>
           }
         />
@@ -284,7 +284,7 @@ const App = () => {
           path="/admin-users"
           element={
             // <ProtectedAdminRoute>
-              <AdminDashboardUsers />
+            <AdminDashboardUsers />
             // </ProtectedAdminRoute>
           }
         />
@@ -292,7 +292,7 @@ const App = () => {
           path="/admin-sellers"
           element={
             // <ProtectedAdminRoute>
-              <AdminDashboardSellers />
+            <AdminDashboardSellers />
             // </ProtectedAdminRoute>
           }
         />
@@ -304,7 +304,7 @@ const App = () => {
             </ProtectedAdminRoute>
           }
         />
-         <Route
+        <Route
           path="/admin-products"
           element={
             <ProtectedAdminRoute>
@@ -312,7 +312,7 @@ const App = () => {
             </ProtectedAdminRoute>
           }
         />
-         <Route
+        <Route
           path="/admin-events"
           element={
             <ProtectedAdminRoute>
@@ -320,7 +320,7 @@ const App = () => {
             </ProtectedAdminRoute>
           }
         />
-         <Route
+        <Route
           path="/admin-withdraw-request"
           element={
             <ProtectedAdminRoute>

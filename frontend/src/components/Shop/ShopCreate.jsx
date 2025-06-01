@@ -6,6 +6,8 @@ import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
 import { RxAvatar } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
+
 
 const ShopCreate = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +18,9 @@ const ShopCreate = () => {
   const [avatar, setAvatar] = useState();
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +36,6 @@ const ShopCreate = () => {
         phoneNumber,
       })
       .then((res) => {
-        toast.success(res.data.message);
         setName("");
         setEmail("");
         setPassword("");
@@ -39,6 +43,10 @@ const ShopCreate = () => {
         setZipCode();
         setAddress("");
         setPhoneNumber();
+        toast.success(res.data.message);
+        setTimeout(() => {
+          navigate("/shop-login");
+        }, 2000); 
       })
       .catch((error) => {
         toast.error(error.response.data.message);
@@ -232,7 +240,7 @@ const ShopCreate = () => {
             <div>
               <button
                 type="submit"
-                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[[#ff7f29]] hover:bg-[[#ff7f29]]"
+                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[[#ff7f29]] hover:bg-[[#ff7f29]] bg-slate-500"
               >
                 Submit
               </button>
