@@ -13,8 +13,8 @@ import {
 } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
 import styles from "../styles/styles";
-// const ENDPOINT = "https://e-shop1-socket.vercel.app/";
-const ENDPOINT = "http://localhost:4000/";
+const ENDPOINT = "https://e-shop1-socket.vercel.app/";
+// const ENDPOINT = "http://localhost:4000/";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 const UserInbox = () => {
