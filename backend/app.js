@@ -8,7 +8,7 @@ const cors = require("cors");
 app.use(
   cors({
     origin: "https://fyp-voice-cart-vantage.vercel.app",
-    // origin: "http://localhost:3000/",
+    // origin: "http://localhost:3000",
     credentials: true,
   })
 );

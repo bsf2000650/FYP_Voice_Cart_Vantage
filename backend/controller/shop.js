@@ -2,8 +2,9 @@ const express = require("express");
 // const path = require("path");
 const router = express.Router();
 // const jwt = require("jsonwebtoken");
-// const sendMail = require("../utils/sendMail");
+const sendMail = require("../utils/sendMail");
 const Shop = require("../model/shop");
+const Otp = require("../model/otp");
 const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
 const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
@@ -18,7 +19,7 @@ router.post(
       const { email } = req.body;
       const sellerEmail = await Shop.findOne({ email });
       if (sellerEmail) {
-        return next(new ErrorHandler("User already exists", 400));
+        return next(new ErrorHandler("Shop already exists", 400));
       }
 
       const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
@@ -38,65 +39,94 @@ router.post(
         zipCode: req.body.zipCode,
       });
 
-      sendShopToken(seller, 201, res);
+      res.status(201).json({
+        success: true,
+        message: "Shop created successfully! Please login to continue.",
+        seller,
+      });
     } catch (error) {
       return next(new ErrorHandler(error.message, 400));
     }
   })
 );
 
+router.post(
+  "/create-otp",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { email, name } = req.body;
 
-// create activation token
-// const createActivationToken = (seller) => {
-//   return jwt.sign(seller, process.env.ACTIVATION_SECRET, {
-//     expiresIn: "5m", // You can increase this to "2h" for debugging if needed
-//   });
-// };
+      if (!email) {
+        return next(new ErrorHandler("Email is required", 400));
+      }
 
-// activate user
-// router.post(
-//   "/activation",
-//   catchAsyncErrors(async (req, res, next) => {
-//     const { activation_token } = req.body;
+      // generate 6-digit otp
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-//     if (!activation_token) {
-//       return next(new ErrorHandler("No activation token provided", 400));
-//     }
+      // delete any previous otp for the email
+      await Otp.deleteMany({ email });
 
-//     let newSeller;
-//     try {
-//       newSeller = jwt.verify(activation_token, process.env.ACTIVATION_SECRET);
-//     } catch (error) {
-//       if (error.name === "TokenExpiredError") {
-//         return next(new ErrorHandler("Your token is expired", 400));
-//       } else {
-//         return next(new ErrorHandler("Invalid token", 400));
-//       }
-//     }
+      // save new otp
+      await Otp.create({
+        email,
+        otp,
+        expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
+      });
 
-//     const { name, email, password, avatar, zipCode, address, phoneNumber } =
-//       newSeller;
+      // send mail
+      await sendMail({
+        email,
+        subject: "Your Verification OTP",
+        message: `Hello ${name || ""}, your OTP is: ${otp}`,
+      });
 
-//     let seller = await Shop.findOne({ email });
+      res.status(200).json({
+        success: true,
+        message: "OTP sent successfully",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
 
-//     if (seller) {
-//       return next(new ErrorHandler("User already exists", 400));
-//     }
+// verify OTP
+router.post(
+  "/verify-otp",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { otp, email } = req.body;
 
-//     seller = await Shop.create({
-//       name,
-//       email,
-//       avatar,
-//       password,
-//       zipCode,
-//       address,
-//       phoneNumber,
-//     });
+      if (!otp || !email) {
+        return next(new ErrorHandler("OTP and Email required", 400));
+      }
 
-//     sendShopToken(seller, 201, res);
-//   })
-// );
+      const otpRecord = await Otp.findOne({ email }).sort({ createdAt: -1 });
 
+      if (!otpRecord) {
+        return next(new ErrorHandler("OTP not found", 400));
+      }
+
+      if (otpRecord.expiresAt < Date.now()) {
+        return next(new ErrorHandler("OTP expired", 400));
+      }
+
+      if (otpRecord.otp !== otp) {
+        return next(new ErrorHandler("Invalid OTP", 400));
+      }
+
+      // delete otp after successful verification
+      await Otp.deleteMany({ email });
+
+      res.status(200).json({
+        success: true,
+        message: "OTP Verified Successfully",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
 
 // login shop
 router.post(

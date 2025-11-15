@@ -56,17 +56,31 @@ router.post(
 );
 
 // get all events
-router.get("/get-all-events", async (req, res, next) => {
-  try {
-    const events = await Event.find();
-    res.status(201).json({
-      success: true,
-      events,
-    });
-  } catch (error) {
-    return next(new ErrorHandler(error, 400));
-  }
-});
+router.get(
+  "/get-all-events",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      // 1. Get all events
+      const events = await Event.find().sort({ createdAt: -1 });
+
+      // 2. Get all valid shop IDs
+      const shops = await Shop.find({}, "_id");
+      const validShopIds = shops.map((shop) => shop._id.toString());
+
+      // 3. Filter events whose shop still exists
+      const filteredEvents = events.filter((e) =>
+        validShopIds.includes(e.shopId)
+      );
+
+      res.status(201).json({
+        success: true,
+        events: filteredEvents,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
 
 // get all events of a shop
 router.get(
@@ -94,14 +108,14 @@ router.delete(
 
       if (!product) {
         return next(new ErrorHandler("Product is not found with this id", 404));
-      }    
+      }
 
       for (let i = 0; 1 < product.images.length; i++) {
         const result = await cloudinary.v2.uploader.destroy(
           event.images[i].public_id
         );
       }
-    
+
       await event.remove();
 
       res.status(201).json({

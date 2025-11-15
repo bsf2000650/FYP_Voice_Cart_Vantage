@@ -107,22 +107,34 @@ router.delete(
   })
 );
 
-// get all products
 router.get(
   "/get-all-products",
   catchAsyncErrors(async (req, res, next) => {
     try {
+      // 1. Get all products
       const products = await Product.find().sort({ createdAt: -1 });
+
+      // 2. Get all shops in the db
+      const shops = await Shop.find({}, "_id");   // only get IDs
+
+      // 3. Convert shop IDs to string for comparison
+      const validShopIds = shops.map((shop) => shop._id.toString());
+
+      // 4. Filter products whose shopId exists
+      const filteredProducts = products.filter((p) =>
+        validShopIds.includes(p.shopId)
+      );
 
       res.status(201).json({
         success: true,
-        products,
+        products: filteredProducts,
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
     }
   })
 );
+
 
 // review for a product
 router.put(
