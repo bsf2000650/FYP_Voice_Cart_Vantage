@@ -1,13 +1,19 @@
 import { React, useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import styles from "../../styles/styles";
-import { Link } from "react-router-dom";
-import { RxAvatar } from "react-icons/rx";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineMail,
+  AiOutlineLock,
+  AiOutlineUser,
+  AiOutlineCamera,
+} from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
 
-const Singup = () => {
+const Signup = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -26,152 +32,185 @@ const Singup = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+  const isDisabled =
+    !name.trim() || !email.trim() || !password.trim() || !avatar;
+
+  // ❗ No API call — ONLY redirect to /verify-otp
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .post(`${server}/user/create-user`, { name, email, password, avatar })
-      .then((res) => {
-        toast.success(res.data.message);
-        setName("");
-        setEmail("");
-        setPassword("");
-        setAvatar();
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message);
+    try {
+      await axios.post(`${server}/shop/create-otp`, {
+        email,
       });
+
+      localStorage.setItem(
+        "tempUser",
+        JSON.stringify({ name, email, password, avatar })
+      );
+
+      navigate("/verify-otp", {
+        state: { name, email, password, avatar },
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send OTP");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Register as a new user
+    <div className="min-h-screen flex flex-col justify-center bg-[#ff7e29] py-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <h2 className="mt-4 text-3xl font-extrabold text-white">
+          Create an Account ✨
         </h2>
+        <p className="mt-1 text-sm text-white opacity-90">
+          Register to join our community
+        </p>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+
+      <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md px-2 sm:px-0">
+        <div className="bg-[#fff0db] py-8 px-6 sm:px-8 rounded-[30px] shadow-[0_6px_20px_rgba(0,0,0,0.2)] border border-orange-100 transform transition-all duration-300 hover:shadow-[0_10px_25px_rgba(0,0,0,0.3)]">
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            {/* Avatar Upload */}
+            <div className="flex justify-center mb-4">
+              <div className="relative">
+                <label htmlFor="file-input" className="cursor-pointer">
+                  <div className="h-24 w-24 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center shadow-md border-2 border-[#ff7e29]">
+                    {avatar ? (
+                      <img
+                        src={avatar}
+                        alt="avatar"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <AiOutlineUser className="text-gray-400" size={45} />
+                    )}
+                  </div>
+                  <div className="absolute bottom-1 right-1 bg-[#ff7e29] p-1 rounded-full shadow-md">
+                    <AiOutlineCamera size={18} color="#fff" />
+                  </div>
+                </label>
+                <input
+                  type="file"
+                  name="avatar"
+                  id="file-input"
+                  accept=".jpg,.jpeg,.png"
+                  onChange={handleFileInputChange}
+                  className="sr-only"
+                />
+              </div>
+            </div>
+
+            {/* Name */}
             <div>
               <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                htmlFor="name"
+                className="block text-[15px] font-semibold text-gray-700 mb-1"
               >
                 Full Name
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <AiOutlineUser
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
-                  name="text"
-                  autoComplete="name"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#ff7f29] focus:border-[#ff7f29] sm:text-sm"
+                  placeholder="Enter your full name"
+                  className="block w-full pl-10 pr-3 py-2 bg-[#fffaf5] rounded-[50px] shadow-sm focus:ring-[#ff7e29]"
                 />
               </div>
             </div>
 
+            {/* Email */}
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-[15px] font-semibold text-gray-700 mb-1"
               >
-                Email address
+                Email Address
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <AiOutlineMail
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="email"
-                  name="email"
-                  autoComplete="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#ff7f29] focus:border-[#ff7f29] sm:text-sm"
+                  placeholder="Enter your email"
+                  className="block w-full pl-10 pr-3 py-2 bg-[#fffaf5] rounded-[50px] focus:ring-[#ff7e29]"
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-[15px] font-semibold text-gray-700 mb-1"
               >
                 Password
               </label>
-              <div className="mt-1 relative">
+              <div className="relative">
+                <AiOutlineLock
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type={visible ? "text" : "password"}
-                  name="password"
-                  autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#ff7f29] focus:border-[#ff7f29] sm:text-sm"
+                  placeholder="Enter your password"
+                  className="block w-full pl-10 pr-10 py-2 bg-[#fffaf5] rounded-[50px] focus:ring-[#ff7e29]"
                 />
                 {visible ? (
                   <AiOutlineEye
-                    className="absolute right-2 top-2 cursor-pointer"
-                    size={25}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                    size={22}
                     onClick={() => setVisible(false)}
                   />
                 ) : (
                   <AiOutlineEyeInvisible
-                    className="absolute right-2 top-2 cursor-pointer"
-                    size={25}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                    size={22}
                     onClick={() => setVisible(true)}
                   />
                 )}
               </div>
             </div>
 
-            <div>
-              <label
-                htmlFor="avatar"
-                className="block text-sm font-medium text-gray-700"
-              ></label>
-              <div className="mt-2 flex items-center">
-                <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
-                  {avatar ? (
-                    <img
-                      src={avatar}
-                      alt="avatar"
-                      className="h-full w-full object-cover rounded-full"
-                    />
-                  ) : (
-                    <RxAvatar className="h-8 w-8" />
-                  )}
-                </span>
-                <label
-                  htmlFor="file-input"
-                  className="ml-5 flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <span>Upload a file</span>
-                  <input
-                    type="file"
-                    name="avatar"
-                    id="file-input"
-                    accept=".jpg,.jpeg,.png"
-                    onChange={handleFileInputChange}
-                    className="sr-only"
-                  />
-                </label>
-              </div>
-            </div>
-
+            {/* Submit */}
             <div>
               <button
                 type="submit"
-                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[[#ff7f29]] hover:bg-[[#ff7f29]] bg-slate-700"
+                disabled={isDisabled}
+                className={`w-full h-[45px] flex justify-center items-center text-sm font-semibold text-white rounded-[50px]
+    ${
+      isDisabled
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-[#ff7e29] hover:bg-[#ff944d]"
+    }
+  `}
               >
-                Submit
+                Sign Up
               </button>
             </div>
-            <div className={`${styles.noramlFlex} w-full`}>
-              <h4>Already have an account?</h4>
-              <Link to="/login" className="text-[#ff7f29] pl-2">
-                Sign In
+
+            {/* Login Option */}
+            <div className="flex justify-center text-sm text-gray-700 mt-3">
+              <span>Already have an account?</span>
+              <Link
+                to="/login"
+                className="text-[#ff7e29] pl-2 font-semibold hover:underline"
+              >
+                Login
               </Link>
             </div>
           </form>
@@ -181,4 +220,4 @@ const Singup = () => {
   );
 };
 
-export default Singup;
+export default Signup;

@@ -1,45 +1,57 @@
-import React, { useState } from 'react'
-import useSpeechToText from '../../../hooks/useSpeechToText/useSpeechToText';
-import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
+import React from "react";
+import useSpeechToText from "../../../hooks/useSpeechToText/useSpeechToText";
+import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 
 const ProductName = ({ productName, setProductName }) => {
-    
-  const {
-    isListening,
-    transcript,
-    startListening,
-    stopListening,
-  } = useSpeechToText({continuous:true});
+  const { isListening, transcript, startListening, stopListening } =
+    useSpeechToText({ continuous: true });
 
   const startStopListening = () => {
-    isListening ? stopVoiceInput() : startListening()
-  }
+    isListening ? stopVoiceInput() : startListening();
+  };
 
   const stopVoiceInput = () => {
-    setProductName(prevVal => prevVal + (transcript.length ? (prevVal.length ? ' ' : '') + transcript : ''));
+    setProductName(
+      (prevVal) =>
+        prevVal +
+        (transcript.length ? (prevVal.length ? " " : "") + transcript : "")
+    );
     stopListening();
-  }
+  };
 
   return (
-    <div>
-        
-        <textarea
-            cols="30"
-            required
-            rows="2"
-            type="text"
-            name="productName"
-            value={isListening ? productName + (transcript.length ? (productName.length ? ' ' : '') + transcript : productName) : productName}
-            disabled={isListening}
-            className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setProductName(e.target.value)}
-            placeholder="Enter your product name..."
-          >
-          {productName}
-          </textarea>
-          <button  className="voiceBtns stop" onClick={startStopListening}> {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}</button>
+    <div className="relative w-full">
+      <textarea
+        cols="30"
+        rows="2"
+        required
+        name="productName"
+        value={
+          isListening
+            ? productName +
+              (transcript.length
+                ? (productName.length ? " " : "") + transcript
+                : "")
+            : productName
+        }
+        disabled={isListening}
+        onChange={(e) => setProductName(e.target.value)}
+        placeholder="Enter your product name..."
+        className="w-full pt-2 px-6 pb-2 border border-gray-300 rounded-[50px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ff7e29] sm:text-sm"
+      />
+      <button
+        type="button"
+        onClick={startStopListening}
+        className="absolute top-1/2 right-3 -translate-y-1/2 text-[#ff7e29] hover:text-[#e56f1f]"
+      >
+        {isListening ? (
+          <FaMicrophoneSlash size={20} />
+        ) : (
+          <FaMicrophone size={20} />
+        )}
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default ProductName
+export default ProductName;

@@ -1,22 +1,24 @@
-import React from 'react'
-import DashboardHeader from '../../components/Shop/Layout/DashboardHeader'
-import DashboardSideBar from '../../components/Shop/Layout/DashboardSideBar'
+import React from "react";
+import DashboardSideBar from "../../components/Shop/Layout/DashboardSideBar";
 import AllCoupons from "../../components/Shop/AllCoupons";
+import ShopMobNavbar from "./ShopMobNavbar";
 
-const ShopAllCoupouns = () => {
+const ShopAllCoupons = () => {
   return (
-    <div>
-        <DashboardHeader />
-        <div className="flex justify-between w-full">
-            <div className="w-[80px] 800px:w-[330px]">
-              <DashboardSideBar active={9} />
-            </div>
-            <div className="w-full justify-center flex">
-                <AllCoupons />
-            </div>
-          </div>
-    </div>
-  )
-}
+    <div className="flex w-full">
+      <div className="hidden 800px:block w-[25%]">
+        <DashboardSideBar active={9} />
+      </div>
 
-export default ShopAllCoupouns
+      <div className="w-full 800px:w-[70%] flex justify-center">
+        <AllCoupons />
+      </div>
+
+      <div className="block 800px:hidden">
+        <ShopMobNavbar />
+      </div>
+    </div>
+  );
+};
+
+export default ShopAllCoupons;

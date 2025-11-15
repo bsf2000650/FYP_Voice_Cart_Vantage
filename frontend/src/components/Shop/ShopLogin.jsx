@@ -1,6 +1,10 @@
 import { React, useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import styles from "../../styles/styles";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineMail,
+  AiOutlineLock,
+} from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../server";
@@ -18,16 +22,13 @@ const ShopLogin = () => {
     await axios
       .post(
         `${server}/shop/login-shop`,
-        {
-          email,
-          password,
-        },
+        { email, password },
         { withCredentials: true }
       )
       .then((res) => {
         toast.success("Login Success!");
         navigate("/dashboard");
-        window.location.reload(true); 
+        window.location.reload(true);
       })
       .catch((err) => {
         toast.error(err.response.data.message);
@@ -35,23 +36,32 @@ const ShopLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Login to your shop
+    <div className="min-h-screen flex flex-col justify-center bg-[#ff7e29] py-12 px-4 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <h2 className="mt-6 text-3xl font-extrabold text-white">
+          Welcome Back 👋
         </h2>
+        <p className="mt-2 text-sm text-white opacity-90">
+          Login to your shop account
+        </p>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-2 sm:px-0">
+        <div className="bg-[#fff0db] py-10 px-6 sm:px-8 rounded-[30px] shadow-[0_8px_25px_rgba(0,0,0,0.25)] border border-orange-100 transform transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Email Field */}
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-[15px] font-semibold text-gray-700 mb-1"
               >
-                Email address
+                Email Address
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <AiOutlineMail
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="email"
                   name="email"
@@ -59,18 +69,25 @@ const ShopLogin = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-#ff7f29 focus:border-#ff7f29 sm:text-sm"
+                  placeholder="Enter your email"
+                  className="block w-full pl-10 pr-3 py-2 bg-[#fffaf5] rounded-[50px] shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ff7e29] sm:text-sm"
                 />
               </div>
             </div>
+
+            {/* Password Field */}
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-[15px] font-semibold text-gray-700 mb-1"
               >
                 Password
               </label>
-              <div className="mt-1 relative">
+              <div className="relative">
+                <AiOutlineLock
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type={visible ? "text" : "password"}
                   name="password"
@@ -78,58 +95,66 @@ const ShopLogin = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-#ff7f29 focus:border-#ff7f29 sm:text-sm"
+                  placeholder="Enter your password"
+                  className="block w-full pl-10 pr-10 py-2 bg-[#fffaf5] rounded-[50px] shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ff7e29] sm:text-sm"
                 />
                 {visible ? (
                   <AiOutlineEye
-                    className="absolute right-2 top-2 cursor-pointer"
-                    size={25}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                    size={22}
                     onClick={() => setVisible(false)}
                   />
                 ) : (
                   <AiOutlineEyeInvisible
-                    className="absolute right-2 top-2 cursor-pointer"
-                    size={25}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                    size={22}
                     onClick={() => setVisible(true)}
                   />
                 )}
               </div>
             </div>
-            <div className={`${styles.noramlFlex} justify-between`}>
-              <div className={`${styles.noramlFlex}`}>
+
+            {/* Remember Me + Forgot Password */}
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center">
                 <input
                   type="checkbox"
                   name="remember-me"
                   id="remember-me"
-                  className="h-4 w-4 text-blue-600 focus:ring-#ff7f29 border-gray-300 rounded"
+                  className="h-4 w-4 text-[#ff7e29] border-gray-300 rounded"
                 />
                 <label
                   htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
+                  className="ml-2 text-sm text-gray-600"
                 >
                   Remember me
                 </label>
               </div>
-              <div className="text-sm">
-                <a
-                  href=".forgot-password"
-                  className="font-medium text-[#ff7f29] hover:text-[#ff7f29]"
-                >
-                  Forgot your password?
-                </a>
-              </div>
+              <Link
+                to="/forgot-password"
+                className="text-sm text-[#ff7e29] hover:text-orange-500 font-medium"
+              >
+                Forgot password?
+              </Link>
             </div>
+
+            {/* Submit Button */}
             <div>
               <button
                 type="submit"
-                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#ff7f29] hover:bg-[#ff7f29]"
+                className="w-full h-[45px] flex justify-center items-center text-sm font-semibold text-white bg-[#ff7e29] rounded-[50px] shadow-md hover:shadow-lg hover:bg-[#ff944d] transition-all duration-300"
               >
-                Submit
+                Login
               </button>
             </div>
-            <div className={`${styles.noramlFlex} w-full`}>
-              <h4>Not have any account?</h4>
-              <Link to="/create-shop" className="text-[#ff7f29] pl-2">
+
+            {/* Signup Link */}
+            <div className="flex justify-center text-sm text-gray-700 mt-4">
+              <span>Don’t have an account?</span>
+              <Link
+                to="/create-shop"
+                className="text-[#ff7e29] pl-2 font-semibold hover:underline"
+              >
                 Sign Up
               </Link>
             </div>

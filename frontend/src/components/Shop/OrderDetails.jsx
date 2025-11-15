@@ -19,23 +19,18 @@ const OrderDetails = () => {
 
   useEffect(() => {
     dispatch(getAllOrdersOfShop(seller._id));
-  }, [dispatch]);
-
-  
+  }, [dispatch, seller._id]);
 
   const data = orders && orders.find((item) => item._id === id);
-  console.log(data);
 
-  const orderUpdateHandler = async (e) => {
+  const orderUpdateHandler = async () => {
     await axios
       .put(
         `${server}/order/update-order-status/${id}`,
-        {
-          status,
-        },
+        { status },
         { withCredentials: true }
       )
-      .then((res) => {
+      .then(() => {
         toast.success("Order updated!");
         navigate("/dashboard-orders");
       })
@@ -44,163 +39,172 @@ const OrderDetails = () => {
       });
   };
 
-  const refundOrderUpdateHandler = async (e) => {
+  const refundOrderUpdateHandler = async () => {
     await axios
-    .put(
-      `${server}/order/order-refund-success/${id}`,
-      {
-        status,
-      },
-      { withCredentials: true }
-    )
-    .then((res) => {
-      toast.success("Order updated!");
-      dispatch(getAllOrdersOfShop(seller._id));
-    })
-    .catch((error) => {
-      toast.error(error.response.data.message);
-    });
-  }
-
-  console.log(data?.status);
-
+      .put(
+        `${server}/order/order-refund-success/${id}`,
+        { status },
+        { withCredentials: true }
+      )
+      .then(() => {
+        toast.success("Order updated!");
+        dispatch(getAllOrdersOfShop(seller._id));
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  };
 
   return (
     <div className={`py-4 min-h-screen ${styles.section}`}>
-      <div className="w-full flex items-center justify-between">
+      {/* Header */}
+      <div className="w-full flex items-center justify-between mb-6">
         <div className="flex items-center">
           <BsFillBagFill size={30} color="crimson" />
-          <h1 className="pl-2 text-[25px]">Order Details</h1>
+          <h1 className="pl-2 text-[25px] font-[600]">Order Details</h1>
         </div>
         <Link to="/dashboard-orders">
           <div
-            className={`${styles.button} !bg-[#fce1e6] !rounded-[4px] text-[#e94560] font-[600] !h-[45px] text-[18px]`}
+            className={`${styles.button} !bg-[#ff7e29] !rounded-[50px] text-white font-[600] !h-[45px] text-[18px]`}
           >
             Order List
           </div>
         </Link>
       </div>
 
-      <div className="w-full flex items-center justify-between pt-6">
-        <h5 className="text-[#00000084]">
-          Order ID: <span>#{data?._id?.slice(0, 8)}</span>
+      {/* Order Info */}
+      <div className="flex flex-col 800px:flex-row justify-between bg-[#fff0db] shadow rounded-[15px] p-4 mb-6">
+        <h5 className="text-gray-600 mb-2 800px:mb-0">
+          <span className="font-[600]">Order ID:</span> #
+          {data?._id?.slice(0, 8)}
         </h5>
-        <h5 className="text-[#00000084]">
-          Placed on: <span>{data?.createdAt?.slice(0, 10)}</span>
+        <h5 className="text-gray-600">
+          <span className="font-[600]">Placed on:</span>{" "}
+          {data?.createdAt?.slice(0, 10)}
         </h5>
       </div>
 
-      {/* order items */}
-      <br />
-      <br />
-      {data &&
-        data?.cart.map((item, index) => (
-          <div className="w-full flex items-start mb-5">
-            <img
-              src={`${item.images[0]?.url}`}
-              alt=""
-              className="w-[80x] h-[80px]"
-            />
-            <div className="w-full">
-              <h5 className="pl-3 text-[20px]">{item.name}</h5>
-              <h5 className="pl-3 text-[20px] text-[#00000091]">
-                US${item.discountPrice} x {item.qty}
-              </h5>
+      {/* Order Items */}
+      <div className="flex flex-wrap gap-4 mb-6">
+        {data &&
+          data?.cart.map((item, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center bg-[#fff0db] shadow rounded-[15px] p-4 w-full sm:w-[48%] md:w-[32%] lg:w-[23%] min-h-[150px]"
+            >
+              <img
+                src={item.images[0]?.url}
+                alt={item.name}
+                className="w-[80px] h-[80px] rounded-[10px] object-cover mb-3"
+              />
+              <div className="flex flex-col items-start w-full flex-1">
+                <h5 className="text-[18px] font-[600]">{item.name}</h5>
+                <h6 className="text-gray-500 text-[14px] mt-1">
+                  US${item.discountPrice} x {item.qty}
+                </h6>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
 
-      <div className="border-t w-full text-right">
-        <h5 className="pt-3 text-[18px]">
+        {!data?.cart?.length && (
+          <p className="text-gray-500">No items found in this order.</p>
+        )}
+      </div>
+
+      {/* Total Price */}
+      <div className="bg-[#fff0db] shadow rounded-[15px] p-4 text-right mb-6">
+        <h5 className="text-[18px] font-[500]">
           Total Price: <strong>US${data?.totalPrice}</strong>
         </h5>
       </div>
-      <br />
-      <br />
-      <div className="w-full 800px:flex items-center">
-        <div className="w-full 800px:w-[60%]">
-          <h4 className="pt-3 text-[20px] font-[600]">Shipping Address:</h4>
-          <h4 className="pt-3 text-[20px]">
-            {data?.shippingAddress.address1 +
-              " " +
-              data?.shippingAddress.address2}
-          </h4>
-          <h4 className=" text-[20px]">{data?.shippingAddress.country}</h4>
-          <h4 className=" text-[20px]">{data?.shippingAddress.city}</h4>
-          <h4 className=" text-[20px]">{data?.user?.phoneNumber}</h4>
+
+      {/* Shipping & Payment */}
+      <div className="flex flex-col 800px:flex-row gap-6 mb-6">
+        <div className="bg-[#fff0db] shadow rounded-[15px] p-4 flex-1">
+          <h4 className="font-[600] text-[18px] mb-2">Shipping Address</h4>
+          <p className="text-gray-600">
+            {data?.shippingAddress.address1} {data?.shippingAddress.address2}
+          </p>
+          <p className="text-gray-600">
+            {data?.shippingAddress.city}, {data?.shippingAddress.country}
+          </p>
+          <p className="text-gray-600">{data?.user?.phoneNumber}</p>
         </div>
-        <div className="w-full 800px:w-[40%]">
-          <h4 className="pt-3 text-[20px]">Payment Info:</h4>
-          <h4>
+        <div className="bg-[#fff0db] shadow rounded-[15px] p-4 flex-1">
+          <h4 className="font-[600] text-[18px] mb-2">Payment Info</h4>
+          <p className="text-gray-600">
             Status:{" "}
             {data?.paymentInfo?.status ? data?.paymentInfo?.status : "Not Paid"}
-          </h4>
+          </p>
         </div>
       </div>
-      <br />
-      <br />
-      <h4 className="pt-3 text-[20px] font-[600]">Order Status:</h4>
-      {data?.status !== "Processing refund" && data?.status !== "Refund Success" && (
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="w-[200px] mt-2 border h-[35px] rounded-[5px]"
-        >
-          {[
-            "Processing",
-            "Transferred to delivery partner",
-            "Shipping",
-            "Received",
-            "On the way",
-            "Delivered",
-          ]
-            .slice(
-              [
+
+      {/* Order Status */}
+      <div className="bg-[#fff0db] shadow rounded-[15px] p-4 mb-6">
+        <h4 className="font-[600] text-[18px] mb-2">Order Status</h4>
+
+        {data?.status !== "Processing refund" &&
+          data?.status !== "Refund Success" && (
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="w-full border h-[35px] rounded-[10px] p-2"
+            >
+              {[
                 "Processing",
                 "Transferred to delivery partner",
                 "Shipping",
                 "Received",
                 "On the way",
                 "Delivered",
-              ].indexOf(data?.status)
-            )
-            .map((option, index) => (
-              <option value={option} key={index}>
-                {option}
-              </option>
-            ))}
-        </select>
-      )}
-      {
-        data?.status === "Processing refund" || data?.status === "Refund Success" ? (
-          <select value={status} 
-       onChange={(e) => setStatus(e.target.value)}
-       className="w-[200px] mt-2 border h-[35px] rounded-[5px]"
-      >
-        {[
-            "Processing refund",
-            "Refund Success",
-          ]
-            .slice(
-              [
-                "Processing refund",
-                "Refund Success",
-              ].indexOf(data?.status)
-            )
-            .map((option, index) => (
-              <option value={option} key={index}>
-                {option}
-              </option>
-            ))}
-      </select>
-        ) : null
-      }
+              ]
+                .slice(
+                  [
+                    "Processing",
+                    "Transferred to delivery partner",
+                    "Shipping",
+                    "Received",
+                    "On the way",
+                    "Delivered",
+                  ].indexOf(data?.status)
+                )
+                .map((option, index) => (
+                  <option value={option} key={index}>
+                    {option}
+                  </option>
+                ))}
+            </select>
+          )}
 
-      <div
-        className={`${styles.button} mt-5 !bg-[#FCE1E6] !rounded-[4px] text-[#E94560] font-[600] !h-[45px] text-[18px]`}
-        onClick={data?.status !== "Processing refund" ? orderUpdateHandler : refundOrderUpdateHandler}
-      >
-        Update Status
+        {(data?.status === "Processing refund" ||
+          data?.status === "Refund Success") && (
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="w-full border h-[35px] rounded-[10px] p-2"
+          >
+            {["Processing refund", "Refund Success"]
+              .slice(
+                ["Processing refund", "Refund Success"].indexOf(data?.status)
+              )
+              .map((option, index) => (
+                <option value={option} key={index}>
+                  {option}
+                </option>
+              ))}
+          </select>
+        )}
+
+        <div
+          className={`${styles.button} mt-4 !bg-[#ff7e29] !rounded-[50px] text-white font-[600] !h-[45px] text-[18px] w-full text-center`}
+          onClick={
+            data?.status !== "Processing refund"
+              ? orderUpdateHandler
+              : refundOrderUpdateHandler
+          }
+        >
+          Update Status
+        </div>
       </div>
     </div>
   );

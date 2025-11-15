@@ -19,6 +19,9 @@ import { toast } from "react-toastify";
 import Ratings from "./Ratings";
 import axios from "axios";
 import "./ProductDetails.css";
+import { CgDetailsMore } from "react-icons/cg";
+import { FaEye } from "react-icons/fa";
+import { GoCodeReview } from "react-icons/go";
 
 const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -30,47 +33,33 @@ const ProductDetails = ({ data }) => {
   const [select, setSelect] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getAllProductsShop(data && data?.shop._id));
-    if (wishlist && wishlist.find((i) => i._id === data?._id)) {
-      setClick(true);
-    } else {
-      setClick(false);
-    }
+    setClick(wishlist && wishlist.find((i) => i._id === data?._id));
   }, [data, wishlist]);
 
-  const incrementCount = () => {
-    setCount(count + 1);
-  };
-
-  const decrementCount = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
-  };
+  const incrementCount = () => setCount(count + 1);
+  const decrementCount = () => count > 1 && setCount(count - 1);
 
   const removeFromWishlistHandler = (data) => {
-    setClick(!click);
+    setClick(false);
     dispatch(removeFromWishlist(data));
   };
 
   const addToWishlistHandler = (data) => {
-    setClick(!click);
+    setClick(true);
     dispatch(addToWishlist(data));
   };
 
   const addToCartHandler = (id) => {
     const isItemExists = cart && cart.find((i) => i._id === id);
-    if (isItemExists) {
-      toast.error("Item already in cart!");
-    } else {
-      if (data.stock < 1) {
-        toast.error("Product stock limited!");
-      } else {
-        const cartData = { ...data, qty: count };
-        dispatch(addTocart(cartData));
-        toast.success("Item added to cart successfully!");
-      }
+    if (isItemExists) toast.error("Item already in cart!");
+    else if (data.stock < 1) toast.error("Product stock limited!");
+    else {
+      const cartData = { ...data, qty: count };
+      dispatch(addTocart(cartData));
+      toast.success("Item added to cart successfully!");
     }
   };
 
@@ -86,169 +75,153 @@ const ProductDetails = ({ data }) => {
       0
     );
 
-  const avg = totalRatings / totalReviewsLength || 0;
-
-  const averageRating = avg.toFixed(2);
+  const averageRating = (totalRatings / totalReviewsLength || 0).toFixed(2);
 
   const handleMessageSubmit = async () => {
     if (isAuthenticated) {
       const groupTitle = data._id + user._id;
-      const userId = user._id;
-      const sellerId = data.shop._id;
       await axios
         .post(`${server}/conversation/create-new-conversation`, {
           groupTitle,
-          userId,
-          sellerId,
+          userId: user._id,
+          sellerId: data.shop._id,
         })
-        .then((res) => {
-          navigate(`/inbox?${res.data.conversation._id}`);
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
+        .then((res) => navigate(`/inbox?${res.data.conversation._id}`))
+        .catch((err) => toast.error(err.response.data.message));
     } else {
       toast.error("Please login to create a conversation");
     }
   };
 
   return (
-    <div className="bg-white">
-      {data ? (
-        <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
-          <div className="w-full py-5">
-            <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%] text-black p-7 mb-2 rounded-2xl h-80vh productCardDetails">
-                <img
-                  src={`${data && data.images[select]?.url}`}
-                  alt=""
-                  className="w-[80%]"
-                />
-                <div className="w-full flex">
-                  {data &&
-                    data.images.map((i, index) => (
-                      <div
-                        className={`${
-                          select === 0 ? "border" : "null"
-                        } cursor-pointer`}
-                      >
-                        <img
-                          src={`${i?.url}`}
-                          alt=""
-                          className="h-[200px] overflow-hidden mr-3 mt-3"
-                          onClick={() => setSelect(index)}
-                        />
-                      </div>
-                    ))}
-                  <div
-                    className={`${
-                      select === 1 ? "border" : "null"
-                    } cursor-pointer`}
-                  ></div>
-                </div>
+    <div className="bg-[#d4d4d4] py-8">
+      {data && (
+        <div className="w-[90%] 800px:w-[80%] mx-auto">
+          <div className="flex flex-col 800px:flex-row gap-8">
+            {/* Product Images */}
+            <div className="w-full 800px:w-1/2 flex flex-col items-center bg-[#fff2e3] rounded-[20px] shadow-lg p-3">
+              <img
+                src={data.images[select]?.url}
+                alt={data.name}
+                className="w-[90%] rounded-xl mb-4 shadow-md"
+              />
+              <div className="flex gap-3 overflow-x-auto overflow-y-hidden">
+                {data.images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img.url}
+                    alt="thumb"
+                    className={`h-[70px] w-[70px] object-cover rounded-lg cursor-pointer border-2 ${
+                      select === idx ? "border-[#ff7e29]" : "border-transparent"
+                    }`}
+                    onClick={() => setSelect(idx)}
+                  />
+                ))}
               </div>
-              <div className="w-full 800px:w-[50%] pt-5  text-black rounded-lg productCardDetails1">
-                <h1
-                  className={`${styles.productTitle} font-madimi pl-4 text-black`}
-                >
+            </div>
+
+            {/* Product Info */}
+            <div className="w-full 800px:w-1/2 flex flex-col items-center bg-[#fff2e3] rounded-[20px] shadow-lg p-3">
+              <div>
+                <h1 className="text-2xl 800px:text-3xl font-bold text-[#333]">
                   {data.name}
                 </h1>
-                <p className="text-justify pl-4 pr-4">{data.description}</p>
-                <div className="flex pt-3 pl-4">
-                  <h4 className={`${styles.productDiscountPrice} pl-4`}>
-                    {data.discountPrice}$
+                <p className="text-gray-600 mt-2">{data.description}</p>
+
+                <div className="flex items-center gap-4 mt-4">
+                  <h4 className="text-xl font-semibold text-[#ff7e29]">
+                    ${data.discountPrice}
                   </h4>
-                  <h3 className={`${styles.price} pl-4`}>
-                    {data.originalPrice ? data.originalPrice + "$" : null}
-                  </h3>
+                  {data.originalPrice && (
+                    <h3 className="text-gray-400 line-through">
+                      ${data.originalPrice}
+                    </h3>
+                  )}
                 </div>
 
-                <div className="flex items-center mt-12 justify-between pr-3 pl-4">
-                  <div>
+                <div className="flex items-center gap-4 mt-6">
+                  <div className="flex items-center border rounded-lg overflow-hidden">
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out pl-4"
+                      className="px-4 py-2 bg-[#ff7e29] text-white font-bold hover:opacity-80 transition"
                       onClick={decrementCount}
                     >
                       -
                     </button>
-                    <span className="pl-4 bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
+                    <span className="px-4 py-2 bg-gray-100 font-semibold">
                       {count}
                     </span>
                     <button
-                      className="pl-4 bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                      className="px-4 py-2 bg-[#ff7e29] text-white font-bold hover:opacity-80 transition"
                       onClick={incrementCount}
                     >
                       +
                     </button>
                   </div>
-                  <div>
+
+                  {/* Wishlist */}
+                  <div className="cursor-pointer">
                     {click ? (
                       <AiFillHeart
                         size={30}
-                        className="cursor-pointer"
+                        color="red"
                         onClick={() => removeFromWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
                         title="Remove from wishlist"
                       />
                     ) : (
                       <AiOutlineHeart
                         size={30}
-                        className="cursor-pointer"
                         onClick={() => addToWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
                         title="Add to wishlist"
                       />
                     )}
                   </div>
                 </div>
-                <div
-                  className={`${styles.button} mx-4 pl-4 mt-2 !rounded !h-11 flex items-center`}
+
+                {/* Add to cart */}
+                <button
                   onClick={() => addToCartHandler(data._id)}
+                  className="mt-4 w-full bg-[#ff7e29] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition flex justify-center items-center gap-2"
                 >
-                  <span className="mx-4 text-white flex items-center">
-                    Add to cart <AiOutlineShoppingCart className="ml-1" />
-                  </span>
-                </div>
-                <div className="pl-4 flex items-center pt-4">
-                  <Link to={`/shop/preview/${data?.shop._id}`}>
+                  Add to cart <AiOutlineShoppingCart />
+                </button>
+              </div>
+
+              {/* Shop Info */}
+              <div className="flex items-center justify-between mt-6 bg-[#fff3dd] p-4 rounded-xl shadow-sm">
+                <Link to={`/shop/preview/${data.shop._id}`}>
+                  <div className="flex items-center gap-3">
                     <img
-                      src={`${data?.shop?.avatar?.url}`}
-                      alt=""
-                      className="w-[50px] h-[50px] rounded-full mr-2"
+                      src={data.shop.avatar?.url}
+                      alt={data.shop.name}
+                      className="w-[50px] h-[50px] rounded-full"
                     />
-                  </Link>
-                  <div className="pr-8">
-                    <Link to={`/shop/preview/${data?.shop._id}`}>
-                      <h3 className={`${styles.shop_name} pb-1 pt-1`}>
-                        {data.shop.name}
-                      </h3>
-                    </Link>
-                    <h5 className="pb-3 text-[15px]">
-                      ({averageRating}/5) Ratings
-                    </h5>
+                    <div>
+                      <h3 className="font-semibold">{data.shop.name}</h3>
+                      <p className="text-sm text-gray-600">
+                        ({averageRating}/5) Ratings
+                      </p>
+                    </div>
                   </div>
-                  <div
-                    className={`${styles.button} bg-[#6443d1] mt-4 !rounded !h-11`}
-                    onClick={handleMessageSubmit}
-                  >
-                    <span className="text-white flex items-center">
-                      Send Message <AiOutlineMessage className="ml-1" />
-                    </span>
-                  </div>
-                </div>
+                </Link>
+                <button
+                  onClick={handleMessageSubmit}
+                  className="bg-[#6443d1] text-white px-4 py-2 rounded-xl hover:opacity-90 transition flex items-center gap-2"
+                >
+                  Send Message <AiOutlineMessage />
+                </button>
               </div>
             </div>
           </div>
+
+          {/* Tabs */}
           <ProductDetailsInfo
             data={data}
             products={products}
             totalReviewsLength={totalReviewsLength}
             averageRating={averageRating}
           />
-          <br />
-          <br />
         </div>
-      ) : null}
+      )}
     </div>
   );
 };
@@ -260,135 +233,108 @@ const ProductDetailsInfo = ({
   averageRating,
 }) => {
   const [active, setActive] = useState(1);
+  const tabs = [
+    { title: "Product Details", icon: CgDetailsMore },
+    { title: "Product Reviews", icon: GoCodeReview },
+    { title: "Seller Information", icon: FaEye },
+  ];
 
   return (
-    <div className="px-3 800px:px-10 py-2 rounded text-black">
-      <div className="w-full flex justify-between border-b pt-10 pb-2 rounded-2xl">
-        <div className="relative">
-          <h5
-            className={
-              "text-black text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
-            }
-            onClick={() => setActive(1)}
-          >
-            Product Details
-          </h5>
-          {active === 1 ? (
-            <div className={`${styles.active_indicator}`} />
-          ) : null}
-        </div>
-        <div className="relative">
-          <h5
-            className={
-              "text-black text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
-            }
-            onClick={() => setActive(2)}
-          >
-            Product Reviews
-          </h5>
-          {active === 2 ? (
-            <div className={`${styles.active_indicator}`} />
-          ) : null}
-        </div>
-        <div className="relative">
-          <h5
-            className={
-              "text-black text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
-            }
-            onClick={() => setActive(3)}
-          >
-            Seller Information
-          </h5>
-          {active === 3 ? (
-            <div className={`${styles.active_indicator}`} />
-          ) : null}
-        </div>
+    <div className="mt-8 p-2 800px:px-10 bg-[#fff2e3] rounded-3xl shadow-lg">
+      <div className="flex justify-between gap-6 border-b p-3 rounded-[50px] bg-[#ff7e29] text-white">
+        {tabs.map((tab, idx) => {
+          const Icon = tab.icon;
+          return (
+            <div
+              key={idx}
+              className="relative group cursor-pointer flex items-center justify-center w-12 h-12 sm:w-auto sm:h-auto"
+              onClick={() => setActive(idx + 1)}
+            >
+              {/* Text - hidden on mobile */}
+              <span className="hidden sm:inline transition-opacity duration-300 group-hover:opacity-0 font-semibold text-lg text-white">
+                {tab.title}
+              </span>
+
+              {/* Icon - visible on mobile, appears on hover on desktop */}
+              <span className="flex items-center justify-center sm:absolute sm:inset-0 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
+                <Icon size={20} />
+              </span>
+
+              {/* Underline */}
+              <span
+                className={`absolute bottom-0 left-0 h-[3px] bg-white rounded-full transition-all duration-300 ${
+                  active === idx + 1 ? "w-full" : "group-hover:w-full w-0"
+                }`}
+              ></span>
+            </div>
+          );
+        })}
       </div>
-      {active === 1 ? (
-        <>
-          <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line">
-            {data.description}
-          </p>
-        </>
-      ) : null}
 
-      {active === 2 ? (
-        <div className="w-full min-h-[40vh] flex flex-col items-center py-3 overflow-y-scroll">
-          {data &&
-            data.reviews.map((item, index) => (
-              <div className="w-full flex my-2">
-                <img
-                  src={`${item.user.avatar?.url}`}
-                  alt=""
-                  className="w-[50px] h-[50px] rounded-full"
-                />
-                <div className="pl-2 ">
-                  <div className="w-full flex items-center">
-                    <h1 className="font-[500] mr-3">{item.user.name}</h1>
-                    <Ratings rating={data?.ratings} />
+      {/* Tab Contents */}
+      <div className="mt-6">
+        {active === 1 && (
+          <p className="text-gray-700 leading-7">{data.description}</p>
+        )}
+
+        {active === 2 && (
+          <div className="flex flex-col gap-4 max-h-[40vh] overflow-y-auto">
+            {data.reviews.length ? (
+              data.reviews.map((review, idx) => (
+                <div
+                  key={idx}
+                  className="flex gap-3 items-start bg-[#fff3dd] p-3 rounded-xl shadow-sm"
+                >
+                  <img
+                    src={review.user.avatar?.url}
+                    alt={review.user.name}
+                    className="w-[50px] h-[50px] rounded-full"
+                  />
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-semibold">{review.user.name}</h4>
+                      <Ratings rating={review.rating} />
+                    </div>
+                    <p className="text-gray-600">{review.comment}</p>
                   </div>
-                  <p>{item.comment}</p>
                 </div>
-              </div>
-            ))}
-
-          <div className="w-full flex justify-center">
-            {data && data.reviews.length === 0 && (
-              <h5>No Reviews have for this product!</h5>
+              ))
+            ) : (
+              <h5 className="text-center text-gray-500">
+                No Reviews for this product!
+              </h5>
             )}
           </div>
-        </div>
-      ) : null}
+        )}
 
-      {active === 3 && (
-        <div className="w-full block 800px:flex p-5">
-          <div className="w-full 800px:w-[50%]">
-            <Link to={`/shop/preview/${data.shop._id}`}>
-              <div className="flex items-center">
-                <img
-                  src={`${data?.shop?.avatar?.url}`}
-                  className="w-[50px] h-[50px] rounded-full"
-                  alt=""
-                />
-                <div className="pl-3">
-                  <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
-                  <h5 className="pb-2 text-[15px]">
-                    ({averageRating}/5) Ratings
-                  </h5>
-                </div>
+        {active === 3 && (
+          <div className="flex flex-col 800px:flex-row gap-6 mt-4 bg-[#fff3dd] p-5 rounded-xl shadow-sm">
+            <div className="flex items-center gap-4">
+              <img
+                src={data.shop.avatar?.url}
+                alt={data.shop.name}
+                className="w-[60px] h-[60px] rounded-full"
+              />
+              <div>
+                <h3 className="font-semibold">{data.shop.name}</h3>
+                <p className="text-gray-600">{data.shop.description}</p>
+                <p className="text-gray-500 text-sm">
+                  Joined on: {data.shop?.createdAt?.slice(0, 10)}
+                </p>
+                <p className="text-gray-500 text-sm">
+                  Total Products: {products.length} | Total Reviews:{" "}
+                  {totalReviewsLength}
+                </p>
               </div>
-            </Link>
-            <p className="pt-2">{data.shop.description}</p>
-          </div>
-          <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
-            <div className="text-left">
-              <h5 className="font-[600]">
-                Joined on:{" "}
-                <span className="font-[500]">
-                  {data.shop?.createdAt?.slice(0, 10)}
-                </span>
-              </h5>
-              <h5 className="font-[600] pt-3">
-                Total Products:{" "}
-                <span className="font-[500]">
-                  {products && products.length}
-                </span>
-              </h5>
-              <h5 className="font-[600] pt-3">
-                Total Reviews:{" "}
-                <span className="font-[500]">{totalReviewsLength}</span>
-              </h5>
-              <Link to="/">
-                <div
-                  className={`${styles.button} !rounded-[4px] !h-[39.5px] mt-3`}
-                >
-                  <h4 className="text-white">Visit Shop</h4>
-                </div>
-              </Link>
             </div>
+            <Link to="/">
+              <button className="mt-4 800px:mt-0 bg-[#ff7e29] text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
+                Visit Shop
+              </button>
+            </Link>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

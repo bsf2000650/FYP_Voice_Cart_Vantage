@@ -14,7 +14,7 @@ const AllCoupons = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [coupouns,setCoupouns] = useState([]);
+  const [coupouns, setCoupouns] = useState([]);
   const [minAmount, setMinAmout] = useState(null);
   const [maxAmount, setMaxAmount] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -40,9 +40,11 @@ const AllCoupons = () => {
   }, [dispatch]);
 
   const handleDelete = async (id) => {
-    axios.delete(`${server}/coupon/delete-coupon/${id}`,{withCredentials: true}).then((res) => {
-      toast.success("Coupon code deleted succesfully!")
-    })
+    axios
+      .delete(`${server}/coupon/delete-coupon/${id}`, { withCredentials: true })
+      .then((res) => {
+        toast.success("Coupon code deleted succesfully!");
+      });
     window.location.reload();
   };
 
@@ -63,9 +65,9 @@ const AllCoupons = () => {
         { withCredentials: true }
       )
       .then((res) => {
-       toast.success("Coupon code created successfully!");
-       setOpen(false);
-       window.location.reload();
+        toast.success("Coupon code created successfully!");
+        setOpen(false);
+        window.location.reload();
       })
       .catch((error) => {
         toast.error(error.response.data.message);
@@ -108,7 +110,7 @@ const AllCoupons = () => {
   const row = [];
 
   coupouns &&
-  coupouns.forEach((item) => {
+    coupouns.forEach((item) => {
       row.push({
         id: item._id,
         name: item.name,
@@ -122,10 +124,10 @@ const AllCoupons = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full mx-8 pt-1 mt-10 bg-white">
+        <div className="w-full mx-4 sm:mx-8 pt-1 mt-5 rounded-[20px] bg-[#fff0db]">
           <div className="w-full flex justify-end">
             <div
-              className={`${styles.button} !w-max !h-[45px] px-3 !rounded-[5px] mr-3 mb-3`}
+              className={`${styles.button} !w-max !h-[45px] px-3 !rounded-[50px] mr-3 mb-3`}
               onClick={() => setOpen(true)}
             >
               <span className="text-white">Create Coupon Code</span>
@@ -139,23 +141,28 @@ const AllCoupons = () => {
             autoHeight
           />
           {open && (
-            <div className="fixed top-0 left-0 w-full h-screen bg-[#00000062] z-[20000] flex items-center justify-center">
-              <div className="w-[90%] 800px:w-[40%] h-[80vh] bg-white rounded-md shadow p-4">
+            <div className="fixed top-0 left-0 w-full h-screen bg-[#00000062] z-[20000] flex items-center justify-center p-5">
+              <div className="w-full max-w-[600px] max-h-[90vh] bg-[#fff0db] rounded-[20px] shadow p-6 overflow-y-auto">
+                {/* Close Button */}
                 <div className="w-full flex justify-end">
                   <RxCross1
                     size={30}
                     className="cursor-pointer"
                     onClick={() => setOpen(false)}
+                    color="#ff7e29"
                   />
                 </div>
-                <h5 className="text-[30px] font-Poppins text-center">
-                  Create Coupon code
+
+                {/* Heading */}
+                <h5 className="text-[30px] font-Poppins text-center text-[#ff7f29] mb-6">
+                  Create Coupon Code
                 </h5>
-                {/* create coupoun code */}
-                <form onSubmit={handleSubmit} aria-required={true}>
-                  <br />
+
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Name */}
                   <div>
-                    <label className="pb-2">
+                    <label className="block mb-2 text-[#ff7f29]">
                       Name <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -163,60 +170,70 @@ const AllCoupons = () => {
                       name="name"
                       required
                       value={name}
-                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      className="w-full px-6 py-3 border border-gray-300 rounded-[50px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ff7f29] sm:text-sm"
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Enter your coupon code name..."
                     />
                   </div>
-                  <br />
+
+                  {/* Discount Percentage */}
                   <div>
-                    <label className="pb-2">
-                      Discount Percentenge{" "}
+                    <label className="block mb-2 text-[#ff7f29]">
+                      Discount Percentage{" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       name="value"
-                      value={value}
                       required
-                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      value={value}
+                      className="w-full px-6 py-3 border border-gray-300 rounded-[50px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ff7f29] sm:text-sm"
                       onChange={(e) => setValue(e.target.value)}
                       placeholder="Enter your coupon code value..."
                     />
                   </div>
-                  <br />
+
+                  {/* Min Amount */}
                   <div>
-                    <label className="pb-2">Min Amount</label>
+                    <label className="block mb-2 text-[#ff7f29]">
+                      Min Amount
+                    </label>
                     <input
                       type="number"
-                      name="value"
+                      name="minAmount"
                       value={minAmount}
-                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      className="w-full px-6 py-3 border border-gray-300 rounded-[50px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ff7f29] sm:text-sm"
                       onChange={(e) => setMinAmout(e.target.value)}
                       placeholder="Enter your coupon code min amount..."
                     />
                   </div>
-                  <br />
+
+                  {/* Max Amount */}
                   <div>
-                    <label className="pb-2">Max Amount</label>
+                    <label className="block mb-2 text-[#ff7f29]">
+                      Max Amount
+                    </label>
                     <input
                       type="number"
-                      name="value"
+                      name="maxAmount"
                       value={maxAmount}
-                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      className="w-full px-6 py-3 border border-gray-300 rounded-[50px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ff7f29] sm:text-sm"
                       onChange={(e) => setMaxAmount(e.target.value)}
                       placeholder="Enter your coupon code max amount..."
                     />
                   </div>
-                  <br />
+
+                  {/* Selected Product */}
                   <div>
-                    <label className="pb-2">Selected Product</label>
+                    <label className="block mb-2 text-[#ff7f29]">
+                      Selected Product
+                    </label>
                     <select
-                      className="w-full mt-2 border h-[35px] rounded-[5px]"
+                      className="w-full px-6 py-3 border border-gray-300 rounded-[50px] focus:outline-none focus:ring-2 focus:ring-[#ff7f29] sm:text-sm"
                       value={selectedProducts}
                       onChange={(e) => setSelectedProducts(e.target.value)}
                     >
-                      <option value="Choose your selected products">
+                      <option value="" className="text-gray-400">
                         Choose a selected product
                       </option>
                       {products &&
@@ -227,12 +244,13 @@ const AllCoupons = () => {
                         ))}
                     </select>
                   </div>
-                  <br />
+
+                  {/* Submit */}
                   <div>
                     <input
                       type="submit"
                       value="Create"
-                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      className="w-full py-3 px-6 bg-[#ff7f29] text-white font-semibold text-lg rounded-[50px] cursor-pointer hover:bg-[#e56f1f] transition-all"
                     />
                   </div>
                 </form>

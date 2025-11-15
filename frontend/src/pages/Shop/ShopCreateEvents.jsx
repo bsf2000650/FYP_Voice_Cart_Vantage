@@ -1,22 +1,27 @@
-import React from 'react'
-import DashboardHeader from '../../components/Shop/Layout/DashboardHeader'
+import React from "react";
+import DashboardSideBar from "../../components/Shop/Layout/DashboardSideBar";
 import CreateEvent from "../../components/Shop/CreateEvent";
-import DashboardSideBar from '../../components/Shop/Layout/DashboardSideBar';
+import ShopMobNavbar from "./ShopMobNavbar";
 
 const ShopCreateEvents = () => {
   return (
-    <div>
-        <DashboardHeader />
-        <div className="flex items-center justify-between w-full">
-      <div className="w-[330px]">
+    <div className="flex w-full">
+      {/* Sidebar for desktop */}
+      <div className="hidden 800px:block w-[25%]">
         <DashboardSideBar active={6} />
       </div>
-      <div className="w-full justify-center flex">
+
+      {/* Main content */}
+      <div className="w-full 800px:w-[70%] flex justify-center">
         <CreateEvent />
       </div>
-    </div>
-    </div>
-  )
-}
 
-export default ShopCreateEvents
+      {/* Mobile Navbar */}
+      <div className="block 800px:hidden">
+        <ShopMobNavbar />
+      </div>
+    </div>
+  );
+};
+
+export default ShopCreateEvents;

@@ -2,16 +2,18 @@ import { Button } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {  AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { server } from "../../server";
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
   useEffect(() => {
-   axios.get(`${server}/event/admin-all-events`, {withCredentials: true}).then((res) =>{
-    setEvents(res.data.events);
-   })
+    axios
+      .get(`${server}/event/admin-all-events`, { withCredentials: true })
+      .then((res) => {
+        setEvents(res.data.events);
+      });
   }, []);
 
   const columns = [
@@ -78,7 +80,7 @@ const AllEvents = () => {
     });
 
   return (
-    <div className="w-full mx-8 pt-1 mt-10 bg-white">
+    <div className="w-full mx-8 pt-1 ml-[10px] sm:ml-[50px] mt-[10px] sm:mt-[40px] mb-[60px] sm:pb-0 mr-[14px] bg-[#fff0db] rounded-[20px]">
       <DataGrid
         rows={row}
         columns={columns}

@@ -1,171 +1,168 @@
-@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
-.reviews img{
-    width: 100%;
-    height: 80vh;
-    border-radius: 22px
+@import url("https://fonts.googleapis.com/css2?family=Madimi+One&display=swap");
+.reviews img {
+  width: 100%;
+  height: 80vh;
+  border-radius: 22px;
 }
 .slick-slider .slick-list .slick-track .slick-slide {
-    width: 4%;
+  width: 4%;
 }
 
-.slick-carousel , .slick-carousel-testimonials{
-    color: #fff;
-    width: 85vw;
-    margin: auto;
-    
+.slick-carousel,
+.slick-carousel-testimonials {
+  color: #fff;
+  width: 85vw;
+  margin: auto;
 }
 .slick-dots {
-    position: absolute;
-    bottom: -25px;
-    display: block;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    text-align: center;
-    display: block;
-    /* background: black; */
-    width: 125%;
-    margin-left: -165px;
-    height: 25px;
+  position: absolute;
+  bottom: -25px;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  display: block;
+  /* background: black; */
+  width: 125%;
+  margin-left: -165px;
+  height: 25px;
 }
-
 
 .box {
-    /* background-color: lightgreen; */
-    height: 200px;
+  /* background-color: lightgreen; */
+  height: 200px;
 }
 .box h3 {
-    text-align: center;
+  text-align: center;
 }
 
 .slick-slide div {
-    margin: 0 1rem;
+  margin: 0 1rem;
 }
 
 .slick-next {
-    right: -40px !important;
+  right: -40px !important;
 }
 
 .slick-carousel img {
-    width:  400px;
-    height: 130px;
+  width: 400px;
+  height: 130px;
 }
 
 .testimonials {
-    background: rgb(100, 96, 96);
-    margin-bottom: 70px;
-    margin-top: 10px;
-    border-radius: 20px;
-    width: 100%;
-    height: 120vh;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+  background: #ff7e29;
+  margin-bottom: 70px;
+  margin-top: 10px;
+  border-radius: 20px;
+  width: 100%;
+  height: 80vh;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
 }
 
 .slick-carousel-testimonials {
-    width: 80%;
-    height: auto;
+  width: 80%;
+  height: auto;
 }
-.testimonials h1{
-    color: #f6f6f5;
-    text-align: center;
-    font-size: 45px;
-    padding: 10px 0px 10px 0px;
-    font-family: "Madimi One", sans-serif;
-    font-weight: 400;
-    font-style: normal
+.testimonials h1 {
+  color: #f6f6f5;
+  text-align: center;
+  font-size: 45px;
+  padding: 10px 0px 10px 0px;
+  font-family: "Madimi One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 .reviews h3 {
-    font-size: 26px;
+  font-size: 26px;
 }
-.reviews h3, .reviews p {
-    text-align: center;
-    margin: 0px 0px 30px 0px;
-    /* font-family:  'Montserrat', Arial, Helvetica, sans-serif; */
-    font-family: 'Source Sans Pro';
+.reviews h3,
+.reviews p {
+  text-align: center;
+  margin: 0px 0px 30px 0px;
+  /* font-family:  'Montserrat', Arial, Helvetica, sans-serif; */
+  font-family: "Source Sans Pro";
 }
 .reviews p {
-    margin: 20px 100px 0px 100px;
-    font-size: 15px;
-    line-height: 25px;
-    font-size: 16px;
+  margin: 20px 100px 0px 100px;
+  font-size: 15px;
+  line-height: 25px;
+  font-size: 16px;
 }
-.testimonials .slick-carousel-testimonials .slick-prev, .slick-next {
-    font-size: 0;
-    line-height: 0;
-    position: absolute;
-    top: 40%;
-    display: block;
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    transform: translate(0, -50%);
-    cursor: pointer;
-    color: transparent;
-    border: none;
-    outline: none;
-    background: transparent;
+.testimonials .slick-carousel-testimonials .slick-prev,
+.slick-next {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 40%;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  transform: translate(0, -50%);
+  cursor: pointer;
+  color: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 .testimonials .slick-carousel-testimonials .slick-prev:before {
-    content: "<";
-    font-family: 'FontAwesome';
-    font-size: 22px;
-    border: 2px solid #80848c;
-    padding: 10px;
-    color: #80848c;
-
-} 
+  content: "<";
+  font-family: "FontAwesome";
+  font-size: 22px;
+  border: 2px solid #80848c;
+  padding: 10px;
+  color: #80848c;
+}
 .testimonials .slick-carousel-testimonials .slick-prev:hover:before,
 .testimonials .slick-carousel-testimonials .slick-next:hover:before {
-    border: 2px solid #97B325;
-    background-color: #97B325;
-    transition: linear 0.3s;
-    color: white;
+  border: 2px solid #97b325;
+  background-color: #97b325;
+  transition: linear 0.3s;
+  color: white;
 }
 .testimonials .slick-carousel-testimonials .slick-next:before {
-    content: ">";
-    font-family: 'FontAwesome';
-    font-size: 22px;
-    border: 2px solid #80848c;
-    padding: 10px;
-    color: #80848c;
+  content: ">";
+  font-family: "FontAwesome";
+  font-size: 22px;
+  border: 2px solid #80848c;
+  padding: 10px;
+  color: #80848c;
 }
-.testimonials .slick-carousel-testimonials  
-.slick-slider .slick-list {
-    height: 83vh;
+.testimonials .slick-carousel-testimonials .slick-slider .slick-list {
+  height: 83vh;
 }
-.key-clients .slick-carousel-key-clients 
-.slick-slider .slick-list {
-    height: 44vh;
+.key-clients .slick-carousel-key-clients .slick-slider .slick-list {
+  height: 44vh;
 }
 .key-clients {
-    margin: 0px 90px;
+  margin: 0px 90px;
 }
-.testimonials .slick-carousel-testimonials .slick-dots li button{
-    width: 30%;
-    height: auto;
+.testimonials .slick-carousel-testimonials .slick-dots li button {
+  width: 30%;
+  height: auto;
 }
 .stars {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 0px 9px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0px 9px 0px;
 }
 .fa-star {
-    /* color: yellow; */
-    color: #ffb900;
-    font-size: 20px;
+  /* color: yellow; */
+  color: #ffb900;
+  font-size: 20px;
 }
 .social-media {
-    margin-top: 12px;
-    font-size: 33px;
-    /* margin-right: 12px; */
-    margin-left: 14px;
+  margin-top: 12px;
+  font-size: 33px;
+  /* margin-right: 12px; */
+  margin-left: 14px;
 }
 
-@media screen and (max-width:400px) {
-    .testimonials .slick-carousel-testimonials .slick-next:before {
-        margin-left: -41px;
-    }  
+@media screen and (max-width: 400px) {
+  .testimonials .slick-carousel-testimonials .slick-next:before {
+    margin-left: -41px;
+  }
 }
-

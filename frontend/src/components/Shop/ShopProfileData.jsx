@@ -6,6 +6,9 @@ import styles from "../../styles/styles";
 import ProductCard from "../Route/ProductCard/ProductCard";
 import Ratings from "../Products/Ratings";
 import { getAllEventsShop } from "../../redux/actions/event";
+import { GrCube } from "react-icons/gr";
+import { MdEvent } from "react-icons/md";
+import { GoCodeReview } from "react-icons/go";
 
 const ShopProfileData = ({ isOwner }) => {
   const { products } = useSelector((state) => state.products);
@@ -26,59 +29,109 @@ const ShopProfileData = ({ isOwner }) => {
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between flex-col">
-        <div className="w-full flex">
-          <div className="flex items-center" onClick={() => setActive(1)}>
+        {/* Tabs Section */}
+        <div className="w-full flex justify-center gap-6 mt-2">
+          {/* Shop Products */}
+          <div
+            className="relative group flex items-center justify-center cursor-pointer"
+            onClick={() => setActive(1)}
+          >
+            {/* Text (hidden on mobile, and hidden if active) */}
             <h5
-              className={`font-[600] text-[20px] ${
-                active === 1 ? "text-red-500" : "text-[#333]"
+              className={`hidden sm:block font-[600] text-[20px] transition-opacity duration-300 ${
+                active === 1
+                  ? "opacity-0"
+                  : "opacity-100 group-hover:opacity-0 text-[#333]"
               } cursor-pointer pr-[20px]`}
             >
               Shop Products
             </h5>
+
+            {/* Icon (always visible on mobile, visible on hover/active on desktop) */}
+            <span
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+                active === 1
+                  ? "text-red-500 opacity-100"
+                  : "text-[#333] opacity-100 sm:opacity-0 group-hover:opacity-100"
+              }`}
+            >
+              <GrCube size={22} color="#ff7e29" />
+            </span>
           </div>
-          <div className="flex items-center" onClick={() => setActive(2)}>
+
+          {/* Running Events */}
+          <div
+            className="relative group flex items-center justify-center cursor-pointer"
+            onClick={() => setActive(2)}
+          >
             <h5
-              className={`font-[600] text-[20px] ${
-                active === 2 ? "text-red-500" : "text-[#333]"
+              className={`hidden sm:block font-[600] text-[20px] transition-opacity duration-300 ${
+                active === 2
+                  ? "opacity-0"
+                  : "opacity-100 group-hover:opacity-0 text-[#333]"
               } cursor-pointer pr-[20px]`}
             >
               Running Events
             </h5>
+
+            <span
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+                active === 2
+                  ? "text-red-500 opacity-100"
+                  : "text-[#333] opacity-100 sm:opacity-0 group-hover:opacity-100"
+              }`}
+            >
+              <MdEvent size={22} color="#ff7e29" />
+            </span>
           </div>
 
-          <div className="flex items-center" onClick={() => setActive(3)}>
+          {/* Shop Reviews */}
+          <div
+            className="relative group flex items-center justify-center cursor-pointer"
+            onClick={() => setActive(3)}
+          >
             <h5
-              className={`font-[600] text-[20px] ${
-                active === 3 ? "text-red-500" : "text-[#333]"
+              className={`hidden sm:block font-[600] text-[20px] transition-opacity duration-300 ${
+                active === 3
+                  ? "opacity-0"
+                  : "opacity-100 group-hover:opacity-0 text-[#333]"
               } cursor-pointer pr-[20px]`}
             >
               Shop Reviews
             </h5>
+
+            <span
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+                active === 3
+                  ? "text-red-500 opacity-100"
+                  : "text-[#333] opacity-100 sm:opacity-0 group-hover:opacity-100"
+              }`}
+            >
+              <GoCodeReview size={22} color="#ff7e29" />
+            </span>
           </div>
         </div>
-        <div>
+
+        {/* Dashboard Button */}
+        <div className="mt-4">
           {isOwner && (
-            <div>
-              <Link to="/dashboard">
-                <div className={`${styles.button} !rounded-[4px] h-[42px]`}>
-                  <span className="text-[#fff]">Go Dashboard</span>
-                </div>
-              </Link>
-            </div>
+            <Link to="/dashboard">
+              <div className={`${styles.button} !rounded-[50px] h-[42px]`}>
+                <span className="text-[#fff]">Go Dashboard</span>
+              </div>
+            </Link>
           )}
         </div>
       </div>
-
       <br />
       {active === 1 && (
-        <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] xl:grid-cols-4 xl:gap-[20px] mb-12 border-0">
+        <div className="grid grid-cols-1 p-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] xl:grid-cols-4 xl:gap-[20px] mb-12 border-0">
           {products &&
             products.map((i, index) => (
               <ProductCard data={i} key={index} isShop={true} />
             ))}
         </div>
       )}
-
       {active === 2 && (
         <div className="w-full">
           <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] xl:grid-cols-4 xl:gap-[20px] mb-12 border-0">
@@ -99,7 +152,6 @@ const ShopProfileData = ({ isOwner }) => {
           )}
         </div>
       )}
-
       {active === 3 && (
         <div className="w-full">
           {allReviews &&

@@ -16,6 +16,11 @@ import { server } from "../../server";
 import { toast } from "react-toastify";
 import { RxCross1 } from "react-icons/rx";
 import "../Checkout/Checkout.css";
+import {
+  AiOutlineCreditCard,
+  AiOutlineCalendar,
+  AiOutlineLock,
+} from "react-icons/ai";
 
 const Payment = () => {
   const [orderData, setOrderData] = useState([]);
@@ -208,117 +213,114 @@ const PaymentInfo = ({
   cashOnDeliveryHandler,
 }) => {
   const [select, setSelect] = useState(1);
+  const inputClass =
+    "w-full pl-12 py-2 rounded-[50px] border-none focus:border-[#ff7e29] focus:outline-none hover:border-[#ff7e29] text-[#444]";
 
   return (
-    <div className="w-full 800px:w-[95%] bg-[#fff] rounded-md p-5 pb-8">
+    <div className="w-full 800px:w-[95%] bg-[#fff0db] rounded-[25px] p-5 pb-8">
       {/* select buttons */}
-      <div>
-        <div className="flex w-full pb-5 border-b mb-2">
+      <div className="w-full 800px:w-[95%] bg-[#fff0db] rounded-[25px] pb-8">
+        {/* select buttons */}
+        <div>
           <div
-            className="w-[25px] h-[25px] rounded-full bg-transparent border-[3px] border-[#1d1a1ab4] relative flex items-center justify-center"
+            className={`flex w-full pb-5 mb-2 items-center ${
+              select === 1 ? "border-[#ff7f29]" : "border-[#1d1a1ab4]"
+            }`}
             onClick={() => setSelect(1)}
           >
-            {select === 1 ? (
-              <div className="w-[13px] h-[13px] bg-[#1d1a1acb] rounded-full" />
-            ) : null}
+            <div className="w-[25px] h-[25px] rounded-full bg-transparent border-[3px] border-[#ff7f29] relative flex items-center justify-center">
+              {select === 1 && (
+                <div className="w-[13px] h-[13px] bg-[#ff7f29] rounded-full" />
+              )}
+            </div>
+            <h4
+              className={`text-[18px] pl-2 font-[600] ${
+                select === 1 ? "text-[#ff7f29]" : "text-[#000000b1]"
+              }`}
+            >
+              Pay with Debit/credit card
+            </h4>
           </div>
-          <h4 className="text-[18px] pl-2 font-[600] text-[#000000b1]">
-            Pay with Debit/credit card
-          </h4>
+
+          {/* pay with card */}
+          {select === 1 ? (
+            <div className="w-full flex border-b">
+              <form className="w-full" onSubmit={paymentHandler}>
+                <div className="w-full flex pb-3 checkout-form">
+                  <div className="w-[50%] checkout-form-label relative">
+                    <AiOutlineCreditCard className="absolute top-1/2 left-4 -translate-y-1/2 text-[#ff7e29] text-xl" />
+                    <input
+                      required
+                      placeholder={user ? user.name : "Name on Card"}
+                      className={`${inputClass} !w-[95%] text-[#444]`}
+                      value={user && user.name}
+                    />
+                  </div>
+                  <div className="w-[50%] checkout-form-label relative">
+                    <AiOutlineCalendar className="absolute top-1/2 left-4 -translate-y-1/2 text-[#ff7e29] text-xl" />
+                    <CardExpiryElement
+                      className={`${inputClass}`}
+                      options={{
+                        style: {
+                          base: {
+                            fontSize: "19px",
+                            lineHeight: 1.5,
+                            color: "#444",
+                            "::placeholder": { color: "#444" },
+                          },
+                        },
+                      }}
+                      placeholder="Exp Date"
+                    />
+                  </div>
+                </div>
+
+                <div className="w-full flex pb-3 checkout-form">
+                  <div className="w-[50%] checkout-form-label relative">
+                    <AiOutlineCreditCard className="absolute top-1/2 left-4 -translate-y-1/2 text-[#ff7e29] text-xl" />
+                    <CardNumberElement
+                      className={`${inputClass} !h-[35px] !w-[95%]`}
+                      options={{
+                        style: {
+                          base: {
+                            fontSize: "19px",
+                            lineHeight: 1.5,
+                            color: "#444",
+                            "::placeholder": { color: "#444" },
+                          },
+                        },
+                      }}
+                      placeholder="Card Number"
+                    />
+                  </div>
+                  <div className="w-[50%] checkout-form-label relative">
+                    <AiOutlineLock className="absolute top-1/2 left-4 -translate-y-1/2 text-[#ff7e29] text-xl" />
+                    <CardCvcElement
+                      className={`${inputClass} !h-[35px]`}
+                      options={{
+                        style: {
+                          base: {
+                            fontSize: "19px",
+                            lineHeight: 1.5,
+                            color: "#444",
+                            "::placeholder": { color: "#444" },
+                          },
+                        },
+                      }}
+                      placeholder="CVV"
+                    />
+                  </div>
+                </div>
+
+                <input
+                  type="submit"
+                  value="Submit"
+                  className={`${styles.button} !bg-[#ff7f29] text-[#fff] h-[45px] !rounded-[50px] cursor-pointer text-[18px] font-[600]`}
+                />
+              </form>
+            </div>
+          ) : null}
         </div>
-
-        {/* pay with card */}
-        {select === 1 ? (
-          <div className="w-full flex border-b">
-            <form className="w-full" onSubmit={paymentHandler}>
-              <div className="w-full flex pb-3 checkout-form">
-                <div className="w-[50%] checkout-form-label">
-                  <label className="block pb-2">Name On Card</label>
-                  <input
-                    required
-                    placeholder={user && user.name}
-                    className={`${styles.input} !w-[95%] text-[#444]`}
-                    value={user && user.name}
-                  />
-                </div>
-                <div className="w-[50%] checkout-form-label">
-                  <label className="block pb-2">Exp Date</label>
-                  <CardExpiryElement
-                    className={`${styles.input}`}
-                    options={{
-                      style: {
-                        base: {
-                          fontSize: "19px",
-                          lineHeight: 1.5,
-                          color: "#444",
-                        },
-                        empty: {
-                          color: "#3a120a",
-                          backgroundColor: "transparent",
-                          "::placeholder": {
-                            color: "#444",
-                          },
-                        },
-                      },
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="w-full flex pb-3 checkout-form">
-                <div className="w-[50%] checkout-form-label">
-                  <label className="block pb-2">Card Number</label>
-                  <CardNumberElement
-                    className={`${styles.input} !h-[35px] !w-[95%]`}
-                    options={{
-                      style: {
-                        base: {
-                          fontSize: "19px",
-                          lineHeight: 1.5,
-                          color: "#444",
-                        },
-                        empty: {
-                          color: "#3a120a",
-                          backgroundColor: "transparent",
-                          "::placeholder": {
-                            color: "#444",
-                          },
-                        },
-                      },
-                    }}
-                  />
-                </div>
-                <div className="w-[50%] checkout-form-label">
-                  <label className="block pb-2">CVV</label>
-                  <CardCvcElement
-                    className={`${styles.input} !h-[35px]`}
-                    options={{
-                      style: {
-                        base: {
-                          fontSize: "19px",
-                          lineHeight: 1.5,
-                          color: "#444",
-                        },
-                        empty: {
-                          color: "#3a120a",
-                          backgroundColor: "transparent",
-                          "::placeholder": {
-                            color: "#444",
-                          },
-                        },
-                      },
-                    }}
-                  />
-                </div>
-              </div>
-              <input
-                type="submit"
-                value="Submit"
-                className={`${styles.button} !bg-[#ff7f29] text-[#fff] h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
-              />
-            </form>
-          </div>
-        ) : null}
       </div>
 
       <br />
@@ -326,14 +328,14 @@ const PaymentInfo = ({
       <div>
         <div className="flex w-full pb-5 border-b mb-2">
           <div
-            className="w-[25px] h-[25px] rounded-full bg-transparent border-[3px] border-[#1d1a1ab4] relative flex items-center justify-center"
+            className="w-[25px] h-[25px] rounded-full bg-transparent border-[3px] border-[#ff7e29] relative flex items-center justify-center"
             onClick={() => setSelect(2)}
           >
             {select === 2 ? (
-              <div className="w-[13px] h-[13px] bg-[#1d1a1acb] rounded-full" />
+              <div className="w-[13px] h-[13px] bg-[#ff7e29] rounded-full" />
             ) : null}
           </div>
-          <h4 className="text-[18px] pl-2 font-[600] text-[#000000b1]">
+          <h4 className="text-[18px] pl-2 font-[600] text-[#ff7e29]">
             Pay with Paypal
           </h4>
         </div>
@@ -342,11 +344,12 @@ const PaymentInfo = ({
         {select === 2 ? (
           <div className="w-full flex border-b">
             <div
-              className={`${styles.button} !bg-[#ff7f29] text-white h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
+              className={`${styles.button} !bg-[#ff7f29] text-white h-[45px] !rounded-[50px] cursor-pointer text-[18px] font-[600]`}
               onClick={() => setOpen(true)}
             >
               Pay Now
             </div>
+
             {open && (
               <div className="w-full fixed top-0 left-0 bg-[#00000039] h-screen flex items-center justify-center z-[99999]">
                 <div className="w-full 800px:w-[40%] h-screen 800px:h-[80vh] bg-white rounded-[5px] shadow flex flex-col justify-center p-8 relative overflow-y-scroll">
@@ -381,14 +384,14 @@ const PaymentInfo = ({
       <div>
         <div className="flex w-full pb-5 border-b mb-2">
           <div
-            className="w-[25px] h-[25px] rounded-full bg-transparent border-[3px] border-[#1d1a1ab4] relative flex items-center justify-center"
+            className="w-[25px] h-[25px] rounded-full bg-transparent border-[3px] border-[#ff7e29] relative flex items-center justify-center"
             onClick={() => setSelect(3)}
           >
             {select === 3 ? (
-              <div className="w-[13px] h-[13px] bg-[#1d1a1acb] rounded-full" />
+              <div className="w-[13px] h-[13px] bg-[#ff7e29] rounded-full" />
             ) : null}
           </div>
-          <h4 className="text-[18px] pl-2 font-[600] text-[#000000b1]">
+          <h4 className="text-[18px] pl-2 font-[600] text-[#ff7e29]">
             Cash on Delivery
           </h4>
         </div>
@@ -400,7 +403,7 @@ const PaymentInfo = ({
               <input
                 type="submit"
                 value="Confirm"
-                className={`${styles.button} !bg-[#ff7f29] text-[#fff] h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
+                className={`${styles.button} !bg-[#ff7f29] text-[#fff] h-[45px] !rounded-[50px] cursor-pointer text-[18px] font-[600]`}
               />
             </form>
           </div>
@@ -412,28 +415,34 @@ const PaymentInfo = ({
 
 const CartData = ({ orderData }) => {
   const shipping = orderData?.shipping?.toFixed(2);
+
   return (
-    <div className="w-full bg-[#fff] rounded-md p-5 pb-8">
-      <div className="flex justify-between">
-        <h3 className="text-[16px] font-[400] text-[#000000a4]">subtotal:</h3>
-        <h5 className="text-[18px] font-[600]">${orderData?.subTotalPrice}</h5>
-      </div>
-      <br />
-      <div className="flex justify-between">
-        <h3 className="text-[16px] font-[400] text-[#000000a4]">shipping:</h3>
-        <h5 className="text-[18px] font-[600]">${shipping}</h5>
-      </div>
-      <br />
-      <div className="flex justify-between border-b pb-3">
-        <h3 className="text-[16px] font-[400] text-[#000000a4]">Discount:</h3>
-        <h5 className="text-[18px] font-[600]">
-          {orderData?.discountPrice ? "$" + orderData.discountPrice : "-"}
-        </h5>
-      </div>
-      <h5 className="text-[18px] font-[600] text-end pt-3">
-        ${orderData?.totalPrice}
+    <div className="w-full bg-[#fff0db] rounded-[20px] p-6 shadow-md">
+      <h5 className="text-[18px] font-[600] mb-4 border-b pb-2 border-[#ff7e29]">
+        Order Summary
       </h5>
-      <br />
+
+      <div className="flex justify-between mt-2">
+        <span className="text-[#555]">Subtotal:</span>
+        <span className="font-[600]">${orderData?.subTotalPrice}</span>
+      </div>
+
+      <div className="flex justify-between mt-2">
+        <span className="text-[#555]">Shipping:</span>
+        <span className="font-[600]">${shipping}</span>
+      </div>
+
+      <div className="flex justify-between mt-2 text-[#d02222] font-[600]">
+        <span>Discount:</span>
+        <span>
+          {orderData?.discountPrice ? "- $" + orderData.discountPrice : "-"}
+        </span>
+      </div>
+
+      <div className="flex justify-between mt-4 text-[18px] font-[600] border-t pt-2">
+        <span>Total:</span>
+        <span>${orderData?.totalPrice}</span>
+      </div>
     </div>
   );
 };

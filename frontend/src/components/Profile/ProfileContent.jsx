@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AiOutlineArrowRight,
   AiOutlineCamera,
   AiOutlineDelete,
+  AiOutlineUser,
+  AiOutlineMail,
+  AiOutlinePhone,
+  AiOutlineLock,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { server } from "../../server";
@@ -19,10 +23,10 @@ import {
   updateUserInformation,
 } from "../../redux/actions/user";
 import { Country, State } from "country-state-city";
-import { useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { getAllOrdersOfUser } from "../../redux/actions/order";
+import { AiOutlineHome } from "react-icons/ai";
 
 const ProfileContent = ({ active }) => {
   const { user, error, successMessage } = useSelector((state) => state.user);
@@ -51,7 +55,6 @@ const ProfileContent = ({ active }) => {
 
   const handleImage = async (e) => {
     const reader = new FileReader();
-
     reader.onload = () => {
       if (reader.readyState === 2) {
         setAvatar(reader.result);
@@ -59,26 +62,21 @@ const ProfileContent = ({ active }) => {
           .put(
             `${server}/user/update-avatar`,
             { avatar: reader.result },
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           )
-          .then((response) => {
+          .then(() => {
             dispatch(loadUser());
-            toast.success("avatar updated successfully!");
+            toast.success("Avatar updated successfully!");
           })
-          .catch((error) => {
-            toast.error(error);
-          });
+          .catch((error) => toast.error(error));
       }
     };
-
     reader.readAsDataURL(e.target.files[0]);
   };
 
   return (
-    <div className="w-full">
-      {/* profile */}
+    <div className="w-full p-[10px]">
+      {/* Profile */}
       {active === 1 && (
         <>
           <div className="flex justify-center w-full">
@@ -103,24 +101,27 @@ const ProfileContent = ({ active }) => {
           </div>
           <br />
           <br />
-          <div className="w-full px-5">
-            <form onSubmit={handleSubmit} aria-required={true}>
+          <div className="w-full">
+            <form onSubmit={handleSubmit}>
+              {/* Name & Email */}
               <div className="w-full 800px:flex block pb-3">
-                <div className=" w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Full Name</label>
+                <div className="w-[100%] 800px:w-[50%] relative mb-4">
+                  <AiOutlineUser className="absolute top-[12px] left-4 text-gray-400" />
                   <input
                     type="text"
-                    className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+                    placeholder="Full Name"
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 transition-all focus:border-[#ff7e29] hover:border-[#ff7e29]"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <div className=" w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Email Address</label>
+                <div className="w-[100%] 800px:w-[50%] relative mb-4">
+                  <AiOutlineMail className="absolute top-[12px] left-4 text-gray-400" />
                   <input
-                    type="text"
-                    className={`${styles.input} !w-[95%] mb-1 800px:mb-0`}
+                    type="email"
+                    placeholder="Email Address"
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 transition-all focus:border-[#ff7e29] hover:border-[#ff7e29]"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -128,74 +129,52 @@ const ProfileContent = ({ active }) => {
                 </div>
               </div>
 
+              {/* Phone & Password */}
               <div className="w-full 800px:flex block pb-3">
-                <div className=" w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Phone Number</label>
+                <div className="w-[100%] 800px:w-[50%] relative mb-4">
+                  <AiOutlinePhone className="absolute top-[12px] left-4 text-gray-400" />
                   <input
                     type="number"
-                    className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+                    placeholder="Phone Number"
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 transition-all focus:border-[#ff7e29] hover:border-[#ff7e29]"
                     required
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </div>
 
-                <div className=" w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Enter your password</label>
+                <div className="w-[100%] 800px:w-[50%] relative mb-4">
+                  <AiOutlineLock className="absolute top-[12px] left-4 text-gray-400" />
                   <input
                     type="password"
-                    className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+                    placeholder="Password"
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 transition-all focus:border-[#ff7e29] hover:border-[#ff7e29]"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
-              <input
-                className={`w-[250px] h-[40px] border border-[#ff7f29] text-center text-[#ff7f29] rounded-[3px] mt-8 cursor-pointer`}
-                required
-                value="Update"
-                type="submit"
-              />
+
+              {/* Centered Update Button */}
+              <div className="flex justify-center">
+                <input
+                  type="submit"
+                  value="Update"
+                  className="w-[250px] h-[40px] rounded-[50px] cursor-pointer bg-[#ff7e29] text-white border-none text-center"
+                />
+              </div>
             </form>
           </div>
         </>
       )}
 
-      {/* order */}
-      {active === 2 && (
-        <div>
-          <AllOrders />
-        </div>
-      )}
-
-      {/* Refund */}
-      {active === 3 && (
-        <div>
-          <AllRefundOrders />
-        </div>
-      )}
-
-      {/* Track order */}
-      {active === 5 && (
-        <div>
-          <TrackOrder />
-        </div>
-      )}
-
-      {/* Change Password */}
-      {active === 6 && (
-        <div>
-          <ChangePassword />
-        </div>
-      )}
-
-      {/*  user Address */}
-      {active === 7 && (
-        <div>
-          <Address />
-        </div>
-      )}
+      {/* Orders */}
+      {active === 2 && <AllOrders />}
+      {active === 3 && <AllRefundOrders />}
+      {active === 5 && <TrackOrder />}
+      {active === 6 && <ChangePassword />}
+      {active === 7 && <Address />}
     </div>
   );
 };
@@ -482,55 +461,59 @@ const ChangePassword = () => {
         toast.error(error.response.data.message);
       });
   };
+
   return (
-    <div className="w-full px-5">
-      <h1 className="block text-[25px] text-center font-[600] text-[#000000ba] pb-2">
+    <div className="w-full px-4 py-4">
+      <h1 className="text-[25px] text-center font-[600] text-[#000000ba] mb-6">
         Change Password
       </h1>
-      <div className="w-full">
-        <form
-          aria-required
-          onSubmit={passwordChangeHandler}
-          className="flex flex-col items-center"
-        >
-          <div className=" w-[100%] 800px:w-[50%] mt-5">
-            <label className="block pb-2">Enter your old password</label>
+
+      <form onSubmit={passwordChangeHandler} className="w-full">
+        <div className="w-full 800px:flex block gap-4 mb-4">
+          <div className="w-[100%] 800px:w-[50%] relative mb-4">
             <input
               type="password"
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+              placeholder="Old Password"
+              className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 transition-all focus:border-[#ff7e29] hover:border-[#ff7e29]"
               required
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
             />
           </div>
-          <div className=" w-[100%] 800px:w-[50%] mt-2">
-            <label className="block pb-2">Enter your new password</label>
+
+          <div className="w-[100%] 800px:w-[50%] relative mb-4">
             <input
               type="password"
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+              placeholder="New Password"
+              className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 transition-all focus:border-[#ff7e29] hover:border-[#ff7e29]"
               required
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
           </div>
-          <div className=" w-[100%] 800px:w-[50%] mt-2">
-            <label className="block pb-2">Enter your confirm password</label>
+        </div>
+
+        <div className="w-full 800px:flex block gap-4 mb-4">
+          <div className="w-[100%] 800px:w-[50%] relative mb-4">
             <input
               type="password"
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+              placeholder="Confirm Password"
+              className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 transition-all focus:border-[#ff7e29] hover:border-[#ff7e29]"
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            <input
-              className={`w-[95%] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer`}
-              required
-              value="Update"
-              type="submit"
-            />
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div className="flex justify-center mt-4">
+          <input
+            type="submit"
+            value="Update"
+            className="w-[250px] h-[40px] rounded-[50px] cursor-pointer bg-[#ff7e29] text-white border-none text-center"
+          />
+        </div>
+      </form>
     </div>
   );
 };
@@ -547,20 +530,13 @@ const Address = () => {
   const dispatch = useDispatch();
 
   const addressTypeData = [
-    {
-      name: "Default",
-    },
-    {
-      name: "Home",
-    },
-    {
-      name: "Office",
-    },
+    { name: "Default" },
+    { name: "Home" },
+    { name: "Office" },
   ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (addressType === "" || country === "" || city === "") {
       toast.error("Please fill all the fields!");
     } else {
@@ -585,196 +561,183 @@ const Address = () => {
   };
 
   const handleDelete = (item) => {
-    const id = item._id;
-    dispatch(deleteUserAddress(id));
+    dispatch(deleteUserAddress(item._id));
   };
 
   return (
-    <div className="w-full px-5">
+    <div className="w-full relative">
+      {/* Add Address Popup */}
       {open && (
-        <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center ">
-          <div className="w-[35%] h-[80vh] bg-white rounded shadow relative overflow-y-scroll">
-            <div className="w-full flex justify-end p-3">
+        <div className="fixed inset-0 bg-[#0000004b] z-50 flex items-center justify-center">
+          <div className="w-[90%] max-w-[600px] bg-[#fff0db] rounded-[20px] shadow relative overflow-y-auto p-4">
+            <div className="w-full flex justify-end mb-4">
               <RxCross1
                 size={30}
                 className="cursor-pointer"
                 onClick={() => setOpen(false)}
               />
             </div>
-            <h1 className="text-center text-[25px] font-Poppins">
+            <h1 className="text-center text-[25px] font-Poppins mb-6">
               Add New Address
             </h1>
-            <div className="w-full">
-              <form aria-required onSubmit={handleSubmit} className="w-full">
-                <div className="w-full block p-4">
-                  <div className="w-full pb-2">
-                    <label className="block pb-2">Country</label>
-                    <select
-                      name=""
-                      id=""
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      className="w-[95%] border h-[40px] rounded-[5px]"
-                    >
-                      <option value="" className="block border pb-2">
-                        choose your country
+
+            <form onSubmit={handleSubmit} className="w-full">
+              {/* Country & City */}
+              <div className="w-full 800px:flex gap-4 mb-4">
+                <div className="w-full relative mb-4">
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 focus:border-[#ff7e29] hover:border-[#ff7e29]"
+                  >
+                    <option value="">Choose your country</option>
+                    {Country.getAllCountries().map((item) => (
+                      <option key={item.isoCode} value={item.isoCode}>
+                        {item.name}
                       </option>
-                      {Country &&
-                        Country.getAllCountries().map((item) => (
-                          <option
-                            className="block pb-2"
-                            key={item.isoCode}
-                            value={item.isoCode}
-                          >
-                            {item.name}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className="w-full pb-2">
-                    <label className="block pb-2">Choose your City</label>
-                    <select
-                      name=""
-                      id=""
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      className="w-[95%] border h-[40px] rounded-[5px]"
-                    >
-                      <option value="" className="block border pb-2">
-                        choose your city
-                      </option>
-                      {State &&
-                        State.getStatesOfCountry(country).map((item) => (
-                          <option
-                            className="block pb-2"
-                            key={item.isoCode}
-                            value={item.isoCode}
-                          >
-                            {item.name}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className="w-full pb-2">
-                    <label className="block pb-2">Address 1</label>
-                    <input
-                      type="address"
-                      className={`${styles.input}`}
-                      required
-                      value={address1}
-                      onChange={(e) => setAddress1(e.target.value)}
-                    />
-                  </div>
-                  <div className="w-full pb-2">
-                    <label className="block pb-2">Address 2</label>
-                    <input
-                      type="address"
-                      className={`${styles.input}`}
-                      required
-                      value={address2}
-                      onChange={(e) => setAddress2(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="w-full pb-2">
-                    <label className="block pb-2">Zip Code</label>
-                    <input
-                      type="number"
-                      className={`${styles.input}`}
-                      required
-                      value={zipCode}
-                      onChange={(e) => setZipCode(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="w-full pb-2">
-                    <label className="block pb-2">Address Type</label>
-                    <select
-                      name=""
-                      id=""
-                      value={addressType}
-                      onChange={(e) => setAddressType(e.target.value)}
-                      className="w-[95%] border h-[40px] rounded-[5px]"
-                    >
-                      <option value="" className="block border pb-2">
-                        Choose your Address Type
-                      </option>
-                      {addressTypeData &&
-                        addressTypeData.map((item) => (
-                          <option
-                            className="block pb-2"
-                            key={item.name}
-                            value={item.name}
-                          >
-                            {item.name}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className=" w-full pb-2">
-                    <input
-                      type="submit"
-                      className={`${styles.input} mt-5 cursor-pointer`}
-                      required
-                      readOnly
-                    />
-                  </div>
+                    ))}
+                  </select>
                 </div>
-              </form>
-            </div>
+                <div className="w-full relative mb-4">
+                  <select
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 focus:border-[#ff7e29] hover:border-[#ff7e29]"
+                  >
+                    <option value="">Choose your city</option>
+                    {State.getStatesOfCountry(country).map((item) => (
+                      <option key={item.isoCode} value={item.isoCode}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Address 1 & Address 2 */}
+              <div className="w-full 800px:flex gap-4 mb-4">
+                <div className="w-full relative mb-4">
+                  <input
+                    type="text"
+                    placeholder="Address 1"
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 focus:border-[#ff7e29] hover:border-[#ff7e29]"
+                    required
+                    value={address1}
+                    onChange={(e) => setAddress1(e.target.value)}
+                  />
+                </div>
+                <div className="w-full relative mb-4">
+                  <input
+                    type="text"
+                    placeholder="Address 2"
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 focus:border-[#ff7e29] hover:border-[#ff7e29]"
+                    required
+                    value={address2}
+                    onChange={(e) => setAddress2(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Zip Code & Address Type */}
+              <div className="w-full 800px:flex gap-4 mb-4">
+                <div className="w-full relative mb-4">
+                  <input
+                    type="number"
+                    placeholder="Zip Code"
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 focus:border-[#ff7e29] hover:border-[#ff7e29]"
+                    required
+                    value={zipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
+                  />
+                </div>
+                <div className="w-full relative mb-4">
+                  <select
+                    value={addressType}
+                    onChange={(e) => setAddressType(e.target.value)}
+                    className="w-[95%] pl-10 h-[40px] rounded-[50px] border border-gray-300 focus:border-[#ff7e29] hover:border-[#ff7e29]"
+                  >
+                    <option value="">Choose Address Type</option>
+                    {addressTypeData.map((item) => (
+                      <option key={item.name} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex justify-center mt-4">
+                <input
+                  type="submit"
+                  value="Add Address"
+                  className="w-[250px] h-[40px] rounded-[50px] cursor-pointer bg-[#ff7e29] text-white border-none text-center"
+                />
+              </div>
+            </form>
           </div>
         </div>
       )}
-      <div className="flex w-full items-center justify-between">
-        <h1 className="text-[25px] font-[600] text-[#000000ba] pb-2">
+
+      {/* Header: My Addresses & Add New */}
+      <div className="flex flex-col 800px:flex-row w-full items-center justify-between gap-2 800px:gap-0 mb-4">
+        <h1 className="text-[25px] font-[600] text-[#000000ba]">
           My Addresses
         </h1>
         <div
-          className={`${styles.button} !rounded-md`}
+          className={`${styles.button} !rounded-[50px]`}
           onClick={() => setOpen(true)}
         >
           <span className="text-[#fff]">Add New</span>
         </div>
       </div>
-      <br />
+
+      {/* Address List */}
       {user &&
         user.addresses.map((item, index) => (
           <div
-            className="w-full bg-white h-min 800px:h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5"
+            className="w-full bg-white rounded-[20px] shadow p-4 flex flex-col 800px:flex-row 800px:items-center justify-between mb-5 transition-transform transform hover:scale-[1.02]"
             key={index}
           >
-            <div className="flex items-center">
-              <h5 className="pl-5 font-[600]">{item.addressType}</h5>
+            {/* Address Type */}
+            <div className="flex items-center mb-2 800px:mb-0">
+              <h5 className="font-[600] text-[#333] text-sm 800px:text-base">
+                {item.addressType}
+              </h5>
             </div>
-            <div className="pl-8 flex items-center">
-              <h6 className="text-[12px] 800px:text-[unset]">
+
+            {/* Address Info */}
+            <div className="flex flex-col 800px:flex-row 800px:items-center w-full 800px:w-auto mb-2 800px:mb-0">
+              <h6 className="text-gray-600 text-[12px] 800px:text-sm mb-1 800px:mb-0">
                 {item.address1} {item.address2}
               </h6>
-            </div>
-            <div className="pl-8 flex items-center">
-              <h6 className="text-[12px] 800px:text-[unset]">
+              <span className="hidden 800px:inline-block mx-2 text-gray-400">
+                |
+              </span>
+              <h6 className="text-gray-600 text-[12px] 800px:text-sm">
                 {user && user.phoneNumber}
               </h6>
             </div>
-            <div className="min-w-[10%] flex items-center justify-between pl-8">
+
+            {/* Delete Icon */}
+            <div className="flex justify-end 800px:justify-start mt-2 800px:mt-0">
               <AiOutlineDelete
                 size={25}
-                className="cursor-pointer"
+                className="cursor-pointer text-red-500 hover:text-red-700 transition-colors"
                 onClick={() => handleDelete(item)}
               />
             </div>
           </div>
         ))}
 
+      {/* No Addresses */}
       {user && user.addresses.length === 0 && (
         <h5 className="text-center pt-8 text-[18px]">
-          You not have any saved address!
+          You do not have any saved address!
         </h5>
       )}
     </div>
   );
 };
+
 export default ProfileContent;

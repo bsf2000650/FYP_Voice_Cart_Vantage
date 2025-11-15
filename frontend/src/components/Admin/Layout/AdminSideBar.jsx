@@ -10,132 +10,81 @@ import { MdOutlineLocalOffer } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
 
 const AdminSideBar = ({ active }) => {
+  const sidebarItems = [
+    {
+      id: 1,
+      icon: <RxDashboard size={24} />,
+      label: "Dashboard",
+      to: "/admin/dashboard",
+    },
+    {
+      id: 2,
+      icon: <FiShoppingBag size={24} />,
+      label: "All Orders",
+      to: "/admin-orders",
+    },
+    {
+      id: 3,
+      icon: <GrWorkshop size={24} />,
+      label: "All Sellers",
+      to: "/admin-sellers",
+    },
+    {
+      id: 4,
+      icon: <HiOutlineUserGroup size={24} />,
+      label: "All Users",
+      to: "/admin-users",
+    },
+    {
+      id: 5,
+      icon: <BsHandbag size={24} />,
+      label: "All Products",
+      to: "/admin-products",
+    },
+    {
+      id: 6,
+      icon: <MdOutlineLocalOffer size={24} />,
+      label: "All Events",
+      to: "/admin-events",
+    },
+    {
+      id: 7,
+      icon: <CiMoneyBill size={24} />,
+      label: "Withdraw Request",
+      to: "/admin-withdraw-request",
+    },
+  ];
+
   return (
-    <div className="w-full h-[90vh] bg-white shadow-sm overflow-y-scroll sticky top-0 left-0 z-10">
-      {/* single item */}
-      <div className="w-full flex items-center p-4">
-        <Link to="/admin/dashboard" className="w-full flex items-center">
-          <RxDashboard
-            size={30}
-            color={`${active === 1 ? "#ff7f29" : "#555"}`}
-          />
-          <h5
-            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
-              active === 1 ? "text-[#ff7f29]" : "text-[#555]"
-            }`}
+    <div className="w-full h-[90vh] bg-gradient-to-b from-[#ff7e29] to-[#ff9a4d] shadow-lg overflow-y-auto sticky top-0 left-0 rounded-[20px] m-10">
+      <div className="flex flex-col gap-2 py-6">
+        {sidebarItems.map((item) => (
+          <Link
+            key={item.id}
+            to={item.to}
+            className={`flex items-center gap-3 px-6 py-3 mx-3 rounded-xl transition-all duration-300
+              ${
+                active === item.id
+                  ? "bg-white text-[#ff7e29] shadow-md"
+                  : "text-white hover:bg-white/10 hover:pl-8"
+              }`}
           >
-            Dashboard
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-4">
-        <Link to="/admin-orders" className="w-full flex items-center">
-          <FiShoppingBag
-            size={30}
-            color={`${active === 2 ? "#ff7f29" : "#555"}`}
-          />
-          <h5
-            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
-              active === 2 ? "text-[#ff7f29]" : "text-[#555]"
-            }`}
-          >
-            All Orders
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-4">
-        <Link to="/admin-sellers" className="w-full flex items-center">
-          <GrWorkshop
-            size={30}
-            color={`${active === 3 ? "#ff7f29" : "#555"}`}
-          />
-          <h5
-            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
-              active === 3 ? "text-[#ff7f29]" : "text-[#555]"
-            }`}
-          >
-            All Sellers
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-4">
-        <Link to="/admin-users" className="w-full flex items-center">
-          <HiOutlineUserGroup
-            size={30}
-            color={`${active === 4 ? "#ff7f29" : "#555"}`}
-          />
-          <h5
-            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
-              active === 4 ? "text-[#ff7f29]" : "text-[#555]"
-            }`}
-          >
-            All Users
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-4">
-        <Link to="/admin-products" className="w-full flex items-center">
-          <BsHandbag size={30} color={`${active === 5 ? "#ff7f29" : "#555"}`} />
-          <h5
-            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
-              active === 5 ? "text-[#ff7f29]" : "text-[#555]"
-            }`}
-          >
-            All Products
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-4">
-        <Link to="/admin-events" className="w-full flex items-center">
-          <MdOutlineLocalOffer
-            size={30}
-            color={`${active === 6 ? "#ff7f29" : "#555"}`}
-          />
-          <h5
-            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
-              active === 6 ? "text-[#ff7f29]" : "text-[#555]"
-            }`}
-          >
-            All Events
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-4">
-        <Link to="/admin-withdraw-request" className="w-full flex items-center">
-          <CiMoneyBill
-            size={30}
-            color={`${active === 7 ? "#ff7f29" : "#555"}`}
-          />
-          <h5
-            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
-              active === 7 ? "text-[#ff7f29]" : "text-[#555]"
-            }`}
-          >
-            Withdraw Request
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-4">
-        <Link to="/profile" className="w-full flex items-center">
-          <AiOutlineSetting
-            size={30}
-            color={`${active === 8 ? "#ff7f29" : "#555"}`}
-          />
-          <h5
-            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
-              active === 8 ? "text-[#ff7f29]" : "text-[#555]"
-            }`}
-          >
-            Settings
-          </h5>
-        </Link>
+            <span
+              className={`transition-all duration-300 ${
+                active === item.id ? "text-[#ff7e29]" : "text-white"
+              }`}
+            >
+              {item.icon}
+            </span>
+            <h5
+              className={`hidden 800px:block text-[16px] font-medium ${
+                active === item.id ? "text-[#ff7e29]" : "text-white"
+              }`}
+            >
+              {item.label}
+            </h5>
+          </Link>
+        ))}
       </div>
     </div>
   );

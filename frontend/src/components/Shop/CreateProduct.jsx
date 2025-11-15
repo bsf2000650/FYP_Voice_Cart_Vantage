@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { FaMicrophone } from "react-icons/fa";
-import { FaMicrophoneSlash } from "react-icons/fa6";
-import { GrPowerReset } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../redux/actions/product";
 import { categoriesData } from "../../static/data";
 import { toast } from "react-toastify";
-import "./createProduct.css";
 import useSpeechToText from "../../hooks/useSpeechToText/useSpeechToText";
 import ProductName from "./CreateProductComponents/ProductName";
-import Description from '../../components/Shop/CreateProductComponents/Description'
-import Tag from '../../components/Shop/CreateProductComponents/Tag'
+import Description from "../../components/Shop/CreateProductComponents/Description";
+import Tag from "../../components/Shop/CreateProductComponents/Tag";
 
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller);
@@ -30,73 +27,54 @@ const CreateProduct = () => {
   const [discountPrice, setDiscountPrice] = useState();
   const [stock, setStock] = useState();
 
-  const {
-    isListening,
-    transcript,
-    startListening,
-    stopListening,
-  } = useSpeechToText({continuous:true});
-  
-
-  // Description Speech to Text Recognition
+  const { isListening, transcript, startListening, stopListening } =
+    useSpeechToText({ continuous: true });
 
   const startStopListening = () => {
-    isListening ? stopVoiceInput() : startListening()
-  }
+    isListening ? stopVoiceInput() : startListening();
+  };
 
   const stopVoiceInput = () => {
-    setDescription(prevVal => prevVal + (transcript.length ? (prevVal.length ? ' ' : '') + transcript : ''));
+    setDescription(
+      (prevVal) =>
+        prevVal +
+        (transcript.length ? (prevVal.length ? " " : "") + transcript : "")
+    );
     stopListening();
-  }
-
+  };
 
   useEffect(() => {
-    // if (error) {
-    //   toast.error(error);
-    // }
-
     if (success) {
       toast.success("Product created successfully!");
       navigate("/dashboard");
-      // window.location.reload();
     }
-  }, [dispatch,navigate, success]);
-
-  // console.log(description);
+  }, [success, navigate]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-
     setImages([]);
-
     files.forEach((file) => {
       const reader = new FileReader();
-
       reader.onload = () => {
-        if (reader.readyState === 2) {
+        if (reader.readyState === 2)
           setImages((old) => [...old, reader.result]);
-        }
       };
       reader.readAsDataURL(file);
     });
   };
 
+  const blockInvalidKeys = (e) => {
+    if (["e", "E", "+", "-", "."].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const newForm = new FormData();
-
-    images.forEach((image) => {
-      newForm.set("images", image);
-    });
-    newForm.append("name", name);
-    newForm.append("description", description);
-    newForm.append("category", category);
-    newForm.append("tags", tags);
-    newForm.append("originalPrice", originalPrice);
-    newForm.append("discountPrice", discountPrice);
-    newForm.append("stock", stock);
-    newForm.append("shopId", seller._id);
+    if (!name || !description || !category || !discountPrice || !stock) {
+      toast.error("Please fill all required fields!");
+      return;
+    }
     dispatch(
       createProduct({
         name,
@@ -113,124 +91,153 @@ const CreateProduct = () => {
   };
 
   return (
-    <div className="w-[90%] 800px:w-[50%] bg-white  shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
-      <h5 className="text-[30px] font-Poppins text-center">Create Product</h5>
-      {/* create product form */}
-      <form onSubmit={handleSubmit}>
-        <br />
-        <div>
-          <label className="pb-2">
+    <div className="w-[92%] mx-auto my-5 p-2 sm:p-6 bg-gradient-to-r from-[#fff0db] to-[#fff7e6] shadow-xl rounded-[20px] border border-[#ffd1a3] pb-20 md:pb-5">
+      <h2 className="text-3xl font-bold text-center text-[#ff7e29] mb-6">
+        Create Product
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Product Name */}
+        <div className="relative">
+          <label className="block mb-2 font-semibold text-[#ff7e29]">
             Name <span className="text-red-500">*</span>
           </label>
-          <ProductName productName={name} setProductName={setName} />
+          <ProductName
+            productName={name}
+            setProductName={setName}
+            className="w-full border border-gray-300 rounded-[50px] px-6 py-3 shadow-sm focus:ring-2 focus:ring-[#ff7e29] focus:outline-none"
+          />
         </div>
-        <br />
-        <div>
-          <label className="pb-2">
+
+        {/* Description */}
+        <div className="relative">
+          <label className="block mb-2 font-semibold text-[#ff7e29]">
             Description <span className="text-red-500">*</span>
           </label>
-          <Description description={description} setDescription={setDescription} />
-          
+          <Description
+            description={description}
+            setDescription={setDescription}
+            className="w-full border border-gray-300 rounded-[50px] px-6 py-3 shadow-sm focus:ring-2 focus:ring-[#ff7e29] focus:outline-none"
+          />
         </div>
-        <br />
+
+        {/* Category */}
         <div>
-          <label className="pb-2">
+          <label className="block mb-2 font-semibold text-[#ff7e29]">
             Category <span className="text-red-500">*</span>
           </label>
           <select
-            className="w-full mt-2 border h-[35px] rounded-[5px]"
+            className="w-full mt-2 border border-gray-300 rounded-[50px] px-6 py-3 shadow-sm focus:ring-2 focus:ring-[#ff7e29] focus:outline-none text-gray-400"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="Choose a category">Choose a category</option>
-            {categoriesData &&
-              categoriesData.map((i) => (
-                <option value={i.title} key={i.title}>
-                  {i.title}
-                </option>
-              ))}
+            <option value="" disabled selected className="text-gray-400">
+              Choose a category
+            </option>
+            {categoriesData.map((i) => (
+              <option value={i.title} key={i.title} className="text-black">
+                {i.title}
+              </option>
+            ))}
           </select>
         </div>
-        <br />
+
+        {/* Tags */}
         <div>
-          <label className="pb-2">Tags</label>
-            <Tag tag={tags} setTag={setTags} />
-        </div>
-        <br />
-        <div>
-          <label className="pb-2">Original Price</label>
-          <input
-            type="number"
-            name="price"
-            value={originalPrice}
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setOriginalPrice(e.target.value)}
-            placeholder="Enter your product price..."
-          />
-        </div>
-        <br />
-        <div>
-          <label className="pb-2">
-            Price (With Discount) <span className="text-red-500">*</span>
+          <label className="block mb-2 font-semibold text-[#ff7e29]">
+            Tags
           </label>
-          <input
-            type="number"
-            name="price"
-            value={discountPrice}
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setDiscountPrice(e.target.value)}
-            placeholder="Enter your product price with discount..."
-          />
+          <Tag tag={tags} setTag={setTags} className="w-full" />
         </div>
-        <br />
-        <div>
-          <label className="pb-2">
-            Product Stock <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={stock}
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => setStock(e.target.value)}
-            placeholder="Enter your product stock..."
-          />
+
+        {/* Pricing & Stock */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label className="block mb-2 font-semibold text-[#ff7e29]">
+              Original Price
+            </label>
+            <input
+              type="number"
+              value={originalPrice}
+              min={0}
+              max={100000}
+              onKeyDown={blockInvalidKeys}
+              onChange={(e) => setOriginalPrice(e.target.value)}
+              className="w-full border border-gray-300 rounded-[50px] px-6 py-3 shadow-sm focus:ring-2 focus:ring-[#ff7e29] focus:outline-none"
+              placeholder="Enter original price"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 font-semibold text-[#ff7e29]">
+              Discount Price <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              value={discountPrice}
+              min={0}
+              max={100000}
+              onKeyDown={blockInvalidKeys}
+              onChange={(e) => setDiscountPrice(e.target.value)}
+              className="w-full border border-gray-300 rounded-[50px] px-6 py-3 shadow-sm focus:ring-2 focus:ring-[#ff7e29] focus:outline-none"
+              placeholder="Enter discount price"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 font-semibold text-[#ff7e29]">
+              Stock <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              value={stock}
+              min={0}
+              max={100000}
+              onKeyDown={blockInvalidKeys}
+              onChange={(e) => setStock(e.target.value)}
+              className="w-full border border-gray-300 rounded-[50px] px-6 py-3 shadow-sm focus:ring-2 focus:ring-[#ff7e29] focus:outline-none"
+              placeholder="Enter stock"
+            />
+          </div>
         </div>
-        <br />
+
+        {/* Images */}
         <div>
-          <label className="pb-2">
+          <label className="block mb-2 font-semibold text-[#ff7e29]">
             Upload Images <span className="text-red-500">*</span>
           </label>
           <input
             type="file"
-            name=""
             id="upload"
             className="hidden"
             multiple
             onChange={handleImageChange}
           />
-          <div className="w-full flex items-center flex-wrap">
-            <label htmlFor="upload">
-              <AiOutlinePlusCircle size={30} className="mt-3" color="#555" />
+          <div className="flex flex-wrap items-center gap-3 border border-dashed border-gray-300 rounded-[15px] p-3">
+            <label
+              htmlFor="upload"
+              className="cursor-pointer text-[#ff7e29] flex items-center justify-center w-[50px] h-[50px] border-2 border-[#ff7e29] rounded-full hover:bg-[#ff7e29] hover:text-white transition-all"
+            >
+              <AiOutlinePlusCircle size={28} />
             </label>
-            {images &&
-              images.map((i) => (
-                <img
-                  src={i}
-                  key={i}
-                  alt=""
-                  className="h-[120px] w-[120px] object-cover m-2"
-                />
-              ))}
+            {images.map((img, idx) => (
+              <img
+                key={idx}
+                src={img}
+                alt={`preview-${idx}`}
+                className="h-[100px] w-[100px] object-cover rounded-[10px] shadow-md"
+              />
+            ))}
           </div>
-          <br />
-          <div>
-            <input
-              type="submit"
-              value="Create"
-              className="mt-2 cursor-pointer appearance-none text-center block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
+        </div>
+
+        {/* Submit */}
+        <div>
+          <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-[#ff7e29] text-white rounded-[50px] font-semibold text-lg shadow-md hover:bg-[#e56f1f] transition-all"
+          >
+            Create Product
+          </button>
         </div>
       </form>
     </div>

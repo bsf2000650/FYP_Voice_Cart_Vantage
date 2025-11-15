@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import { server } from "../../server";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineArrowRight, AiOutlineSend } from "react-icons/ai";
+import {
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineSend,
+} from "react-icons/ai";
 import styles from "../../styles/styles";
 import { TfiGallery } from "react-icons/tfi";
 import socketIO from "socket.io-client";
@@ -14,7 +18,7 @@ const ENDPOINT = "http://localhost:4000/";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 const DashboardMessages = () => {
-  const { seller,isLoading } = useSelector((state) => state.seller);
+  const { seller, isLoading } = useSelector((state) => state.seller);
   const [conversations, setConversations] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [currentChat, setCurrentChat] = useState();
@@ -207,7 +211,7 @@ const DashboardMessages = () => {
   }, [messages]);
 
   return (
-    <div className="w-[90%] bg-white m-5 h-[85vh] overflow-y-scroll rounded">
+    <div className="w-[90%] bg-[#fff0db] m-5 h-[94vh] overflow-y-scroll rounded-[20px]">
       {!open && (
         <>
           <h1 className="text-center text-[30px] py-3 font-Poppins">
@@ -261,7 +265,7 @@ const MessageList = ({
   setUserData,
   online,
   setActiveStatus,
-  isLoading
+  isLoading,
 }) => {
   console.log(data);
   const [user, setUser] = useState([]);
@@ -288,8 +292,8 @@ const MessageList = ({
 
   return (
     <div
-      className={`w-full flex p-3 px-3 ${
-        active === index ? "bg-[#00000010]" : "bg-transparent"
+      className={`w-[95%] flex p-[4px] px-3 rounded-[50px] mx-2 ${
+        active === index ? "bg-[#ff7f29] text-white" : "bg-transparent"
       }  cursor-pointer`}
       onClick={(e) =>
         setActive(index) ||
@@ -313,7 +317,7 @@ const MessageList = ({
       </div>
       <div className="pl-3">
         <h1 className="text-[18px]">{user?.name}</h1>
-        <p className="text-[16px] text-[#000c]">
+        <p className="text-[16px] text-white">
           {!isLoading && data?.lastMessageId !== user?._id
             ? "You:"
             : user?.name.split(" ")[0] + ": "}{" "}
@@ -339,8 +343,13 @@ const SellerInbox = ({
   return (
     <div className="w-full min-h-full flex flex-col justify-between">
       {/* message header */}
-      <div className="w-full flex p-3 items-center justify-between bg-slate-200">
-        <div className="flex">
+      <div className="w-[98%] flex p-1 rounded-[50px] m-2 items-center justify-between bg-[#ff7e29] text-white">
+        <div className="flex items-center">
+          <AiOutlineArrowLeft
+            size={20}
+            className="cursor-pointer mr-3" // add some margin to separate from avatar
+            onClick={() => setOpen(false)}
+          />
           <img
             src={`${userData?.avatar?.url}`}
             alt=""
@@ -351,11 +360,6 @@ const SellerInbox = ({
             <h1>{activeStatus ? "Active Now" : ""}</h1>
           </div>
         </div>
-        <AiOutlineArrowRight
-          size={20}
-          className="cursor-pointer"
-          onClick={() => setOpen(false)}
-        />
       </div>
 
       {/* messages */}
@@ -379,15 +383,18 @@ const SellerInbox = ({
                 {item.images && (
                   <img
                     src={`${item.images?.url}`}
+                    alt="product-img"
                     className="w-[300px] h-[300px] object-cover rounded-[10px] mr-2"
                   />
                 )}
                 {item.text !== "" && (
                   <div>
                     <div
-                      className={`w-max p-2 rounded ${
-                        item.sender === sellerId ? "bg-[#000]" : "bg-[#38c776]"
-                      } text-[#fff] h-min`}
+                      className={`w-max p-2 rounded-[20px] ${
+                        item.sender === sellerId
+                          ? "bg-[#fff] text-[#ff7f29]"
+                          : "bg-[#ff7f29] text-white"
+                      } h-min`}
                     >
                       <p>{item.text}</p>
                     </div>
@@ -404,8 +411,7 @@ const SellerInbox = ({
 
       {/* send message input */}
       <form
-        aria-required={true}
-        className="p-3 relative w-full flex justify-between items-center"
+        className="p-3 relative w-full flex justify-between items-center pb-[60px]"
         onSubmit={sendMessageHandler}
       >
         <div className="w-[30px]">
@@ -417,23 +423,23 @@ const SellerInbox = ({
             onChange={handleImageUpload}
           />
           <label htmlFor="image">
-            <TfiGallery className="cursor-pointer" size={20} />
+            <TfiGallery className="cursor-pointer" size={20} color="#ff7e29" />
           </label>
         </div>
-        <div className="w-full">
+        <div className="w-full relative">
           <input
             type="text"
             required
             placeholder="Enter your message..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            className={`${styles.input}`}
+            className="w-full py-2 px-4 rounded-[50px] border border-[#ff7e29] focus:outline-none focus:ring-0 focus:border-[#ff7e29] placeholder-gray-400"
           />
           <input type="submit" value="Send" className="hidden" id="send" />
           <label htmlFor="send">
             <AiOutlineSend
               size={20}
-              className="absolute right-4 top-5 cursor-pointer"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-[#ff7e29]"
             />
           </label>
         </div>

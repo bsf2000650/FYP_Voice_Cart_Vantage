@@ -1,22 +1,27 @@
-import React from 'react'
-import DashboardHeader from '../../components/Shop/Layout/DashboardHeader'
-import DashboardSideBar from '../../components/Shop/Layout/DashboardSideBar'
+import React from "react";
+import DashboardSideBar from "../../components/Shop/Layout/DashboardSideBar";
 import CreateProduct from "../../components/Shop/CreateProduct";
+import ShopMobNavbar from "./ShopMobNavbar";
 
 const ShopCreateProduct = () => {
   return (
-    <div>
-        <DashboardHeader />
-        <div className="flex items-center justify-between w-full">
-            <div className="w-[80px] 800px:w-[330px]">
-              <DashboardSideBar active={4} />
-            </div>
-            <div className="w-full justify-center flex">
-                <CreateProduct />
-            </div>
-          </div>
-    </div>
-  )
-}
+    <div className="flex w-full">
+      {/* Sidebar for desktop */}
+      <div className="hidden 800px:block w-[25%]">
+        <DashboardSideBar active={4} />
+      </div>
 
-export default ShopCreateProduct
+      {/* Main content */}
+      <div className="w-full 800px:w-[70%] flex justify-center">
+        <CreateProduct />
+      </div>
+
+      {/* Mobile Navbar */}
+      <div className="block 800px:hidden">
+        <ShopMobNavbar />
+      </div>
+    </div>
+  );
+};
+
+export default ShopCreateProduct;

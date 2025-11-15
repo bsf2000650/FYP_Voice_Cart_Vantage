@@ -15,55 +15,42 @@ import ShoppingBagLogo from "../../../src/images/shoppingBag.png";
 
 const Footer = () => {
   return (
-    <div className="bg-[#000] text-white">
-      {/* <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#ff7f29] py-7">
-        <h1 className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold md:w-2/5">
-          <span className="text-[#000] font-madimi">Subscribe</span> us for get news{" "}
-          <br />
-          events and offers
-        </h1>
-        <div>
-          <input
-            type="text"
-            required
-            placeholder="Enter your email..."
-            className="text-gray-800
-                sm:w-72 w-full sm:mr-5 mr-1 lg:mb-0 mb-4 py-2.5 rounded px-2 focus:outline-none"
-          />
-          <button className="bg-[#56d879] hover:bg-teal-500 duration-300 px-5 py-2.5 rounded-md text-whie md:w-auto w-full">
-            Submit
-          </button>
-        </div>
-      </div> */}
-      <div className="grid grid-cols-1 sm:gird-cols-3 lg:grid-cols-4 gap-6 sm:px-8 px-5 py-16 sm:text-center footer-div">
-        <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center ul1">
-          <img src={ShoppingBagLogo} alt="" style={{ width: "35%" }} />
-          <br />
-          <p>The home and elements needeed to create beatiful products.</p>
-          <div className="flex items-center mt-[15px]">
-            <AiFillFacebook size={25} className="cursor-pointer" />
+    <div className="bg-gradient-to-r from-orange-50 to-orange-100 text-gray-800">
+      {/* Footer main section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:px-12 px-6 py-16">
+        {/* Logo & description */}
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+          <img src={ShoppingBagLogo} alt="" className="w-24 mb-3" />
+          <p className="text-gray-700">
+            The home and elements needed to create beautiful products.
+          </p>
+          <div className="flex items-center mt-4 space-x-4">
+            <AiFillFacebook
+              size={25}
+              className="cursor-pointer hover:text-blue-600 transition-colors"
+            />
             <AiOutlineTwitter
               size={25}
-              style={{ marginLeft: "15px", cursor: "pointer" }}
+              className="cursor-pointer hover:text-blue-400 transition-colors"
             />
             <AiFillInstagram
               size={25}
-              style={{ marginLeft: "15px", cursor: "pointer" }}
+              className="cursor-pointer hover:text-pink-500 transition-colors"
             />
             <AiFillYoutube
               size={25}
-              style={{ marginLeft: "15px", cursor: "pointer" }}
+              className="cursor-pointer hover:text-red-600 transition-colors"
             />
           </div>
-        </ul>
+        </div>
 
-        <ul className="text-left sm:text-start flex flex-col align-middle">
-          <h1 className="mb-1 font-semibold">Company</h1>
+        {/* Company Links */}
+        <ul className="flex flex-col space-y-2">
+          <h1 className="mb-2 font-semibold text-lg">Company</h1>
           {footerProductLinks.map((link, index) => (
             <li key={index}>
               <Link
-                className="text-gray-400 hover:text-teal-400 duration-300
-                   text-sm cursor-pointer leading-6"
+                className="text-gray-600 hover:text-orange-500 duration-300 text-sm cursor-pointer leading-6"
                 to={link.link}
               >
                 {link.name}
@@ -72,13 +59,13 @@ const Footer = () => {
           ))}
         </ul>
 
-        <ul className="sm:text-start flex flex-col ml-8 text-left">
-          <h1 className="mb-1 font-semibold">Shop</h1>
+        {/* Shop Links */}
+        <ul className="flex flex-col space-y-2">
+          <h1 className="mb-2 font-semibold text-lg">Shop</h1>
           {footercompanyLinks.map((link, index) => (
             <li key={index}>
               <Link
-                className="text-gray-400 hover:text-teal-400 duration-300
-                   text-sm cursor-pointer leading-6"
+                className="text-gray-600 hover:text-orange-500 duration-300 text-sm cursor-pointer leading-6"
                 to={link.link}
               >
                 {link.name}
@@ -87,13 +74,13 @@ const Footer = () => {
           ))}
         </ul>
 
-        <ul className="text-left sm:text-start flex flex-col support">
-          <h1 className="mb-1 font-semibold">Support</h1>
+        {/* Support Links */}
+        <ul className="flex flex-col space-y-2">
+          <h1 className="mb-2 font-semibold text-lg">Support</h1>
           {footerSupportLinks.map((link, index) => (
             <li key={index}>
               <Link
-                className="text-gray-400 hover:text-teal-400 duration-300
-                   text-sm cursor-pointer leading-6"
+                className="text-gray-600 hover:text-orange-500 duration-300 text-sm cursor-pointer leading-6"
                 to={link.link}
               >
                 {link.name}
@@ -103,16 +90,16 @@ const Footer = () => {
         </ul>
       </div>
 
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10
-         text-center pt-2 text-gray-400 text-sm pb-8 ml-96 m-0 sm:m-auto footer-logo ml-40%"
-      >
-        <div className="sm:block flex items-center justify-center w-full ml-60 footer-logo">
-          <img
-            src="https://hamart-shop.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffooter-payment.a37c49ac.png&w=640&q=75"
-            alt=""
-          />
-        </div>
+      {/* Footer bottom section */}
+      <div className="flex flex-col sm:flex-row items-center justify-between border-t border-gray-300 px-6 sm:px-12 py-6">
+        <p className="text-gray-500 text-sm mb-4 sm:mb-0">
+          © 2025 Hamart Shop. All Rights Reserved.
+        </p>
+        <img
+          src="https://hamart-shop.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffooter-payment.a37c49ac.png&w=640&q=75"
+          alt="Payment Methods"
+          className="h-8"
+        />
       </div>
     </div>
   );

@@ -1,18 +1,24 @@
 import React from "react";
-import Footer from "../../components/Layout/Footer";
 import ShopSettings from "../../components/Shop/ShopSettings";
-import DashboardHeader from "../../components/Shop/Layout/DashboardHeader";
 import DashboardSideBar from "../../components/Shop/Layout/DashboardSideBar";
+import ShopMobNavbar from "./ShopMobNavbar";
 
 const ShopSettingsPage = () => {
   return (
-    <div>
-      <DashboardHeader />
-      <div className="flex items-start justify-between w-full">
-        <div className="w-[80px] 800px:w-[330px]">
-          <DashboardSideBar active={11} />
-        </div>
+    <div className="relative w-full min-h-screen flex flex-col 800px:flex-row">
+      {/* Sidebar - Desktop only */}
+      <div className="hidden 800px:flex w-[80px] 800px:w-[300px]">
+        <DashboardSideBar active={11} />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 w-full 800px:w-[calc(100%-330px)] flex justify-center">
         <ShopSettings />
+      </div>
+
+      {/* Mobile Bottom Navbar */}
+      <div className="block 800px:hidden fixed bottom-0 w-full z-50">
+        <ShopMobNavbar />
       </div>
     </div>
   );

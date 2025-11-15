@@ -63,17 +63,18 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 import ProductCard from "./components/Route/ProductCard/ProductCard.jsx";
 import Note from "./pages/Shop/Note.jsx";
+import VerifyOtpPage from "./pages/VerifyOtpPage.jsx";
+import ShopVerifyOptPage from "./pages/Shop/ShopVerifyOptPage.jsx";
 
 const App = () => {
-  const [stripeApikey, setStripeApiKey] = useState("");
-  console.log(stripeApikey);
-  const { allProducts } = useSelector((state) => state.products);
+  const [stripePromise, setStripePromise] = useState(null);
 
   async function getStripeApikey() {
     const { data } = await axios.get(`${server}/payment/stripeapikey`);
-    console.log(data);
-    setStripeApiKey(data.stripeApikey);
+    const stripeInstance = loadStripe(data.stripeApikey); // create instance once
+    setStripePromise(stripeInstance);
   }
+
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
@@ -84,8 +85,8 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {stripeApikey && (
-        <Elements stripe={loadStripe(stripeApikey)}>
+      {stripePromise && (
+        <Elements stripe={stripePromise}>
           <Routes>
             <Route
               path="/payment"
@@ -98,11 +99,14 @@ const App = () => {
           </Routes>
         </Elements>
       )}
+
       <Routes>
         <Route path="/note" element={<Note />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
+        <Route path="/verify-otp" element={<VerifyOtpPage />} />
+        <Route path="/shop-verify-otp" element={<ShopVerifyOptPage />} />
         <Route
           path="/activation/:activation_token"
           element={<ActivationPage />}
@@ -275,25 +279,25 @@ const App = () => {
         <Route
           path="/admin/dashboard"
           element={
-            // <ProtectedAdminRoute>
-            <AdminDashboardPage />
-            // </ProtectedAdminRoute>
+            <ProtectedAdminRoute>
+              <AdminDashboardPage />
+            </ProtectedAdminRoute>
           }
         />
         <Route
           path="/admin-users"
           element={
-            // <ProtectedAdminRoute>
-            <AdminDashboardUsers />
-            // </ProtectedAdminRoute>
+            <ProtectedAdminRoute>
+              <AdminDashboardUsers />
+            </ProtectedAdminRoute>
           }
         />
         <Route
           path="/admin-sellers"
           element={
-            // <ProtectedAdminRoute>
-            <AdminDashboardSellers />
-            // </ProtectedAdminRoute>
+            <ProtectedAdminRoute>
+              <AdminDashboardSellers />
+            </ProtectedAdminRoute>
           }
         />
         <Route

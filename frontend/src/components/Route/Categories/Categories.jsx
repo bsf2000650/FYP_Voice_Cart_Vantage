@@ -8,44 +8,52 @@ const Categories = () => {
   return (
     <>
       <div className={`${styles.section} hidden sm:block`}>
-        <div
-          className={`branding my-12 flex justify-between w-full shadow-sm bg-[#ff7f29] p-5 rounded-md border-b border-gray-300 brandingData`}
-        >
+        <div className="branding hidden md:grid md:grid-cols-2 lg:grid-cols-4 my-6 md:my-8 gap-4 w-full bg-[#ff7f29] p-4 md:p-6 rounded-[50px] shadow-md border-b border-gray-300">
           {brandingData &&
-            brandingData.map((i, index) => (
-              <div className="flex items-start" key={index}>
-                {i.icon}
-                <div className="px-3">
-                  <h3 className="font-bold text-sm md:text-base">{i.title}</h3>
-                  <p className="text-xs md:text-sm">{i.Description}</p>
+            brandingData.map((item, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <div className="text-white text-2xl md:text-3xl">
+                  {item.icon}
+                </div>
+                <div>
+                  <h3 className="font-bold text-white text-sm md:text-base">
+                    {item.title}
+                  </h3>
+                  <p className="text-white text-xs md:text-sm">
+                    {item.Description}
+                  </p>
                 </div>
               </div>
             ))}
         </div>
       </div>
 
+      {/* Categories Section */}
       <div
-        className={`${styles.section} bg-white p-6 rounded-lg mb-12`}
+        className={`${styles.section} bg-[#fff0db] p-6 rounded-[50px] mb-12 shadow-lg`}
         id="categories"
       >
-        <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px]">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           {categoriesData &&
-            categoriesData.map((i) => {
-              const handleSubmit = (i) => {
-                navigate(`/products?category=${i.title}`);
+            categoriesData.map((item) => {
+              const handleSubmit = (item) => {
+                navigate(`/products?category=${item.title}`);
               };
               return (
                 <div
-                  className="w-full h-[100px] flex items-center justify-between cursor-pointer overflow-hidden border-b border-solid border-gray-300"
-                  key={i.id}
-                  onClick={() => handleSubmit(i)}
+                  key={item.id}
+                  onClick={() => handleSubmit(item)}
+                  className="relative w-full h-[120px] flex items-center justify-between p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-lg hover:bg-[#ff7f29] transition-all duration-300 transform hover:-translate-y-1 cursor-pointer overflow-hidden border border-gray-100 group"
                 >
-                  <h5 className={`text-[18px] leading-[1.3]`}>{i.title}</h5>
+                  <h5 className="text-[18px] font-semibold text-gray-800 group-hover:text-white transition-colors duration-300">
+                    {item.title}
+                  </h5>
                   <img
-                    src={i.image_Url}
-                    className="w-[120px] object-cover"
-                    alt=""
+                    src={item.image_Url}
+                    alt={item.title}
+                    className="w-[100px] h-full object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-black opacity-0 hover:opacity-10 rounded-lg transition-opacity duration-300"></div>
                 </div>
               );
             })}
