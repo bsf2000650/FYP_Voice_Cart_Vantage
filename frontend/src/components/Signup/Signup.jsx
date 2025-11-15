@@ -35,12 +35,11 @@ const Signup = () => {
   const isDisabled =
     !name.trim() || !email.trim() || !password.trim() || !avatar;
 
-  // ❗ No API call — ONLY redirect to /verify-otp
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post(`${server}/shop/create-otp`, {
+      await axios.post(`${server}/user/create-otp`, {
         email,
       });
 
