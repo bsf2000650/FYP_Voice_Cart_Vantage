@@ -46,7 +46,7 @@ const ProfileSidebar = ({ setActive, active }) => {
     { id: 7, icon: <TbAddressBook size={20} />, label: "Address" },
   ];
 
-  if (user && user.role === "Admin") {
+  if (user && user.role === "admin") {
     tabs.push({
       id: 8,
       icon: <MdOutlineAdminPanelSettings size={20} />,
