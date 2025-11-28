@@ -248,60 +248,64 @@ const Header = ({ activeHeading }) => {
               </div>
 
               {/* Search Bar (mobile) */}
-              <div className="my-4 w-[92%] m-auto h-[40px] relative">
-                <div className="voiceSearchBtn">
-                  <textarea
-                    cols="30"
-                    required
-                    rows="2"
-                    type="text"
-                    name="productName"
-                    value={
-                      isListening
-                        ? searchTerm +
-                          (transcript.length
-                            ? (searchTerm.length ? " " : "") + transcript
-                            : searchTerm)
-                        : searchTerm
-                    }
-                    disabled={isListening}
-                    className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar"
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <button
-                    className="voiceBtns stop"
-                    onClick={startStopListening}
-                  >
-                    {isListening ? (
-                      <FaMicrophoneSlash className="btns" />
-                    ) : (
-                      <FaMicrophone className="btns" />
-                    )}
-                  </button>
-                  <button
-                    className="voiceBtnsSearch stop"
-                    onClick={handleSearchChange}
-                  >
-                    <IoSearch className="btns" />
-                  </button>
-                </div>
-                {searchData && (
-                  <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
-                    {searchData.map((i, index) => (
-                      <a key={index} href={`/product/${i._id}`}>
-                        <div className="w-full flex items-start py-3">
-                          <img
-                            src={`${i.images[0]?.url}`}
-                            alt=""
-                            className="w-[40px] h-[40px] mr-[10px]"
-                          />
-                          <h1>{i.name}</h1>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <div className="my-4 w-[92%] max-w-xl mx-auto relative">
+  <div className="voiceSearchBtn relative flex items-start">
+    <textarea
+      cols="30"
+      required
+      rows="2"
+      type="text"
+      name="productName"
+      value={
+        isListening
+          ? searchTerm +
+            (transcript.length
+              ? (searchTerm.length ? " " : "") + transcript
+              : searchTerm)
+          : searchTerm
+      }
+      disabled={isListening}
+      className="mt-2 appearance-none block w-full pr-20 pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm searchBar resize-none"
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+    <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-2">
+      <button
+        className="voiceBtns stop p-2"
+        onClick={startStopListening}
+      >
+        {isListening ? (
+          <FaMicrophoneSlash className="text-xl text-white" />
+        ) : (
+          <FaMicrophone className="text-xl text-white" />
+        )}
+      </button>
+      <button
+        className="voiceBtnsSearch stop p-2"
+        onClick={handleSearchChange}
+      >
+        <IoSearch className="text-xl text-white" />
+      </button>
+    </div>
+  </div>
+
+  {searchData && (
+    <div className="searchResults absolute bg-white z-10 shadow w-full left-0 p-3 max-h-64 overflow-y-auto rounded-md">
+      {searchData.map((i, index) => (
+        <a key={index} href={`/product/${i._id}`}>
+          <div className="w-full flex items-start py-3">
+            <img
+              src={`${i.images[0]?.url}`}
+              alt=""
+              className="w-[40px] h-[40px] mr-3 object-cover rounded"
+            />
+            <h1 className="text-sm sm:text-base">{i.name}</h1>
+          </div>
+        </a>
+      ))}
+    </div>
+  )}
+</div>
+
 
               {/* Navbar */}
               <Navbar active={activeHeading} />
